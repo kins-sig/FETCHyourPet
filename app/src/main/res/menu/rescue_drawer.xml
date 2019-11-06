@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/view_dogs"
+            android:icon="@drawable/ic_dogs"
+            android:title="View your dogs!" />
+        <item
+            android:id="@+id/browse_all_animals"
+            android:icon="@drawable/ic_collection"
+            android:title="Browse All Animals" />
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+
+    </group>
+
+</menu>
