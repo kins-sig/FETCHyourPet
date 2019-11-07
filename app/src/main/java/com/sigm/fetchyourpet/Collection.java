@@ -72,6 +72,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 
         } else if (id == R.id.home) {
+            //In the future, add code to determine if the user is signed in or not. Then send
+            //them to the right location.
             startActivity(new Intent(this, MainActivity.class));
         }
 
