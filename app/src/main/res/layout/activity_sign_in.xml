@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <include
         android:id="@+id/appbar"
@@ -20,45 +20,68 @@
         android:layout_height="match_parent"
         tools:context=".SignInActivity">
 
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintWidth_percent=".80"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="WELCOME BACK!"
+                android:textSize="22sp"
+                android:textColor="@color/menuItemTextColor"
+                android:gravity="center"
+                android:layout_marginBottom="32dp"
+                />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="E-mail:"
+                android:textSize="18sp"
+                android:textColor="@color/menuItemTextColor"/>
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="email"
+
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+           />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Password:"
+                android:textSize="18sp"
 
+                android:textColor="@color/menuItemTextColor"
+                />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="password"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email" />
+
+                android:inputType="textPassword"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:onClick="onClickSignIn"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:background="@color/orange"
+                android:textColor="#FFFF"
                 android:text="Sign In!"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password" />
+                 />
         </LinearLayout>
 
 
