@@ -25,4 +25,19 @@
         app:itemTextColor="@color/menuItemTextColor"
         app:menu="@menu/activity_main_drawer" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!--<Button-->
+        <!--android:id="@+id/sign_in"-->
+        <!--android:layout_width="400dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="onClickSignIn"-->
+        <!--android:text="Sign"-->
+
+        <!--/>-->
+
+    </LinearLayout>
+
 </androidx.drawerlayout.widget.DrawerLayout>

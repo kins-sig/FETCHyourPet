@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/toolbarBgColor</item>
         <item name="colorPrimaryDark">@color/statusbarBgColor</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
