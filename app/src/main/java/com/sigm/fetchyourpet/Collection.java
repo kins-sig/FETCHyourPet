@@ -22,13 +22,14 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
-
+    private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         toolbar.setTitle("Collection");
 
         setSupportActionBar(toolbar);
@@ -42,33 +43,35 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         adapter = new CaptionedImagesAdapter();
         cardRecycler = findViewById(R.id.pet_recycler);
 
-        List<Dog> dogs = new ArrayList<>();
-        dogs.add(new Dog("Josie",R.drawable.josiefetch));
-        dogs.add(new Dog("Rex",R.drawable.dog1));
-        dogs.add(new Dog("Sailor",R.drawable.dog2));
-        dogs.add(new Dog("Lil' Shit",R.drawable.dog3));
-        dogs.add(new Dog("Thicky Vicky",R.drawable.dog4));
-        dogs.add(new Dog("Queenie",R.drawable.dog5));
-        dogs.add(new Dog("Squishy",R.drawable.dog6));
-        dogs.add(new Dog("Duke",R.drawable.dog7));
-        dogs.add(new Dog("Bogue",R.drawable.dog8));
-        dogs.add(new Dog("Walter",R.drawable.dog9));
-        dogs.add(new Dog("Mango",R.drawable.dog10));
-        dogs.add(new Dog("Josie",R.drawable.josiefetch));
-        dogs.add(new Dog("Rex",R.drawable.dog1));
-        dogs.add(new Dog("Sailor",R.drawable.dog2));
-        dogs.add(new Dog("Lil' Shit",R.drawable.dog3));
-        dogs.add(new Dog("Thicky Vicky",R.drawable.dog4));
-        dogs.add(new Dog("Queenie",R.drawable.dog5));
-        dogs.add(new Dog("Squishy",R.drawable.dog6));
-        dogs.add(new Dog("Duke",R.drawable.dog7));
-        dogs.add(new Dog("Bogue",R.drawable.dog8));
-        dogs.add(new Dog("Walter",R.drawable.dog9));
-        dogs.add(new Dog("Mango",R.drawable.dog10));
+    //public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns ){
+
+        ArrayList<Dog> dogs = new ArrayList<>();
+        dogs.add(new Dog("Josie",R.drawable.josiefetch,3, "Medium",getList("Chill", "loving","loves treats"),28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
+        dogs.add(new Dog("Rex",R.drawable.dog1, 1, "Small",getList("Sleeps a lot", "playful","unconditional love"),28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Sailor",R.drawable.dog2, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Lil' Shit",R.drawable.dog3,1, "Small",getList("Is a little shit", "playful","unconditional love"),28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Thicky Vicky",R.drawable.dog4, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Queenie",R.drawable.dog5, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Squishy",R.drawable.dog6, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Duke",R.drawable.dog7, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Bogue",R.drawable.dog8, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Walter",R.drawable.dog9, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Mango",R.drawable.dog10, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Josie",R.drawable.josiefetch,3, "Medium",getList("Chill", "loving","loves treats"),28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
+        dogs.add(new Dog("Rex",R.drawable.dog1, 1, "Small",getList("Sleeps a lot", "playful","unconditional love"),28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Sailor",R.drawable.dog2, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Lil' Shit",R.drawable.dog3,1, "Small",getList("Is a little shit", "playful","unconditional love"),28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Thicky Vicky",R.drawable.dog4, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Queenie",R.drawable.dog5, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Squishy",R.drawable.dog6, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Duke",R.drawable.dog7, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Bogue",R.drawable.dog8, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Walter",R.drawable.dog9, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Mango",R.drawable.dog10, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
 
         adapter.setDogs(dogs);
-        layoutManager = new GridLayoutManager(this, 4);
-
+        CollectionEnlarge.setDogList(dogs);
+        layoutManager = new GridLayoutManager(this, 3);
         cardRecycler.setLayoutManager(layoutManager);
         cardRecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -83,31 +86,18 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-    public void displayPets(){
-//        List<Dog> dogs = new ArrayList<>();
-//
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Josie",R.drawable.josiefetch));
-//        dogs.add(new Dog("PHIAEIORHG",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("SDSSSS",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//        dogs.add(new Dog("Walter",R.drawable.josiefetch));
-//
-//        adapter.setDogs(dogs);
-//        layoutManager = new GridLayoutManager(this, 4);
-//
-//        cardRecycler.setLayoutManager(layoutManager);
-//        cardRecycler.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//
-//
+    public ArrayList<String> getList(String a, String b, String c){
+        ArrayList<String> traits = new ArrayList<String>();
+
+        // Initialize an ArrayList with add()
+        traits.add(a);
+        traits.add(b);
+        traits.add(c);
+        return traits;
 
     }
+
+
 
 
     @Override
@@ -159,4 +149,6 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

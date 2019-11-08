@@ -80,11 +80,11 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(cardView.getContext(), MainActivity.class);
+                Intent intent = new Intent(cardView.getContext(), CollectionEnlarge.class);
 
                 // Instead of sending the position, send the database id in the intent.
                 long id = CaptionedImagesAdapter.this.dogs.get(position).getId();
-                intent.putExtra(MainActivity.EXTRA_DOG_ID, id);
+                intent.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
 
                 cardView.getContext().startActivity(intent);
 

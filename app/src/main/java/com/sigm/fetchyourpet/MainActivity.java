@@ -16,7 +16,6 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String EXTRA_DOG_ID = "id";
 
 
     @Override
