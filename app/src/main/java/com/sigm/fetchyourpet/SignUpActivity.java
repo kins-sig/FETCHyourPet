@@ -113,14 +113,23 @@ public class SignUpActivity extends AppCompatActivity implements NavigationView.
         passwordView = findViewById(R.id.password);
 
         name = nameView.getText().toString().trim();
-        street = streetView.getText().toString().trim();
-        city = cityView.getText().toString().trim();
-        zip = zipView.getText().toString().trim();
-        if (!zip.matches("[0-9]+") | zip.length() < 5) {
-            action = "Zip code is invalid! Be sure to enter only numbers.";
-
+        if(name.equals("")){
+            action = "Please enter your organization's name.";
         }
+        street = streetView.getText().toString().trim();
+        if(street.equals("")){
+            action = "Please enter the street address of your organization.";
+        }
+        city = cityView.getText().toString().trim();
+        if(city.equals("")){
+            action = "Please enter the city in which your organization is located.";
+        }
+        zip = zipView.getText().toString().trim();
+
         state = stateView.getText().toString().trim();
+        if(state.equals("")){
+            action = "Please enter the state in which your organization is located.";
+        }
         email = emailView.getText().toString().trim();
         //here, we will say:
         //if email not in database, then we will create the account
@@ -130,12 +139,17 @@ public class SignUpActivity extends AppCompatActivity implements NavigationView.
         if(!isValid(email)){
             action = "The email address entered is not in a valid format.";
         }
+        if (!zip.matches("[0-9]+") | zip.length() < 5) {
+            action = "Zip code is invalid! Be sure to enter only numbers.";
+
+        }
 
 
+        //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
 
 
-        if(action!=""){
+        if(!action.equals("")){
             Toast t = Toast.makeText(this, action,
                     Toast.LENGTH_SHORT);
             t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
