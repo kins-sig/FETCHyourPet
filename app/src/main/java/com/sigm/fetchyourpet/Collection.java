@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Collection extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +61,10 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         dogs.add(new Dog("Bogue",R.drawable.dog8, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
         dogs.add(new Dog("Walter",R.drawable.dog9, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
         dogs.add(new Dog("Mango",R.drawable.dog10, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Lance",R.drawable.golden1, 1, "Small and Floofy",getList("Adorable", "can activate 'Attack Mode' instantly","will cuddle at night"),28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
+        dogs.add(new Dog("Diego",R.drawable.golden2, 1, "Smol and Handsome",getList("Might actually steal your girl", "will attract many hot chicks","won best dressed in 2019"),28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
+        dogs.add(new Dog("Richie",R.drawable.pug1, 1, "Very smol",getList("Will always put a smile on your face", "you may cry just from looking at him","will get you a lot of social media clout"),27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
+        dogs.add(new Dog("Georgie",R.drawable.pug2, 1, "Very smol",getList("Is a pug", "looks derpy sometimes","goofball"),27502, "Pug", "Snug as a bug", "Healthy little guy"));
         dogs.add(new Dog("Josie",R.drawable.josiefetch,3, "Medium",getList("Chill", "loving","loves treats"),28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
         dogs.add(new Dog("Rex",R.drawable.dog1, 1, "Small",getList("Sleeps a lot", "playful","unconditional love"),28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
         dogs.add(new Dog("Sailor",R.drawable.dog2, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
@@ -71,6 +76,11 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         dogs.add(new Dog("Bogue",R.drawable.dog8, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
         dogs.add(new Dog("Walter",R.drawable.dog9, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
         dogs.add(new Dog("Mango",R.drawable.dog10, 4, "Small",getList("Awesome", "Super Playful","unconditional love"),28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+        dogs.add(new Dog("Lance",R.drawable.golden1, 1, "Small and Floofy",getList("Adorable", "can activate 'Attack Mode' instantly","will cuddle at night"),28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
+        dogs.add(new Dog("Diego",R.drawable.golden2, 1, "Smol and Handsome",getList("Might actually steal your girl", "will attract many hot chicks","won best dressed in 2019"),28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
+        dogs.add(new Dog("Richie",R.drawable.pug1, 1, "Very smol",getList("Will always put a smile on your face", "you may cry just from looking at him","will get you a lot of social media clout"),27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
+        dogs.add(new Dog("Georgie",R.drawable.pug2, 1, "Very smol",getList("Is a pug", "looks derpy sometimes","goofball"),27502, "Pug", "Snug as a bug", "Healthy little guy"));
+
 
         adapter.setDogs(dogs);
         CollectionEnlarge.setDogList(dogs);

@@ -40,36 +40,46 @@
                 android:scaleType="centerCrop"
 
                 android:src="@drawable/josiefetch" />
+
+
+            <TextView
+                android:id="@+id/name"
+                android:text="JOSIE"
+                android:textSize="32sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_gravity="center"
+                />
             <LinearLayout
+                android:layout_marginTop="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+
                 >
-                <TextView
-                    android:id="@+id/name"
-                    android:text="JOSIE"
-                    android:textSize="32sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    />
+
                 <TextView
                     android:id="@+id/age"
                     android:text="Age: 8"
                     android:textSize="22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:paddingRight="8dp"
+
                     />
                 <TextView
                     android:id="@+id/size"
                     android:text="Size: Medium"
                     android:textSize="22sp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
+                    android:layout_gravity="center"
+
                     />
 
 

@@ -6,7 +6,9 @@
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
     app:cardCornerRadius="4dp"
+
 
 
 
@@ -40,7 +42,7 @@
             android:id="@+id/cardText"
             android:textSize="12sp"
             android:gravity="center"
-            android:text="Josie"
+            android:text="Thicky Vicky Underwicky"
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@color/menuItemTextColor"
             android:layout_marginBottom="4dp"
