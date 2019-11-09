@@ -63,7 +63,10 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Dog d = dogs.get(position);
         TextView tv = holder.cardView.findViewById(R.id.cardText);
+
+
         tv.setText(d.getName());
+
         Glide
                 .with(holder.cardView.getContext())
                 .load(d.getImage())

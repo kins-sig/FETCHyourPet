@@ -6,14 +6,18 @@
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginBottom="5dp"
+    app:cardCornerRadius="4dp"
 
 
 
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:background="@color/drawerBgColor"
 
 
         >
@@ -24,31 +28,27 @@
 
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent=".85"
+            android:layout_height="200dp"
+            android:src="@drawable/josiefetch"
+
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+
             />
 
         <TextView
             android:id="@+id/cardText"
-            android:gravity="center"
-            android:textColor="#383833"
             android:textSize="12sp"
-
-            app:layout_constraintTop_toBottomOf="@id/cardView"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Josie"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/menuItemTextColor"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

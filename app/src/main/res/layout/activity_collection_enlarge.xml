@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/dogPic"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
 
@@ -80,6 +80,10 @@
 
 
             </LinearLayout>
+
+
+
+
 
             <TextView
                 android:layout_width="match_parent"
