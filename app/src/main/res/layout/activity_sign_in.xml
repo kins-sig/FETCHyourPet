@@ -46,6 +46,7 @@
                 android:layout_height="match_parent"
                 android:text="E-mail:"
                 android:textSize="18sp"
+                android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/menuItemTextColor"/>
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
@@ -60,6 +61,7 @@
                 android:layout_height="match_parent"
                 android:text="Password:"
                 android:textSize="18sp"
+                android:fontFamily="@font/montserrat_semibold"
 
                 android:textColor="@color/menuItemTextColor"
                 />
