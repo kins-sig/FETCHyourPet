@@ -196,8 +196,31 @@
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
+                    />
+
+                <TextView
+                    android:layout_marginTop="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIRM PASSWORD"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:layout_gravity="left"
 
                     />
+                <EditText
+                    android:id="@+id/password2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:inputType="textPassword"
+                    />
+                
+
+
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -33,8 +33,8 @@ import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView;
-    String name, street, city, zip, state, email, password;
+    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2;
+    String name, street, city, zip, state, email, password, confirmPassword;
     ImageView picView;
     Button picButton;
     Bitmap bitmap = null;
@@ -111,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements NavigationView.
         stateView = findViewById(R.id.state);
         emailView = findViewById(R.id.email);
         passwordView = findViewById(R.id.password);
+        password2 = findViewById(R.id.password2);
 
         name = nameView.getText().toString().trim();
         if(name.equals("")){
@@ -145,8 +146,14 @@ public class SignUpActivity extends AppCompatActivity implements NavigationView.
         }
 
 
+
         //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
+        if(!password.equals(password2.getText().toString().trim())){
+            action = "Passwords do not match. Please enter them again.";
+            passwordView.setText("");
+            password2.setText("");
+        }
 
 
         if(!action.equals("")){
