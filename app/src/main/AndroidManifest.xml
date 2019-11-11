@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CollectionEnlarge"
-            android:parentActivityName=".Collection"
-            ></activity>
+        <activity android:name=".SignUpActivityAdopter"></activity>
+        <activity android:name=".SignUpAccountType" />
+        <activity
+            android:name=".CollectionEnlarge"
+            android:parentActivityName=".Collection" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -28,7 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Collection" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpActivityRescue" />
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_collection);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Collection");
+        toolbar.setTitle("AVAILABLE PETS");
 
         setSupportActionBar(toolbar);
 

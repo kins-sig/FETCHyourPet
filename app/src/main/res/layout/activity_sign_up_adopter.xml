@@ -6,15 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:openDrawer="end">
 
-
     <include
-        android:id="@+id/appbar"
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,14 +62,15 @@
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ORGANIZATION NAME"
+                    android:text="FIRST NAME"
                     android:textSize="18sp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
+
                     />
                 <EditText
-                    android:id="@+id/organization"
+                    android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -86,14 +85,15 @@
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="STREET"
+                    android:text="LAST NAME"
+                    android:enabled="true"
                     android:textSize="18sp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
                     />
                 <EditText
-                    android:id="@+id/street"
+                    android:id="@+id/lastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -105,46 +105,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CITY"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:layout_gravity="left"
-
-                    />
-                <EditText
-                    android:id="@+id/city"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"
-
-                    />
-
-                <TextView
-                    android:layout_marginTop="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="STATE"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:layout_gravity="left"
-
-                    />
-                <EditText
-                    android:id="@+id/state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"
-
-                    />
-                <TextView
-                    android:layout_marginTop="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ZIP"
+                    android:text="ZIP CODE"
                     android:textSize="18sp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
@@ -156,19 +117,18 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"
-
-                    />
+                    android:fontFamily="@font/montserrat_semibold"/>
                 <TextView
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EMAIL (will be used to log in)"
+                    android:text="EMAIL"
                     android:textSize="18sp"
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
                     />
+
                 <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
@@ -178,6 +138,8 @@
                     android:fontFamily="@font/montserrat_semibold"
 
                     />
+
+
                 <TextView
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
@@ -196,8 +158,9 @@
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
-                    />
 
+
+                    />
                 <TextView
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
@@ -207,17 +170,18 @@
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
+
                     />
                 <EditText
-                    android:id="@+id/password2"
+                    android:id="@+id/confirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
-                    />
-                
+                    android:fontFamily="@font/montserrat_semibold" />
+
+
 
 
 
@@ -245,17 +209,18 @@
 
 
 
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/drawerBgColor"
         android:fitsSystemWindows="true"
+        android:background="@color/drawerBgColor"
+        app:itemTextColor="@color/menuItemTextColor"
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@color/iconTint"
-        app:itemTextColor="@color/menuItemTextColor"
-        app:menu="@menu/activity_main_drawer" />
-
+        app:menu="@menu/rescue_drawer"
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>

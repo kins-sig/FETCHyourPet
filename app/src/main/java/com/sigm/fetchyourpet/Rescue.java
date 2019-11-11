@@ -14,14 +14,8 @@ public class Rescue {
     // INT Phone num
     // String Email
     private static int counter = 0;
-    private int rescueID;
-    private String name;
-    private String street;
-    private String city;
-    private String state;
-    private int zip;
-    private String email;
-    private String password;
+    private int rescueID, zip;
+    private String name, street, city, state, email, password;
     private Bitmap photo;
     private static ArrayList<Rescue> rescues = new ArrayList<>();;
 
