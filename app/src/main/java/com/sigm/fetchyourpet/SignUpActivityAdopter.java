@@ -1,7 +1,11 @@
 package com.sigm.fetchyourpet;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static com.sigm.fetchyourpet.SignUpActivityRescue.isValid;
 
@@ -27,6 +35,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
     Button picButton;
     Bitmap bitmap = null;
 
+    private static int GET_FROM_GALLERY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,9 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         toolbar.setTitle("SIGN UP!");
 
         setSupportActionBar(toolbar);
+        picView = findViewById(R.id.pic);
+        picButton = findViewById(R.id.picButton);
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -160,13 +172,39 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         }
 
 
+    }
+    public void uploadPhoto(View view){
+        Intent i = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-
-
-
+        startActivityForResult(i, GET_FROM_GALLERY);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+
+                Glide
+                        .with(this)
+                        .load(bitmap)
+                        .into(picView);
+                picButton.setText("CHANGE PHOTO");
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
 
