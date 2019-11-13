@@ -17,7 +17,7 @@ public class Rescue {
     private int rescueID, zip;
     private String name, street, city, state, email, password;
     private Bitmap photo;
-    private static ArrayList<Rescue> rescues = new ArrayList<>();;
+    private static ArrayList<Rescue> rescues = new ArrayList<>();
 
 
     public Rescue(Bitmap b, String name, String street, String city, String state, int zip, String email, String password){

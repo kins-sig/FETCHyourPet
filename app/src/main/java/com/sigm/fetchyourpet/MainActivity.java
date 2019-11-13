@@ -3,7 +3,6 @@ package com.sigm.fetchyourpet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,12 +11,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import java.io.IOException;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.users.FullAccount;
+import com.dropbox.core.v2.users.DbxUserUsersRequests;
+
+
+
+
 
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String ACCESS_TOKEN = "zQ0PTVsAoiAAAAAAAAAAGBBC3SX0o2N1bk2odWZjy5iRyN9DoFuWE-hB1u82jYHW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("FETCH! YOUR PET");
         setSupportActionBar(toolbar);
-
+        Log.d("test","Hi!!!");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -38,7 +50,46 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -105,8 +156,48 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(this, SignInActivity.class));
 
     }
-    public void signUp(View v){
+    public void signUp(View v) {
         startActivity(new Intent(this, SignUpAccountType.class));
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
 
+                    DbxRequestConfig config;
+                    config = new DbxRequestConfig("dropbox/FETCH!yourPet");
+                    DbxClientV2 client;
+                    client = new DbxClientV2(config, ACCESS_TOKEN);
+                    FullAccount account;
+                    DbxUserUsersRequests r1 = client.users();
+                    account = r1.getCurrentAccount();
+                    System.out.println(account.getName().getDisplayName());
+
+                    // Get files and folder metadata from Dropbox root directory
+                    ListFolderResult result = client.files().listFolder("");
+                    while (true) {
+                        for (Metadata metadata : result.getEntries()) {
+                            System.out.println(metadata.getPathLower());
+                        }
+
+                        if (!result.getHasMore()) {
+                            break;
+                        }
+
+                        result = client.files().listFolderContinue(result.getCursor());
+                    }
+
+                } catch (DbxException ex1) {
+                    ex1.printStackTrace();
+                }
+
+
+            }
+        };
+        thread.start();
     }
+
 }
+
+
+
+

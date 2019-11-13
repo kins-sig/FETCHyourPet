@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import com.sigm.fetchyourpet.Question;
 
 public class QuizActivity extends AppCompatActivity {
@@ -53,6 +55,7 @@ public class QuizActivity extends AppCompatActivity {
         CheckBox q1Answer2 = findViewById(R.id.q1Answer2);
         CheckBox q1Answer3 = findViewById(R.id.q1Answer3);
 
+
             if (q1Answer1.isChecked()) {
                 values[currentQuestion * 3] = 1;
             } else values[currentQuestion* 3] = 0;
@@ -67,6 +70,7 @@ public class QuizActivity extends AppCompatActivity {
         currentQuestion ++;
 
         if(currentQuestion < userQuestions.size()) {
+
 
 
             question.setText(userQuestions.get(currentQuestion).questionText);
