@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
+        }else if (id == R.id.quiz) {
+            startActivity(new Intent(this, QuizActivity.class));
         }
 
 

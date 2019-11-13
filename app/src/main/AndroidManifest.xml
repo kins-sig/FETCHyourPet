@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignUpActivityAdopter"></activity>
+        <activity android:name=".QuizActivity"></activity>
+        <activity android:name=".SignUpActivityAdopter" />
         <activity android:name=".SignUpAccountType" />
         <activity
             android:name=".CollectionEnlarge"

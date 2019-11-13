@@ -1,0 +1,129 @@
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+	// STEP 1
+		// User class
+		// attr
+			// INT Adopter ID
+			// String Fname
+			// String Lname
+			// String Email
+			// String PW
+			// INT Zip 
+			// INT Phone
+			// Double []  [traits vector]
+			// Double [] [copy of OG traits vector] to switch back whenever they want 
+			// Double [] Accum_traits_vector (averaged with curr. when refreshed)
+			// INT numDogsRatedSinceLastRefresh
+			// INT [] [favorite_dog_IDs]
+		
+		// Rescue Class
+		// attr
+			// INT Org ID
+			// String Org Name
+			// INT Zip
+			// INT Phone num
+			// String Email
+		
+		// Dog class
+		// attr
+			// INT Animal ID 
+			// String Name
+			// Double weight
+			// Image(s)
+			// String Vaccination status
+			// String health conditions/concerns
+			// Double approx_age 
+			// String breed (if known)
+			// Double [] [traits vector]
+			// INT num_times_clicked
+		
+		
+	// STEP 2.1 - user
+		// User enters info to create account
+			// update user class
+		// User is prompted and asked for their dog preferences
+			// values are 0 --> no and 1 --> yes 
+		// 1. Desired Size [small, med, lg]
+		// 2. Desired Color (white, brown, black, yellow, mixed)
+		// 3. Desired Shy/outgoing (shy, outgoing)
+		// 4. Desired in/out dog (inside, outside)
+		// 5. Desired energy level (low, high)
+		// 6. Desired age range ((0-2),(2-6),(6+))
+			// Put into vector, 17 total attr
+				// ex. [0, 1, 1, ... , 0, 1, 0]
+				// from i = 0 to 16
+		// Accumulate User info into user class
+		
+	// STEP 2.2 - rescue
+		// Rescue is prompted for info
+		// fill in class above in step 1
+
+		
+	// STEP 2.3 - dog
+		// Rescue is prompted for their dog information
+			// values are 0 --> no and 1 --> yes 
+		// 1. Actual Size [small, med, lg]
+		// 2. Actual Color (white, brown, black, yellow, mixed)
+		// 3. Actual Shy/outgoing (shy, outgoing)
+		// 4. Actual in/out dog (inside, outside)
+		// 5. Actual energy level (low, high)
+		// 6. Actual age range ((0-2),(2-6),(6+))
+			// Put into vector, 17 total attr
+				// ex. [0, 1, 0, ... , 1, 1, 0]
+				// from i = 0 to 16
+		// accumulate Dog info into dog class 
+		
+	// STEP 3 - algo
+		// Compare the user vector to the dog vector
+		// the dog vectors are all stored and accumulated in a database. 
+		// the user given preference trait vector is compared to all dog vectors
+		// the dog vectors are assigned a score based on on similarity
+		// the dog vectors are sorted based on the score (largest = most similar)
+		// the dog.ID associated with each of the vectors is obv sorted with it
+		// a new (non random) list of dogs is shown for the user to browse through. 
+		
+	// STEP 4 - browsing
+		// The User browses and likes / dislikes dogs
+		// Dog clicked
+			// dog.num_times_clicked++
+	
+		// On like
+			// user.trait_vector += dog.trait_vector
+			// user.numDogsRatedSinceLastRefresh++
+		
+		// On Dislike
+			// user.trait_vector += (-0.2) * dog.trait_vector
+			// user.numDogsRatedSinceLastRefresh++
+
+		// On favorites
+			// user.favorite_dog_IDs.append(dog.dogID)
+		
+	// Step 5 - Refresh options
+		// The user has browsed enough and now wants to refresh their listings based on their likes/dislikes
+		// The user is prompted with (refresh with new preferences, restart with OG prefs, view all dogs)
+		// Press refresh
+			// the accum_traits_vector is merged with the actual 
+			// user.Accum_traits_vector * (1 / numDogsRatedSinceLastRefresh)
+			// user.numDogsRatedSinceLastRefresh = 0
+			// trigger step 3
+		// Press restart with OG prefs
+			// accum vector is wiped and stats refreshed
+			// user.traits_vector = user.copy_of_original_trait_vector
+			// user.Accum_traits_vector.clear
+			// user.numDogsRatedSinceLastRefresh = 0
+			// trigger step 3
+		// press view all dogs
+			// pull dog info from DB and show them all in random order
+		
+	// Step 6 - settings
+		// User settings
+			// change user info
+				// can change any of the public user attrs
+		// change original prefs
+			// restart the traits quiz and choose new ones.
+			// user.traits_vector updated
+			// user.copy_of_original_trait_vector = user.traits_vector
+}

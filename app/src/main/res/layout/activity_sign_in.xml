@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end">
+    tools:openDrawer="end"
+    android:background="@color/toolbarBgColor">
 
     <include
         android:id="@+id/appbar"
@@ -36,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:text="WELCOME BACK!"
                 android:textSize="22sp"
-                android:textColor="@color/menuItemTextColor"
+                android:textColor="#FFFF"
                 android:gravity="center"
                 android:layout_marginBottom="32dp"
                 />
@@ -47,12 +48,12 @@
                 android:text="E-mail:"
                 android:textSize="18sp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/menuItemTextColor"/>
+                android:textColor="#FFFF"/>
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:textColor="#FFFF"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
            />
@@ -62,8 +63,7 @@
                 android:text="Password:"
                 android:textSize="18sp"
                 android:fontFamily="@font/montserrat_semibold"
-
-                android:textColor="@color/menuItemTextColor"
+                android:textColor="#FFFF"
                 />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
+                android:textColor="#FFFF"
 
                 android:inputType="textPassword"/>
 
