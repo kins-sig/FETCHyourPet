@@ -20,6 +20,10 @@ import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.users.FullAccount;
 import com.dropbox.core.v2.users.DbxUserUsersRequests;
 
+// ...
+
+// When the user selects an option to see the licenses:
+
 
 
 
@@ -52,44 +56,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onBackPressed() {
@@ -157,6 +123,8 @@ public class MainActivity extends AppCompatActivity
 
     }
     public void signUp(View v) {
+
+
         startActivity(new Intent(this, SignUpAccountType.class));
         Thread thread = new Thread() {
             @Override
