@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/take_quiz"
+            android:icon="@drawable/ic_dogs"
+            android:title="Take the quiz" />
+        <item
+            android:id="@+id/view_your_matchesa"
+            android:icon="@drawable/ic_collection"
+            android:title="View your matches" />
+
+        <item
+            android:id="@+id/browse_all_animals"
+            android:icon="@drawable/ic_home"
+            android:title="Browse all animals" />
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_home"
+            android:title="Logout" />
+
+    </group>
+
+</menu>

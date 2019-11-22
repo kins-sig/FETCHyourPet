@@ -170,6 +170,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             new Rescue(bitmap,name, street, city, state, Integer.parseInt(zip), email, password);
             Intent dashboard = new Intent(this, Dashboard.class);
             startActivity(dashboard);
+            finish();
 
         }
 

@@ -25,6 +25,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
+    String type;
+    Class c;
+
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
 
     @Override
@@ -33,12 +36,28 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_collection);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
+
         toolbar.setTitle("AVAILABLE PETS");
 
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        type = getIntent().getStringExtra("user");
+        if(type.equals("adopter")){
+            c = AdopterDashboard.class;
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.adopter_drawer);
+        }
+        else if(type.equals("rescue")){
+            c = Dashboard.class;
+
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.rescue_drawer);
+        }
+        else{
+            c = MainActivity.class;
+        }
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -143,18 +162,22 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.take_quiz) {
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user",type));
 
-        if (id == R.id.sign_in) {
+        }
+        else if (id == R.id.sign_in) {
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class));
+            //startActivity(new Intent(this, Collection.class));
 
 
         } else if (id == R.id.home) {
             //In the future, add code to determine if the user is signed in or not. Then send
             //them to the right location.
-            startActivity(new Intent(this, MainActivity.class));
+
+            startActivity(new Intent(this, c));
         }
 
 

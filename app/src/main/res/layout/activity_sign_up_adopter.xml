@@ -190,7 +190,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
                     android:onClick="createAccount"
-
+                    android:id="@+id/createAccount"
                     android:text="CREATE ACCOUNT"
                     android:fontFamily="@font/montserrat_semibold"
 

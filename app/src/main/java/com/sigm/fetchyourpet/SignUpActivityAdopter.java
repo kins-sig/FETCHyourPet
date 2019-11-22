@@ -32,8 +32,10 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
     EditText firstNameView, lastNameView, zipView, emailView, passwordView, password2;
     String firstName,lastName, zip, email, password, confirmPassword;
     ImageView picView;
-    Button picButton;
+    Button picButton, createAccount;
     Bitmap bitmap = null;
+    Boolean edit;
+    PotentialAdopter currentAdopter;
 
     private static int GET_FROM_GALLERY = 1;
 
@@ -42,15 +44,41 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_adopter);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("SIGN UP!");
-
+        edit = getIntent().getBooleanExtra("editProfile",false);
         setSupportActionBar(toolbar);
+        createAccount=findViewById(R.id.createAccount);
         picView = findViewById(R.id.pic);
         picButton = findViewById(R.id.picButton);
+        firstNameView = findViewById(R.id.firstName);
+        lastNameView = findViewById(R.id.lastName);
+        emailView = findViewById(R.id.email);
+        passwordView = findViewById(R.id.password);
+        password2 = findViewById(R.id.confirmPassword);
+        zipView = findViewById(R.id.zip);
+        if(edit){
+            toolbar.setTitle("EDIT PROFILE");
+            createAccount.setText("UPDATE PROFILE");
+            PotentialAdopter pa = new PotentialAdopter();
+            currentAdopter = pa.getCurrentAdopter();
+            firstNameView.setText(currentAdopter.getFirstName());
+            lastNameView.setText(currentAdopter.getLastname());
+            emailView.setText(currentAdopter.getEmail());
+            zipView.setText(currentAdopter.getZip());
+        }
+        else {
+            toolbar.setTitle("SIGN UP!");
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        if(edit){
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.adopter_drawer);
+
+        }
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -96,7 +124,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class));
+            startActivity(new Intent(this, Collection.class).putExtra("user","adopter"));
 
 
         } else if (id == R.id.home) {
@@ -111,12 +139,9 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
 
     public void createAccount(View view) {
         String action = "";
-        firstNameView = findViewById(R.id.firstName);
-        lastNameView = findViewById(R.id.lastName);
-        emailView = findViewById(R.id.email);
-        passwordView = findViewById(R.id.password);
-        password2 = findViewById(R.id.confirmPassword);
-        zipView = findViewById(R.id.zip);
+
+
+
 
         firstName = firstNameView.getText().toString().trim();
         lastName = lastNameView.getText().toString().trim();
@@ -155,6 +180,12 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
             passwordView.setText("");
             password2.setText("");
         }
+        boolean test=false;
+
+        if(firstName.equals("test")){
+            action = "";
+            test=true;
+        }
 
 
         if(!action.equals("")){
@@ -165,9 +196,26 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         }
         else{
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
-            new PotentialAdopter(bitmap,firstName, lastName, Integer.parseInt(zip), email, password);
-            Intent dashboard = new Intent(this, Dashboard.class);
-            startActivity(dashboard);
+           if(edit){
+               currentAdopter.setBitmap(bitmap);
+               currentAdopter.setFirstName(firstName);
+               currentAdopter.setLastname(lastName);
+               currentAdopter.setZip(Integer.parseInt(zip));
+               currentAdopter.setEmail(email);
+               currentAdopter.setPassword(password);
+
+
+
+
+           }
+
+               PotentialAdopter p = new PotentialAdopter(bitmap, firstName, lastName, Integer.parseInt(zip), email, password);
+               p.setCurrentAdopter(p);
+
+               Intent dashboard = new Intent(this, AdopterDashboard.class);
+               startActivity(dashboard);
+               finish();
+
 
         }
 
