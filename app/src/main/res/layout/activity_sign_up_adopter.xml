@@ -76,7 +76,6 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Dylan"
 
                     />
 
@@ -101,7 +100,6 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="Woodworth"
 
                     />
                 <TextView
@@ -123,7 +121,6 @@
                     android:inputType="number"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="28403"
                     />
                 <TextView
                     android:layout_marginTop="16dp"
@@ -143,7 +140,6 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="bogus@gmail.com"
 
                     />
 
@@ -168,7 +164,6 @@
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
-                    android:text="hi"
 
 
                     />
@@ -191,7 +186,6 @@
                     android:singleLine="true"
                     android:inputType="textPassword"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:text="hi"
 
                     />
 
