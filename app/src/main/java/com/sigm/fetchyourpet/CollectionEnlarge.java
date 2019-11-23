@@ -1,24 +1,27 @@
 package com.sigm.fetchyourpet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CollectionEnlarge extends AppCompatActivity {
-    TextView traits, location, breed, vaccinationStatus, healthConcers, name, age, size;
-    ImageView pic;
     public static final String EXTRA_DOG_ID = "id";
     public static ArrayList<Dog> dogs;
+    TextView traits, location, breed, vaccinationStatus, healthConcers, name, age, size;
+    ImageView pic;
+    String user;
+
+    public static void setDogList(ArrayList<Dog> dogs2) {
+        dogs = dogs2;
 
 
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class CollectionEnlarge extends AppCompatActivity {
         size = findViewById(R.id.size);
         pic = findViewById(R.id.dogPic);
 
+        user = getIntent().getStringExtra("user");
 
 
         //here is where we would grab the Dog in the database that has the same ID has EXTRA_DOG_ID.
@@ -45,8 +49,8 @@ public class CollectionEnlarge extends AppCompatActivity {
         long dogID = getIntent().getLongExtra(EXTRA_DOG_ID, -1);
         Dog fakeDog = new Dog();
 
-        for(Dog d:dogs){
-            if(d.getId() == dogID){
+        for (Dog d : dogs) {
+            if (d.getId() == dogID) {
                 fakeDog = d;
             }
         }
@@ -58,24 +62,26 @@ public class CollectionEnlarge extends AppCompatActivity {
 //                .into(pic);
 
 
-
         traits.setText(fakeDog.getTraits());
         location.setText(Integer.toString(fakeDog.getLocation()));
         breed.setText(fakeDog.getBreed());
         vaccinationStatus.setText(fakeDog.getVaccStatus());
         healthConcers.setText(fakeDog.getHealthConcerns());
         name.setText(fakeDog.getName());
-        age.setText("Age: "+fakeDog.getAgeString());
-        size.setText("Size: "+fakeDog.getSize());
-
-
-
+        age.setText("Age: " + fakeDog.getAgeString());
+        size.setText("Size: " + fakeDog.getSize());
 
 
     }
-    public static void setDogList(ArrayList<Dog> dogs2){
-        dogs = dogs2;
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        Intent intent = new Intent();
+        intent.putExtra("user", user);
+        setResult(2, intent);
 
 
+        super.onBackPressed();
     }
 }

@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
-            android:id="@+id/quiz"
+            android:id="@+id/take_quiz"
             android:icon="@drawable/ic_dogs"
             android:title="Quiz" />
     </group>

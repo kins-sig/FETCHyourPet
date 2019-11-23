@@ -2,9 +2,7 @@ package com.sigm.fetchyourpet;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,13 +30,24 @@ import java.util.regex.Pattern;
 
 public class SignUpActivityRescue extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static int GET_FROM_GALLERY = 1;
     EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2;
     String name, street, city, zip, state, email, password, confirmPassword;
     ImageView picView;
     Button picButton;
     Bitmap bitmap = null;
 
-    private static int GET_FROM_GALLERY = 1;
+    public static boolean isValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         int id = item.getItemId();
 
         if (id == R.id.sign_in) {
-            Log.d("test","sign in");
+            Log.d("test", "sign in");
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
@@ -97,9 +105,6 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         return true;
 
 
-
-
-
     }
 
     public void createAccount(View view) {
@@ -114,21 +119,21 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         password2 = findViewById(R.id.password2);
 
         name = nameView.getText().toString().trim();
-        if(name.equals("")){
+        if (name.equals("")) {
             action = "Please enter your organization's name.";
         }
         street = streetView.getText().toString().trim();
-        if(street.equals("")){
+        if (street.equals("")) {
             action = "Please enter the street address of your organization.";
         }
         city = cityView.getText().toString().trim();
-        if(city.equals("")){
+        if (city.equals("")) {
             action = "Please enter the city in which your organization is located.";
         }
         zip = zipView.getText().toString().trim();
 
         state = stateView.getText().toString().trim();
-        if(state.equals("")){
+        if (state.equals("")) {
             action = "Please enter the state in which your organization is located.";
         }
         email = emailView.getText().toString().trim();
@@ -137,7 +142,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         //if(db.getAccounts.contains(email)){
         //  action="An account already exists with this email!"
         //}
-        if(!isValid(email)){
+        if (!isValid(email)) {
             action = "The email address entered is not in a valid format.";
         }
         if (!zip.matches("[0-9]+") | zip.length() < 5) {
@@ -146,28 +151,25 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         }
 
 
-
         //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
-        if(password.equals("")){
+        if (password.equals("")) {
             action = "Please enter a password";
-        }
-        else if(!password.equals(password2.getText().toString().trim())){
+        } else if (!password.equals(password2.getText().toString().trim())) {
             action = "Passwords do not match. Please enter them again.";
             passwordView.setText("");
             password2.setText("");
         }
 
 
-        if(!action.equals("")){
+        if (!action.equals("")) {
             Toast t = Toast.makeText(this, action,
                     Toast.LENGTH_SHORT);
             t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
             t.show();
-        }
-        else{
+        } else {
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
-            new Rescue(bitmap,name, street, city, state, Integer.parseInt(zip), email, password);
+            new Rescue(bitmap, name, street, city, state, Integer.parseInt(zip), email, password);
             Intent dashboard = new Intent(this, Dashboard.class);
             startActivity(dashboard);
             finish();
@@ -175,26 +177,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         }
 
 
-
-
-
-
-
-    }
-    public static boolean isValid(String email)
-    {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
     }
 
-    public void uploadPhoto(View view){
+    public void uploadPhoto(View view) {
         Intent i = new Intent(
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -208,7 +193,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);

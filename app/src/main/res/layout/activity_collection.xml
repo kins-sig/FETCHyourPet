@@ -50,6 +50,6 @@
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@color/iconTint"
         app:itemTextColor="@color/menuItemTextColor"
-        app:menu="@menu/rescue_drawer" />
+        app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

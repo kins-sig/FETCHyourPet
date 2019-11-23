@@ -76,6 +76,7 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="Dylan"
 
                     />
 
@@ -91,6 +92,7 @@
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
+
                     />
                 <EditText
                     android:id="@+id/lastName"
@@ -99,6 +101,7 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="Woodworth"
 
                     />
                 <TextView
@@ -110,14 +113,18 @@
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
+
                     />
                 <EditText
                     android:id="@+id/zip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
+                    android:inputType="number"
                     android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"/>
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="28403"
+                    />
                 <TextView
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
@@ -136,6 +143,7 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:text="bogus@gmail.com"
 
                     />
 
@@ -146,6 +154,8 @@
                     android:layout_height="wrap_content"
                     android:text="PASSWORD"
                     android:textSize="18sp"
+                    android:id="@+id/passwordLabel"
+
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_gravity="left"
 
@@ -158,6 +168,7 @@
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
+                    android:text="hi"
 
 
                     />
@@ -179,7 +190,10 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:inputType="textPassword"
-                    android:fontFamily="@font/montserrat_semibold" />
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="hi"
+
+                    />
 
 
 

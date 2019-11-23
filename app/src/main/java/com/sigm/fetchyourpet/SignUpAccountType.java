@@ -1,17 +1,19 @@
 package com.sigm.fetchyourpet;
+
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.view.MenuItem;
-import android.view.View;
+import com.google.android.material.navigation.NavigationView;
 
-public class SignUpAccountType extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class SignUpAccountType extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,6 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -61,8 +62,6 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
     }
 
 
-
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -77,7 +76,10 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
 
         } else if (id == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
+        } else if (id == R.id.take_quiz) {
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user","none"));
         }
+
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -85,11 +87,12 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
         return true;
     }
 
-    public void createAdopter(View v){
+    public void createAdopter(View v) {
         Intent i = new Intent(this, SignUpActivityAdopter.class);
         startActivity(i);
     }
-    public void createRescue(View v){
+
+    public void createRescue(View v) {
         Intent i = new Intent(this, SignUpActivityRescue.class);
         startActivity(i);
 

@@ -1,24 +1,13 @@
 package com.sigm.fetchyourpet;
 
-import android.util.Log;
-
-import java.io.IOException;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.ListFolderResult;
-import com.dropbox.core.v2.files.Metadata;
-import com.dropbox.core.v2.users.FullAccount;
-import com.dropbox.core.v2.users.DbxUserUsersRequests;
-
 public class DropboxConnection {
     private static final String ACCESS_TOKEN = "zQ0PTVsAoiAAAAAAAAAADljlxwYbAm1tvlgeZHccJkJ0rosm5RtqsyuE6nYkli-P";
 
-    public DropboxConnection(){
+    public DropboxConnection() {
 
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 //        System.out.println("Hi");
 //
 //        try {

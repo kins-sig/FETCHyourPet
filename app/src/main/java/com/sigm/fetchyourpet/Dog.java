@@ -14,8 +14,9 @@ package com.sigm.fetchyourpet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dog{
+public class Dog {
     static int counter = 0; //in the future, we can just have the database autoassign an id
+    static List<Dog> dogList;
     int id;
     String name;
     Double weight;
@@ -31,13 +32,14 @@ public class Dog{
     Double[] traits;
     ArrayList<String> traitsText;
     int numTimesClicked = 0;
-    static List<Dog> dogList;
-    public Dog(){
+
+    public Dog() {
 
     }
 
-    public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns ){
-        this.id = counter; counter++;
+    public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns) {
+        this.id = counter;
+        counter++;
         this.name = name;
         this.age = age;
         this.size = size;
@@ -52,54 +54,58 @@ public class Dog{
 
     }
 
-    public int getImage(){
+    public int getImage() {
         return this.image;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
 
-    public List<Dog> getDogList(){
+    public List<Dog> getDogList() {
         return dogList;
     }
-    public String getTraits(){
+
+    public String getTraits() {
         String s = "";
-        for(String t: traitsText){
-            if(s!=""){
+        for (String t : traitsText) {
+            if (s != "") {
                 s = s + ", " + t;
-            }
-            else{
-                s+=t;
+            } else {
+                s += t;
             }
         }
         return s;
     }
-    public int getLocation(){
+
+    public int getLocation() {
         return this.zip;
     }
-    public String getBreed(){
+
+    public String getBreed() {
         return this.breed;
     }
-    public String getVaccStatus(){
+
+    public String getVaccStatus() {
         return this.vaccinationStatus;
 
     }
-    public String getHealthConcerns(){
+
+    public String getHealthConcerns() {
         return this.healthConcerns;
     }
-    public String getAgeString(){
+
+    public String getAgeString() {
         return Integer.toString(age);
     }
-    public String getSize(){
+
+    public String getSize() {
         return this.size;
     }
-
-
-
 
 
 }

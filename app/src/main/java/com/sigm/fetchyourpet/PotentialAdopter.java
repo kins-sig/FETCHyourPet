@@ -7,17 +7,17 @@ import java.util.ArrayList;
 public class PotentialAdopter {
 
 
-
-    private int adopterID, zip, phone, numDogsRatedSinceLastRefresh;
-    private Bitmap photo;
-    private String firstName, lastname, email, password;
-    int[] favorite_dog_ids;
     private static int counter = 0;
     private static ArrayList<PotentialAdopter> adopters = new ArrayList<>();
     private static PotentialAdopter currentAdopter;
+    int[] favorite_dog_ids;
+    private int adopterID, zip, phone, numDogsRatedSinceLastRefresh;
+    private Bitmap photo;
+    private String firstName, lastname, email, password;
 
-    public PotentialAdopter(Bitmap b, String fname, String lname, int zip, String email, String password){
-        adopterID = counter; counter++;
+    public PotentialAdopter(Bitmap b, String fname, String lname, int zip, String email, String password) {
+        adopterID = counter;
+        counter++;
         this.photo = b;
         this.firstName = fname;
         this.lastname = lname;
@@ -29,15 +29,17 @@ public class PotentialAdopter {
 
         adopters.add(this);
     }
-    public PotentialAdopter(){
+
+    public PotentialAdopter() {
 
     }
 
-    public void setCurrentAdopter(PotentialAdopter p){
-        currentAdopter = p;
-    }
-    public PotentialAdopter getCurrentAdopter(){
+    public PotentialAdopter getCurrentAdopter() {
         return currentAdopter;
+    }
+
+    public void setCurrentAdopter(PotentialAdopter p) {
+        currentAdopter = p;
     }
 
     public int getPhone() {
@@ -96,10 +98,9 @@ public class PotentialAdopter {
         this.zip = zip;
     }
 
-    public void setBitmap(Bitmap b){
-        this.photo=b;
+    public void setBitmap(Bitmap b) {
+        this.photo = b;
     }
-
 
 
 }

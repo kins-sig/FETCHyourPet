@@ -2,7 +2,6 @@ package com.sigm.fetchyourpet;
 
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +11,17 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
-    private List<Dog> dogs;
-    private int image;
     boolean front = false;
     float textsize = 10;
+    private List<Dog> dogs;
+    private int image;
+    private String user;
 
 
     public CaptionedImagesAdapter() {
@@ -39,13 +38,16 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     }
 
-
+    void setUser(String s) {
+        user = s;
+    }
 
 
     @Override
     public int getItemCount() {
         return dogs.size();
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -73,10 +75,6 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
                 .into((ImageView) holder.cardView.findViewById(R.id.cardView));
 
 
-
-
-
-
         final CardView cardView = holder.cardView;
 
 
@@ -88,6 +86,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
                 // Instead of sending the position, send the database id in the intent.
                 long id = CaptionedImagesAdapter.this.dogs.get(position).getId();
                 intent.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
+
 
                 cardView.getContext().startActivity(intent);
 

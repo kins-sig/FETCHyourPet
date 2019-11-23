@@ -11,24 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import java.io.IOException;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.ListFolderResult;
-import com.dropbox.core.v2.files.Metadata;
-import com.dropbox.core.v2.users.FullAccount;
-import com.dropbox.core.v2.users.DbxUserUsersRequests;
-
-// ...
-
-// When the user selects an option to see the licenses:
-
-
-
-
 
 import com.google.android.material.navigation.NavigationView;
+
+// ...
+// When the user selects an option to see the licenses:
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +30,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("FETCH! YOUR PET");
         setSupportActionBar(toolbar);
-        Log.d("test","Hi!!!");
+        Log.d("test", "Hi!!!");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -95,17 +82,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.sign_in) {
-            Log.d("test","sign in");
+            Log.d("test", "sign in");
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class));
+            startActivity(new Intent(this, Collection.class).putExtra("user","none"));
 
 
         } else if (id == R.id.home) {
-           // startActivity(new Intent(this, MainActivity.class));
-        }else if (id == R.id.quiz) {
-            startActivity(new Intent(this, QuizActivity.class));
+            // startActivity(new Intent(this, MainActivity.class));
+        } else if (id == R.id.take_quiz) {
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user","none"));
         }
 
 
@@ -114,19 +101,21 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void browsePets(View v){
-        startActivity(new Intent(this, Collection.class).putExtra("user","none"));
+    public void browsePets(View v) {
+        startActivity(new Intent(this, Collection.class).putExtra("user", "none"));
 
     }
-    public void signIn(View v){
+
+    public void signIn(View v) {
         startActivity(new Intent(this, SignInActivity.class));
 
     }
+
     public void signUp(View v) {
 
 
         startActivity(new Intent(this, SignUpAccountType.class));
-    //    startActivity(new Intent(this, AdopterDashboard.class));
+        //    startActivity(new Intent(this, AdopterDashboard.class));
 
 //        Thread thread = new Thread() {
 //            @Override
