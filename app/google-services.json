@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "183004725451",
+    "firebase_url": "https://fetch-your-pet.firebaseio.com",
+    "project_id": "fetch-your-pet",
+    "storage_bucket": "fetch-your-pet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183004725451:android:0344040377fc8573435b4e",
+        "android_client_info": {
+          "package_name": "com.sigm.fetchyourpet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183004725451-835vbrru04imbfka5o38eg5lkh1rhosn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_wFG-E1e7uAdIKPsWO4HNUI_NJ-BP3I8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183004725451-835vbrru04imbfka5o38eg5lkh1rhosn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
