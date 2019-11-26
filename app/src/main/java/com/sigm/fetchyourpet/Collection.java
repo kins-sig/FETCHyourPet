@@ -3,6 +3,7 @@ package com.sigm.fetchyourpet;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,12 +49,13 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
+        Log.d("test",user);
 
         if (user.equals("adopter")) {
             c = AdopterDashboard.class;
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.adopter_drawer);
-            PotentialAdopter p = new PotentialAdopter().getCurrentAdopter();
+            PotentialAdopter p = PotentialAdopter.currentAdopter;
             Bitmap b = p.getPhoto();
             if (b != null) {
                 image.setImageBitmap(p.getPhoto());
@@ -65,10 +67,23 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 
         } else if (user.equals("rescue")) {
-            c = Dashboard.class;
+            c = RescueDashboard.class;
 
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.rescue_drawer);
+
+
+            Rescue r = Rescue.currentRescue;
+            Bitmap b = r.getPhoto();
+            if (b != null) {
+                image.setImageBitmap(r.getPhoto());
+
+            } else {
+                image.setImageResource(R.drawable.josiefetch);
+            }
+            name.setText(r.getOrganization());
+
+
         } else {
             c = MainActivity.class;
         }
@@ -168,6 +183,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        user=null;
+
         int id = item.getItemId();
         if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", user));

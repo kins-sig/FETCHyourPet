@@ -16,12 +16,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class RescueDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adopter_dashboard);
+        setContentView(R.layout.activity_rescue_dashboard);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Dashboard");
 
@@ -34,15 +34,15 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
-        PotentialAdopter p = PotentialAdopter.currentAdopter;
-        Bitmap b = p.getPhoto();
+        Rescue r = Rescue.currentRescue;
+        Bitmap b = r.getPhoto();
         if (b != null) {
-            image.setImageBitmap(p.getPhoto());
+            image.setImageBitmap(r.getPhoto());
 
         } else {
             image.setImageResource(R.drawable.josiefetch);
         }
-        name.setText(p.getFirstName());
+        name.setText(r.getOrganization());
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,12 +86,12 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         if (id == R.id.take_quiz) {
-            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "rescue"));
 
 
         } else if (id == R.id.browse_all_animals) {
             Intent i = new Intent(this, Collection.class);
-            i.putExtra("user", "adopter");
+            i.putExtra("user", "rescue");
             startActivity(i);
 
 
@@ -110,16 +110,16 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
     public void editProfile(View v) {
 
-        startActivity(new Intent(this, SignUpActivityAdopter.class).putExtra("editProfile", true));
+        startActivity(new Intent(this, SignUpActivityRescue.class).putExtra("editProfile", true));
 
     }
 
-    public void takeQuiz(View v) {
-        startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
+    public void registerDog(View v) {
+       // startActivity(new Intent(this, QuizActivity.class).putExtra("user", "rescue"));
 
     }
 
-    public void viewYourMatches(View v) {
+    public void viewYourDogs(View v) {
 
     }
 

@@ -120,7 +120,6 @@
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
-
                     />
 
                 <TextView
@@ -158,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
+                    android:inputType="number"
                     android:fontFamily="@font/montserrat_semibold"
 
                     />
@@ -184,6 +184,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/passwordLabel"
                     android:text="PASSWORD"
                     android:textSize="18sp"
                     android:fontFamily="@font/montserrat_semibold"
@@ -218,6 +219,7 @@
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"
+
                     />
                 
 
@@ -228,6 +230,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
                     android:onClick="createAccount"
+                    android:id="@+id/createAccount"
 
                     android:text="CREATE ACCOUNT"
                     android:fontFamily="@font/montserrat_semibold"

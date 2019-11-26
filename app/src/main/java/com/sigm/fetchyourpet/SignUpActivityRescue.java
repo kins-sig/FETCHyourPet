@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -33,9 +34,14 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
     private static int GET_FROM_GALLERY = 1;
     EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2;
     String name, street, city, zip, state, email, password, confirmPassword;
+    TextView passwordLabel;
     ImageView picView;
-    Button picButton;
+    Button picButton, createAccount;
+    Boolean edit, uploadedPhoto = false;
+
     Bitmap bitmap = null;
+    Class c = MainActivity.class;
+
 
     public static boolean isValid(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
@@ -57,13 +63,70 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         picView = findViewById(R.id.pic);
         picButton = findViewById(R.id.picButton);
 
+        edit = getIntent().getBooleanExtra("editProfile", false);
+
 //        ActionBar actionBar = getActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("SIGN UP!");
+
+        createAccount = findViewById(R.id.createAccount);
+        picView = findViewById(R.id.pic);
+        nameView = findViewById(R.id.organization);
+        emailView = findViewById(R.id.email);
+        passwordView = findViewById(R.id.password);
+        passwordLabel = findViewById(R.id.passwordLabel);
+        password2 = findViewById(R.id.password2);
+        zipView = findViewById(R.id.zip);
+        streetView = findViewById(R.id.street);
+        stateView = findViewById(R.id.state);
+        cityView = findViewById(R.id.city);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        View hView = navigationView.getHeaderView(0);
+        ImageView image = hView.findViewById(R.id.headerImageView);
+        TextView name = hView.findViewById(R.id.headerTextView);
+        if(edit){
+            c = AdopterDashboard.class;
+            toolbar.setTitle("EDIT PROFILE");
+            createAccount.setText("UPDATE PROFILE");
+
+            Rescue r = Rescue.currentRescue;
+            nameView.setText(r.getOrganization());
+            emailView.setText(r.getEmail());
+            passwordLabel.setText("NEW PASSWORD");
+            zipView.setText(r.getZip());
+            streetView.setText(r.getStreet());
+            stateView.setText(r.getState());
+            cityView.setText(r.getCity());
+            Bitmap b = r.getPhoto();
+            if (b != null) {
+                picView.setImageBitmap(b);
+                image.setImageBitmap(b);
+
+            }
+
+            else {
+                image.setImageResource(R.drawable.josiefetch);
+            }
+            name.setText(r.getOrganization());
+
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.rescue_drawer);
+
+        }
+        else{
+            toolbar.setTitle("SIGN UP!");
+
+        }
+
+
+
+
+
+
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -92,10 +155,12 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class));
+            startActivity(new Intent(this, Collection.class).putExtra("user","rescue"));
 
 
         } else if (id == R.id.home) {
+            startActivity(new Intent(this, c));
+        } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
         }
 
@@ -109,14 +174,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
     public void createAccount(View view) {
         String action = "";
-        nameView = findViewById(R.id.organization);
-        streetView = findViewById(R.id.street);
-        cityView = findViewById(R.id.city);
-        zipView = findViewById(R.id.zip);
-        stateView = findViewById(R.id.state);
-        emailView = findViewById(R.id.email);
-        passwordView = findViewById(R.id.password);
-        password2 = findViewById(R.id.password2);
+
 
         name = nameView.getText().toString().trim();
         if (name.equals("")) {
@@ -153,7 +211,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
         //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
-        if (password.equals("")) {
+        if (password.equals("") && !edit) {
             action = "Please enter a password";
         } else if (!password.equals(password2.getText().toString().trim())) {
             action = "Passwords do not match. Please enter them again.";
@@ -169,8 +227,25 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             t.show();
         } else {
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
-            new Rescue(bitmap, name, street, city, state, Integer.parseInt(zip), email, password);
-            Intent dashboard = new Intent(this, Dashboard.class);
+            if(edit){
+                Rescue r = Rescue.currentRescue;
+                if(uploadedPhoto) {
+                    r.setPhoto(bitmap);
+                }
+                r.setName(name);
+                r.setState(state);
+                r.setStreet(street);
+                r.setZip(Integer.parseInt(zip));
+                r.setEmail(email);
+                r.setCity(city);
+                if(!password.equals("")) {
+                    r.setPassword(password);
+                }
+            }else {
+                Rescue.currentRescue =
+                        new Rescue(bitmap, name, street, city, state, Integer.parseInt(zip), email, password);
+            }
+            Intent dashboard = new Intent(this, RescueDashboard.class);
             startActivity(dashboard);
             finish();
 
@@ -203,6 +278,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                         .load(bitmap)
                         .into(picView);
                 picButton.setText("CHANGE PHOTO");
+                uploadedPhoto = true;
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

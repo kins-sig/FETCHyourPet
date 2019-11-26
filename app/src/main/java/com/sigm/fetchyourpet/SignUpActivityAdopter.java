@@ -39,7 +39,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
     ImageView picView;
     Button picButton, createAccount;
     Bitmap bitmap = null;
-    Boolean edit;
+    Boolean edit,uploadedPhoto = false;
     PotentialAdopter currentAdopter;
     Class c = MainActivity.class;
 
@@ -79,19 +79,17 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
 
             Bitmap b = currentAdopter.getPhoto();
             if (b != null) {
-                picView.setImageBitmap(currentAdopter.getPhoto());
+                picView.setImageBitmap(b);
+                image.setImageBitmap(b);
 
             }
 
-            PotentialAdopter p = new PotentialAdopter().getCurrentAdopter();
-            Bitmap pPhoto = p.getPhoto();
-            if (pPhoto != null) {
-                image.setImageBitmap(p.getPhoto());
-
-            } else {
+             else {
                 image.setImageResource(R.drawable.josiefetch);
             }
-            name.setText(p.getFirstName());
+            name.setText(currentAdopter.getFirstName());
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.adopter_drawer);
 
 
         } else {
@@ -103,11 +101,6 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        if (edit) {
-            navigationView.getMenu().clear();
-            navigationView.inflateMenu(R.menu.adopter_drawer);
-
-        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -227,24 +220,24 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
             t.show();
         } else {
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
-            if (edit) {
-                Bitmap bitmap = ((BitmapDrawable) picView.getDrawable()).getBitmap();
+            //Bitmap bitmap = ((BitmapDrawable) picView.getDrawable()).getBitmap();
 
-                currentAdopter.setBitmap(bitmap);
+            if (edit) {
+                if(uploadedPhoto) {
+                    currentAdopter.setBitmap(bitmap);
+                }
                 currentAdopter.setFirstName(firstName);
                 currentAdopter.setLastname(lastName);
                 currentAdopter.setZip(Integer.parseInt(zip));
                 currentAdopter.setEmail(email);
-                currentAdopter.setPassword(password);
-
-
-            } else {
-                if (!test) {
-                    PotentialAdopter p = new PotentialAdopter(bitmap, firstName, lastName, Integer.parseInt(zip), email, password);
-                    p.setCurrentAdopter(p);
-
+                if(!password.equals("")) {
+                    currentAdopter.setPassword(password);
                 }
 
+
+            }
+            else{
+                PotentialAdopter.currentAdopter = new PotentialAdopter(bitmap,firstName,lastName,Integer.parseInt(zip),email,password);
             }
             Intent dashboard = new Intent(this, AdopterDashboard.class);
             startActivity(dashboard);
@@ -280,6 +273,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
                         .load(bitmap)
                         .into(picView);
                 picButton.setText("CHANGE PHOTO");
+                uploadedPhoto = true;
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

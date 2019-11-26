@@ -48,7 +48,7 @@
 
             android:layout_gravity="center_vertical"
 
-            android:text="Dylan Woodworth"
+            android:text="Sign in!"
             android:textColor="@color/menuItemTextColor" />
 
 

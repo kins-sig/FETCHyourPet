@@ -9,7 +9,7 @@ public class PotentialAdopter {
 
     private static int counter = 0;
     private static ArrayList<PotentialAdopter> adopters = new ArrayList<>();
-    private static PotentialAdopter currentAdopter;
+    public static PotentialAdopter currentAdopter;
     int[] favorite_dog_ids;
     private int adopterID, zip, phone, numDogsRatedSinceLastRefresh;
     private Bitmap photo;
