@@ -22,6 +22,8 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     private List<Dog> dogs;
     private int image;
     private String user;
+    private boolean viewDogs = false;
+
 
 
     public CaptionedImagesAdapter() {
@@ -86,6 +88,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
                 // Instead of sending the position, send the database id in the intent.
                 long id = CaptionedImagesAdapter.this.dogs.get(position).getId();
                 intent.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
+                intent.putExtra("viewDogs",viewDogs);
 
 
                 cardView.getContext().startActivity(intent);
@@ -97,6 +100,10 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         });
 
 
+    }
+
+    public void setViewDogs(boolean viewDogs) {
+        this.viewDogs = viewDogs;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

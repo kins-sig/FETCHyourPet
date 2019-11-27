@@ -224,6 +224,26 @@
                 android:text="Dogs can suffer from a variety of health problems ranging from intestinal parasites, skin disease and ear infections, eye problems, digestive upset and dental disease. Many of these conditions can cause uncomfortable symptoms for our canine companions. ... Other dogs may become infected by ingesting feces of other animals."
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:paddingBottom="8dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Additional Info"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/additionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Loves to go on long walks!"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 />
 
         </LinearLayout>

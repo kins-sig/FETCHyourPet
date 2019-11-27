@@ -30,6 +30,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     LinearLayoutManager layoutManager;
     Class c;
     Boolean fromCollectionEnlarge = false;
+    static boolean viewDogs = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 
         toolbar.setTitle("AVAILABLE PETS");
-
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         if (user == null) {
@@ -49,7 +50,6 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
-        Log.d("test",user);
 
         if (user.equals("adopter")) {
             c = AdopterDashboard.class;
@@ -95,64 +95,77 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
         adapter = new CaptionedImagesAdapter();
         cardRecycler = findViewById(R.id.pet_recycler);
+        if(getIntent().getBooleanExtra("viewDogs",false)){
+            adapter.setDogs(Rescue.currentRescue.dogs);
+            adapter.setViewDogs(true);
+            viewDogs= true;
+            toolbar.setTitle("YOUR DOGS");
+        }
+        else {
+            adapter.setDogs(Dog.dogList);
+        }
 
-        //public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns ){
-
-        ArrayList<Dog> dogs = new ArrayList<>();
-        dogs.add(new Dog("Josie", R.drawable.josiefetch, 3, "Medium", getList("Chill", "loving", "loves treats"), 28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
-        dogs.add(new Dog("Rex", R.drawable.dog1, 1, "Small", getList("Sleeps a lot", "playful", "unconditional love"), 28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Sailor", R.drawable.dog2, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Lil' Shit", R.drawable.dog3, 1, "Small", getList("Is a little shit", "playful", "unconditional love"), 28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Thicky Vicky", R.drawable.dog4, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Queenie", R.drawable.dog5, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Squishy", R.drawable.dog6, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Duke", R.drawable.dog7, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Bogue", R.drawable.dog8, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Walter", R.drawable.dog9, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Mango", R.drawable.dog10, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Lance", R.drawable.golden1, 1, "Small and Floofy", getList("Adorable", "can activate 'Attack Mode' instantly", "will cuddle at night"), 28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
-        dogs.add(new Dog("Diego", R.drawable.golden2, 1, "Smol and Handsome", getList("Might actually steal your girl", "will attract many hot chicks", "won best dressed in 2019"), 28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
-        dogs.add(new Dog("Richie", R.drawable.pug1, 1, "Very smol", getList("Will always put a smile on your face", "you may cry just from looking at him", "will get you a lot of social media clout"), 27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
-        dogs.add(new Dog("Georgie", R.drawable.pug2, 1, "Very smol", getList("Is a pug", "looks derpy sometimes", "goofball"), 27502, "Pug", "Snug as a bug", "Healthy little guy"));
-        dogs.add(new Dog("Josie", R.drawable.josiefetch, 3, "Medium", getList("Chill", "loving", "loves treats"), 28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
-        dogs.add(new Dog("Rex", R.drawable.dog1, 1, "Small", getList("Sleeps a lot", "playful", "unconditional love"), 28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Sailor", R.drawable.dog2, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Lil' Shit", R.drawable.dog3, 1, "Small", getList("Is a little shit", "playful", "unconditional love"), 28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Thicky Vicky", R.drawable.dog4, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Queenie", R.drawable.dog5, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Squishy", R.drawable.dog6, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Duke", R.drawable.dog7, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Bogue", R.drawable.dog8, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Walter", R.drawable.dog9, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Mango", R.drawable.dog10, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
-        dogs.add(new Dog("Lance", R.drawable.golden1, 1, "Small and Floofy", getList("Adorable", "can activate 'Attack Mode' instantly", "will cuddle at night"), 28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
-        dogs.add(new Dog("Diego", R.drawable.golden2, 1, "Smol and Handsome", getList("Might actually steal your girl", "will attract many hot chicks", "won best dressed in 2019"), 28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
-        dogs.add(new Dog("Richie", R.drawable.pug1, 1, "Very smol", getList("Will always put a smile on your face", "you may cry just from looking at him", "will get you a lot of social media clout"), 27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
-        dogs.add(new Dog("Georgie", R.drawable.pug2, 1, "Very smol", getList("Is a pug", "looks derpy sometimes", "goofball"), 27502, "Pug", "Snug as a bug", "Healthy little guy"));
-
-
-        adapter.setDogs(dogs);
-        CollectionEnlarge.setDogList(dogs);
         layoutManager = new GridLayoutManager(this, 3);
         cardRecycler.setLayoutManager(layoutManager);
         cardRecycler.setAdapter(adapter);
         adapter.setUser(user);
+
         adapter.notifyDataSetChanged();
 
 
+
+        //public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns ){
+
+//        ArrayList<Dog> dogs = new ArrayList<>();
+//        dogs.add(new Dog("Josie", R.drawable.josiefetch, 3, "Medium", getList("Chill", "loving", "loves treats"), 28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
+//        dogs.add(new Dog("Rex", R.drawable.dog1, 1, "Small", getList("Sleeps a lot", "playful", "unconditional love"), 28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Sailor", R.drawable.dog2, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Lil' Shit", R.drawable.dog3, 1, "Small", getList("Is a little shit", "playful", "unconditional love"), 28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Thicky Vicky", R.drawable.dog4, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Queenie", R.drawable.dog5, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Squishy", R.drawable.dog6, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Duke", R.drawable.dog7, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Bogue", R.drawable.dog8, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Walter", R.drawable.dog9, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Mango", R.drawable.dog10, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Lance", R.drawable.golden1, 1, "Small and Floofy", getList("Adorable", "can activate 'Attack Mode' instantly", "will cuddle at night"), 28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
+//        dogs.add(new Dog("Diego", R.drawable.golden2, 1, "Smol and Handsome", getList("Might actually steal your girl", "will attract many hot chicks", "won best dressed in 2019"), 28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
+//        dogs.add(new Dog("Richie", R.drawable.pug1, 1, "Very smol", getList("Will always put a smile on your face", "you may cry just from looking at him", "will get you a lot of social media clout"), 27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
+//        dogs.add(new Dog("Georgie", R.drawable.pug2, 1, "Very smol", getList("Is a pug", "looks derpy sometimes", "goofball"), 27502, "Pug", "Snug as a bug", "Healthy little guy"));
+//        dogs.add(new Dog("Josie", R.drawable.josiefetch, 3, "Medium", getList("Chill", "loving", "loves treats"), 28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
+//        dogs.add(new Dog("Rex", R.drawable.dog1, 1, "Small", getList("Sleeps a lot", "playful", "unconditional love"), 28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Sailor", R.drawable.dog2, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Lil' Shit", R.drawable.dog3, 1, "Small", getList("Is a little shit", "playful", "unconditional love"), 28465, "Yapper", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Thicky Vicky", R.drawable.dog4, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Queenie", R.drawable.dog5, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Squishy", R.drawable.dog6, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Duke", R.drawable.dog7, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Bogue", R.drawable.dog8, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Walter", R.drawable.dog9, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Mango", R.drawable.dog10, 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
+//        dogs.add(new Dog("Lance", R.drawable.golden1, 1, "Small and Floofy", getList("Adorable", "can activate 'Attack Mode' instantly", "will cuddle at night"), 28570, "Golden Retriever", "He's a healthy little guy!", "May actually love you too much and never leave your side. You've been warned."));
+//        dogs.add(new Dog("Diego", R.drawable.golden2, 1, "Smol and Handsome", getList("Might actually steal your girl", "will attract many hot chicks", "won best dressed in 2019"), 28570, "Golden Retriever", "He's a healthy little guy!", "This little guy gets around a lot. All I'm gonna say."));
+//        dogs.add(new Dog("Richie", R.drawable.pug1, 1, "Very smol", getList("Will always put a smile on your face", "you may cry just from looking at him", "will get you a lot of social media clout"), 27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
+//        dogs.add(new Dog("Georgie", R.drawable.pug2, 1, "Very smol", getList("Is a pug", "looks derpy sometimes", "goofball"), 27502, "Pug", "Snug as a bug", "Healthy little guy"));
+//
+
+
+
     }
 
-    public ArrayList<String> getList(String a, String b, String c) {
-        ArrayList<String> traits = new ArrayList<String>();
 
-        // Initialize an ArrayList with add()
-        traits.add(a);
-        traits.add(b);
-        traits.add(c);
-        return traits;
-
-    }
-
+//    @Override
+//    protected void onResume() {
+//        if(viewDogs){
+//            adapter.setDogs(Rescue.currentRescue.dogs);
+//
+//            adapter.notifyDataSetChanged();
+//
+//        }
+//
+//
+//        super.onResume();
+//    }
 
     @Override
     public void onBackPressed() {
@@ -193,6 +206,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
+            if(viewDogs){
+                startActivity(new Intent(this, Collection.class).putExtra("user","rescue").putExtra("viewDogs",false));
+            }
             //startActivity(new Intent(this, Collection.class));
 
 
@@ -204,13 +220,29 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         }
         else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
+        }  else if (id == R.id.view_dogs) {
+            if(!viewDogs) {
+                startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
+            }
         }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        if(id!= R.id.view_dogs) {
+            viewDogs = false;
+        }
         return true;
     }
+    public ArrayList<String> getList(String a, String b, String c) {
+        ArrayList<String> traits = new ArrayList<String>();
 
+        // Initialize an ArrayList with add()
+        traits.add(a);
+        traits.add(b);
+        traits.add(c);
+        return traits;
+
+    }
 
 }

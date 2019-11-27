@@ -52,7 +52,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
             navigationView.inflateMenu(R.menu.adopter_drawer);
 
 
-            PotentialAdopter p = new PotentialAdopter().getCurrentAdopter();
+            PotentialAdopter p = PotentialAdopter.currentAdopter;
             Bitmap b = p.getPhoto();
             if (b != null) {
                 image.setImageBitmap(p.getPhoto());
@@ -62,10 +62,20 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
             }
             name.setText(p.getFirstName());
         } else if (type.equals("rescue")) {
-            c = Dashboard.class;
+            c = RescueDashboard.class;
 
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.rescue_drawer);
+
+            Rescue r = Rescue.currentRescue;
+            Bitmap b = r.getPhoto();
+            if (b != null) {
+                image.setImageBitmap(r.getPhoto());
+
+            } else {
+                image.setImageResource(R.drawable.josiefetch);
+            }
+            name.setText(r.getOrganization());
         }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

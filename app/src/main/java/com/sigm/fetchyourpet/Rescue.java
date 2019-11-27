@@ -3,6 +3,7 @@ package com.sigm.fetchyourpet;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Rescue {
 
@@ -18,6 +19,8 @@ public class Rescue {
     private String name, street, city, state, email, password;
     private Bitmap photo;
     public static Rescue currentRescue;
+    public List<Dog> dogs = new ArrayList<>();
+
 
 
     public Rescue(Bitmap b, String name, String street, String city, String state, int zip, String email, String password) {

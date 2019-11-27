@@ -11,51 +11,109 @@ package com.sigm.fetchyourpet;
 // INT num_times_clicked
 
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dog {
     static int counter = 0; //in the future, we can just have the database autoassign an id
-    static List<Dog> dogList;
+    public static List<Dog> dogList = new ArrayList<>();
+    String additionalInfo,name, vaccinationStatus,healthConcerns, breed,size = "Unknown",age,rescueID,sex;
     int id;
-    String name;
     Double weight;
     int[] images;
     int image;
+    Bitmap bitmapImage;
     int zip;
-    String vaccinationStatus;
-    String healthConcerns;
-    Double approx_age; //have the rescue enter "-1" if unknown
-    String breed;
-    String size;
-    int age;
+
     Double[] traits;
     ArrayList<String> traitsText;
     int numTimesClicked = 0;
+    public static Dog currentDog;
+
+    public static Context c;
+
 
     public Dog() {
-
     }
 
-    public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns) {
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setVaccinationStatus(String vaccinationStatus) {
+        this.vaccinationStatus = vaccinationStatus;
+    }
+
+    public void setHealthConcerns(String healthConcerns) {
+        this.healthConcerns = healthConcerns;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setBitmapImage(Bitmap bitmapImage) {
+        this.bitmapImage = bitmapImage;
+    }
+
+    public Dog(String name, Bitmap image, String breed, String vaccinationStatus, String healthConcerns, String sex, String age, String additionalInfo) {
         this.id = counter;
         counter++;
         this.name = name;
+        this.bitmapImage = image;
+        this.breed = breed;
+        this.vaccinationStatus = vaccinationStatus;
+        this.healthConcerns = healthConcerns;
+        this.dogList.add(this);
+        this.sex = sex;
         this.age = age;
+        this.additionalInfo = additionalInfo;
+
+
+
+    }
+
+    public Dog(String name, Bitmap image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns) {
+        this.id = counter;
+        counter++;
+        this.name = name;
+        this.age = Integer.toString(age);
         this.size = size;
-        this.image = image;
+        this.bitmapImage = image;
         this.traitsText = traits;
         this.zip = zip;
         this.breed = breed;
         this.vaccinationStatus = vaccinationStatus;
         this.healthConcerns = healthConcerns;
+
+
         //dogList.add(this);
 
 
     }
 
-    public int getImage() {
-        return this.image;
+    public Bitmap getImage() {
+        return this.bitmapImage;
     }
 
     public int getId() {
@@ -72,14 +130,17 @@ public class Dog {
 
     public String getTraits() {
         String s = "";
-        for (String t : traitsText) {
-            if (s != "") {
-                s = s + ", " + t;
-            } else {
-                s += t;
+        if(traitsText != null) {
+            for (String t : traitsText) {
+                if (s != "") {
+                    s = s + ", " + t;
+                } else {
+                    s += t;
+                }
             }
+            return s;
         }
-        return s;
+        return "";
     }
 
     public int getLocation() {
@@ -99,13 +160,17 @@ public class Dog {
         return this.healthConcerns;
     }
 
-    public String getAgeString() {
-        return Integer.toString(age);
+    public String getAge() {
+        return age;
     }
 
     public String getSize() {
         return this.size;
     }
-
-
+    public String getAdditionalInfo() {
+        return this.additionalInfo;
+    }
+    public String getSex() {
+        return this.sex;
+    }
 }

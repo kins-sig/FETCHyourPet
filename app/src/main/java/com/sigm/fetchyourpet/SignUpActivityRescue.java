@@ -84,8 +84,22 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
+
+
+        boolean test = true;
+
+        if(test){
+            nameView.setText("Paws Place");
+            emailView.setText("woofwoofbarkbark@dogsville.com");
+            zipView.setText("28403");
+            streetView.setText("Bark Street");
+            stateView.setText("North Caroline");
+            cityView.setText("Barksville");
+            passwordView.setText("Hi");
+            password2.setText("Hi");
+        }
         if(edit){
-            c = AdopterDashboard.class;
+            c = RescueDashboard.class;
             toolbar.setTitle("EDIT PROFILE");
             createAccount.setText("UPDATE PROFILE");
 
@@ -162,6 +176,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             startActivity(new Intent(this, c));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
+        }
+        else if (id == R.id.view_dogs) {
+            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
         }
 
 

@@ -100,6 +100,9 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
         }
+        else if (id == R.id.view_dogs) {
+            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -115,11 +118,13 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
     }
 
     public void registerDog(View v) {
-       // startActivity(new Intent(this, QuizActivity.class).putExtra("user", "rescue"));
+       startActivity(new Intent(this, AddDog.class));
 
     }
 
     public void viewYourDogs(View v) {
+        startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+
 
     }
 

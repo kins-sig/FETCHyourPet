@@ -2,6 +2,8 @@ package com.sigm.fetchyourpet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,16 +14,13 @@ import java.util.ArrayList;
 
 public class CollectionEnlarge extends AppCompatActivity {
     public static final String EXTRA_DOG_ID = "id";
-    public static ArrayList<Dog> dogs;
-    TextView traits, location, breed, vaccinationStatus, healthConcers, name, age, size;
+    TextView traits, location, breed, vaccinationStatus, healthConcers, name, age, size, additionalInfo;
     ImageView pic;
     String user;
+    Menu menu;
+    MenuItem menuItem;
 
-    public static void setDogList(ArrayList<Dog> dogs2) {
-        dogs = dogs2;
 
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class CollectionEnlarge extends AppCompatActivity {
         age = findViewById(R.id.age);
         size = findViewById(R.id.size);
         pic = findViewById(R.id.dogPic);
+        additionalInfo = findViewById(R.id.additionalInfo);
 
         user = getIntent().getStringExtra("user");
 
@@ -47,14 +47,26 @@ public class CollectionEnlarge extends AppCompatActivity {
         //but, for the time being, we will simply retrieve the list of dogs and search through
         //until we find the dog with the correct id.
         long dogID = getIntent().getLongExtra(EXTRA_DOG_ID, -1);
-        Dog fakeDog = new Dog();
+        Dog dog;
 
-        for (Dog d : dogs) {
+        for (Dog d : Dog.dogList) {
             if (d.getId() == dogID) {
-                fakeDog = d;
+                dog = d;
+                Dog.currentDog = d;
+                pic.setImageBitmap(dog.getImage());
+                traits.setText(dog.getTraits());
+                location.setText(Integer.toString(dog.getLocation()));
+                breed.setText(dog.getBreed());
+                vaccinationStatus.setText(dog.getVaccStatus());
+                healthConcers.setText(dog.getHealthConcerns());
+                name.setText(dog.getName());
+                age.setText("Age: " + dog.getAge());
+                size.setText("Size: " + dog.getSize());
+                additionalInfo.setText(dog.getAdditionalInfo());
+                break;
+
             }
         }
-        pic.setImageResource(fakeDog.getImage());
 
 //        Glide
 //                .with(this)
@@ -62,17 +74,28 @@ public class CollectionEnlarge extends AppCompatActivity {
 //                .into(pic);
 
 
-        traits.setText(fakeDog.getTraits());
-        location.setText(Integer.toString(fakeDog.getLocation()));
-        breed.setText(fakeDog.getBreed());
-        vaccinationStatus.setText(fakeDog.getVaccStatus());
-        healthConcers.setText(fakeDog.getHealthConcerns());
-        name.setText(fakeDog.getName());
-        age.setText("Age: " + fakeDog.getAgeString());
-        size.setText("Size: " + fakeDog.getSize());
+
 
 
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.edit) {
+            startActivity(new Intent(this, AddDog.class).putExtra("edit",true));
+        }
+
+        //noinspection SimplifiableIfStatement
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -83,5 +106,20 @@ public class CollectionEnlarge extends AppCompatActivity {
 
 
         super.onBackPressed();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(getIntent().getBooleanExtra("viewDogs",false)){
+            getMenuInflater().inflate(R.menu.edit_dog_menu, menu);
+//            this.menu = menu;
+//            this.menuItem = menu.findItem(R.id.edit);
+//
+        }
+
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
