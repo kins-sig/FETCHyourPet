@@ -28,6 +28,7 @@ public class Dog {
     int image;
     Bitmap bitmapImage;
     int zip;
+    public Rescue r;
 
     Double[] traits;
     ArrayList<String> traitsText;

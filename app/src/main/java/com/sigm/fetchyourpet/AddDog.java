@@ -245,10 +245,12 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 d.setAge(age);
 
             } else {
+                Rescue r = Rescue.currentRescue;
                 Dog d =
                         new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age,additionalInfo);
                 Dog.currentDog = d;
-                Rescue.currentRescue.dogs.add(d);
+                Dog.currentDog.r = r;
+                r.dogs.add(d);
             }
             //Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");
             Intent dashboard = new Intent(this, RescueDashboard.class);

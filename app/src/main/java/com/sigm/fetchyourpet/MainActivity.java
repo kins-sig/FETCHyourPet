@@ -127,44 +127,7 @@ public class MainActivity extends AppCompatActivity
 
 
         startActivity(new Intent(this, SignUpAccountType.class));
-        //    startActivity(new Intent(this, AdopterDashboard.class));
 
-//        Thread thread = new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    DbxRequestConfig config;
-//                    config = new DbxRequestConfig("dropbox/FETCH!yourPet");
-//                    DbxClientV2 client;
-//                    client = new DbxClientV2(config, ACCESS_TOKEN);
-//                    FullAccount account;
-//                    DbxUserUsersRequests r1 = client.users();
-//                    account = r1.getCurrentAccount();
-//                    System.out.println(account.getName().getDisplayName());
-//
-//                    // Get files and folder metadata from Dropbox root directory
-//                    ListFolderResult result = client.files().listFolder("");
-//                    while (true) {
-//                        for (Metadata metadata : result.getEntries()) {
-//                            System.out.println(metadata.getPathLower());
-//                        }
-//
-//                        if (!result.getHasMore()) {
-//                            break;
-//                        }
-//
-//                        result = client.files().listFolderContinue(result.getCursor());
-//                    }
-//
-//                } catch (DbxException ex1) {
-//                    ex1.printStackTrace();
-//                }
-//
-//
-//            }
-//        };
-//        thread.start();
     }
 
     public void addDogs(){

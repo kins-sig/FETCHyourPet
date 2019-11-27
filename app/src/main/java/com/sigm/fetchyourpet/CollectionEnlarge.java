@@ -55,7 +55,14 @@ public class CollectionEnlarge extends AppCompatActivity {
                 Dog.currentDog = d;
                 pic.setImageBitmap(dog.getImage());
                 traits.setText(dog.getTraits());
-                location.setText(Integer.toString(dog.getLocation()));
+                String locationText = Integer.toString(dog.getLocation());
+                if(locationText.equals("0")){
+                    location.setText(dog.r.getZip());
+
+                }
+                else {
+                    location.setText(Integer.toString(dog.getLocation()));
+                }
                 breed.setText(dog.getBreed());
                 vaccinationStatus.setText(dog.getVaccStatus());
                 healthConcers.setText(dog.getHealthConcerns());

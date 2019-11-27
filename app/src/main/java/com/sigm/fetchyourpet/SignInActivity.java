@@ -35,8 +35,8 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void onClickSignIn(View view) {
-        Intent dashboard = new Intent(this, Dashboard.class);
-        startActivity(dashboard);
+//        Intent dashboard = new Intent(this, Dashboard.class);
+//        startActivity(dashboard);
     }
 
 
