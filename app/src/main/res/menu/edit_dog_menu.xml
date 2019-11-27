@@ -6,6 +6,7 @@
         android:id="@+id/edit"
         android:orderInCategory="1"
         android:title="Edit\t"
+        
         app:showAsAction="always" />
 
 </menu>

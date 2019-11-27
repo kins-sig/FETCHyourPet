@@ -39,7 +39,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     EditText nameView, additionalView, healthConcernsView, breedView, vaccinationView;
     Spinner sexView,ageView;
     Boolean edit;
-    Boolean uploadedPhoto;
+    Boolean uploadedPhoto = false;
     String name, healthConcerns, additionalInfo, vaccinationStatus, breed,sex,age;
     Dog d;
     @Override

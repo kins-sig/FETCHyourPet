@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         if(firstRun){
             addDogs();
+            firstRun=false;
         }
         Dog.c = this;
 
