@@ -19,7 +19,7 @@ public class Rescue {
     private static ArrayList<Rescue> rescues = new ArrayList<>();
     private int rescueID;
     private String organization, street, city, state, email, username,image,zip;
-    private Bitmap photo;
+    private Bitmap photo = null;
     public static Rescue currentRescue;
     public List<Dog> dogs = new ArrayList<>();
     private StorageReference imageStorageReference;

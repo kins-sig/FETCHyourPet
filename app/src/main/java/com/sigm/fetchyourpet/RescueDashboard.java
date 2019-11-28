@@ -40,13 +40,22 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         TextView name = hView.findViewById(R.id.headerTextView);
         Rescue r = Rescue.currentRescue;
 
-       // Bitmap b = r.getPhoto();
-        Glide.with(this)
-                // .using(new FirebaseImageLoader())
-                .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
-                .into(image);
+        Bitmap b = r.getPhoto();
+        if(b == null) {
 
 
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
+                    .into(image);
+
+        }
+        else{
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(b)
+                    .into(image);
+        }
         name.setText(r.getOrganization());
 
 
