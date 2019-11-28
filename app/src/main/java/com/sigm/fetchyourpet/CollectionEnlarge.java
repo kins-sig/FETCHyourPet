@@ -192,7 +192,7 @@ public class CollectionEnlarge extends AppCompatActivity {
             weight="25-49 lbs";
         }
         else if(size.equals("Size: Small")){
-            weight ="0-24 lbs";
+            weight ="< 24 lbs";
         }
         weightView.setText(weight);
     }
