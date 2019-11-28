@@ -29,7 +29,6 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
     Class c;
-    Boolean fromCollectionEnlarge = false;
     static boolean viewDogs = false;
 
     @Override

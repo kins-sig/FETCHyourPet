@@ -3,6 +3,7 @@ package com.sigm.fetchyourpet;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class RescueDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,13 +39,14 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
         Rescue r = Rescue.currentRescue;
-        Bitmap b = r.getPhoto();
-        if (b != null) {
-            image.setImageBitmap(r.getPhoto());
 
-        } else {
-            image.setImageResource(R.drawable.josiefetch);
-        }
+       // Bitmap b = r.getPhoto();
+        Glide.with(this)
+                // .using(new FirebaseImageLoader())
+                .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
+                .into(image);
+
+
         name.setText(r.getOrganization());
 
 

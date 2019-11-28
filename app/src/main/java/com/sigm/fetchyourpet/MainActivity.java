@@ -1,12 +1,15 @@
 package com.sigm.fetchyourpet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,17 +18,33 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 // ...
 // When the user selects an option to see the licenses:
+
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     private static final String ACCESS_TOKEN = "zQ0PTVsAoiAAAAAAAAAAGBBC3SX0o2N1bk2odWZjy5iRyN9DoFuWE-hB1u82jYHW";
     static boolean firstRun = true;
     static FirebaseFirestore firestore;
+    static StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +61,33 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("FETCH! YOUR PET");
         setSupportActionBar(toolbar);
-        Log.d("test", "Hi!!!");
+        final ImageView testImage = findViewById(R.id.image);
 
         firestore = FirebaseFirestore.getInstance();
-        firestore.collection("dog")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("test", document.getId() + " => " + document.getData());
+        storageReference = FirebaseStorage.getInstance().getReference();
+        if(firstRun) {
+            //addDogs();
+            firstRun = false;
+
+            firestore.collection("dog")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Dog d;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    d = document.toObject(Dog.class);
+                                    Dog.dogList.add(d);
+                                    d.imageStorageReference = storageReference.child(d.image);
+                                    d.id = document.getId();
+                                }
+                            } else {
+                                Log.d("test", "Error getting documents.", task.getException());
                             }
-                        } else {
-                            Log.w("test", "Error getting documents.", task.getException());
                         }
-                    }
-                });
+                    });
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -68,10 +98,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        if(firstRun){
-            addDogs();
-            firstRun=false;
-        }
+
         Dog.c = this;
 
 

@@ -99,32 +99,6 @@
             </LinearLayout>
 
 
-
-
-
-            <TextView
-                android:layout_marginTop="8dp"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:text="Top traits:"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:id="@+id/topTraits"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:text="Chill, loving, loves treats, loves walks"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="8dp"
-
-                />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

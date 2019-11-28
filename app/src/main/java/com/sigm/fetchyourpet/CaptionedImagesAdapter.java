@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 
 import java.util.List;
 
@@ -71,11 +72,10 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
         tv.setText(d.getName());
 
-        Glide
-                .with(holder.cardView.getContext())
-                .load(d.getImage())
+        Glide.with(holder.cardView.getContext())
+               // .using(new FirebaseImageLoader())
+                .load(d.imageStorageReference)
                 .into((ImageView) holder.cardView.findViewById(R.id.cardView));
-
 
         final CardView cardView = holder.cardView;
 
@@ -86,7 +86,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
                 Intent intent = new Intent(cardView.getContext(), CollectionEnlarge.class);
 
                 // Instead of sending the position, send the database id in the intent.
-                long id = CaptionedImagesAdapter.this.dogs.get(position).getId();
+                String id = CaptionedImagesAdapter.this.dogs.get(position).getId();
                 intent.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
                 intent.putExtra("viewDogs",viewDogs);
 

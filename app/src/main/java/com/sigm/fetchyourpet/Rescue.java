@@ -2,6 +2,8 @@ package com.sigm.fetchyourpet;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,38 +17,45 @@ public class Rescue {
     // String Email
     private static int counter = 0;
     private static ArrayList<Rescue> rescues = new ArrayList<>();
-    private int rescueID, zip;
-    private String name, street, city, state, email, password;
+    private int rescueID;
+    private String organization, street, city, state, email, username,image,zip;
     private Bitmap photo;
     public static Rescue currentRescue;
     public List<Dog> dogs = new ArrayList<>();
+    private StorageReference imageStorageReference;
 
 
 
-    public Rescue(Bitmap b, String name, String street, String city, String state, int zip, String email, String password) {
+    public Rescue(Bitmap b, String name, String street, String city, String state, String zip, String email, String path) {
         rescueID = counter;
         counter++;
         this.photo = b;
-        this.name = name;
+        this.organization = name;
         this.street = street;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.email = email;
-        this.password = password;
+        this.image=path;
 
         rescues.add(this);
     }
     public Rescue(){
 
     }
+    public String getImage(){
+        return this.image;
+    }
+    public void setImage(String s){
+        this.image=s;
+    }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrganization(String name) {
+        this.organization = name;
     }
 
     public void setStreet(String street) {
@@ -65,9 +74,6 @@ public class Rescue {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
@@ -77,7 +83,7 @@ public class Rescue {
         return photo;
     }
     public String getOrganization(){
-        return name;
+        return this.organization;
     }
 
     //            emailView.setText(r.getEmail());
@@ -100,6 +106,22 @@ public class Rescue {
         return state;
     }
     public String getZip(){
-        return Integer.toString(this.zip);
+        return (this.zip);
+    }
+
+    public StorageReference getImageStorageReference() {
+        return imageStorageReference;
+    }
+
+    public void setImageStorageReference(StorageReference imageStorageReference) {
+        this.imageStorageReference = imageStorageReference;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

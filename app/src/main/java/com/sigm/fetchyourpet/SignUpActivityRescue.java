@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,21 +24,30 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class SignUpActivityRescue extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static int GET_FROM_GALLERY = 1;
-    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2;
-    String name, street, city, zip, state, email, password, confirmPassword;
+    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2,usernameView;
+    String name, street, city, zip, state, email, password, confirmPassword,username;
     TextView passwordLabel;
     ImageView picView;
     Button picButton, createAccount;
     Boolean edit, uploadedPhoto = false;
+    Uri selectedImage;
 
     Bitmap bitmap = null;
     Class c = MainActivity.class;
@@ -79,6 +89,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         streetView = findViewById(R.id.street);
         stateView = findViewById(R.id.state);
         cityView = findViewById(R.id.city);
+        usernameView = findViewById(R.id.username);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View hView = navigationView.getHeaderView(0);
@@ -102,7 +113,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             c = RescueDashboard.class;
             toolbar.setTitle("EDIT PROFILE");
             createAccount.setText("UPDATE PROFILE");
-
+            usernameView.setEnabled(false);
             Rescue r = Rescue.currentRescue;
             nameView.setText(r.getOrganization());
             emailView.setText(r.getEmail());
@@ -192,24 +203,28 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
     public void createAccount(View view) {
         String action = "";
 
+        if(bitmap == null){
+            action = "Please select a photo.\n";
+        }
+
 
         name = nameView.getText().toString().trim();
         if (name.equals("")) {
-            action = "Please enter your organization's name.";
+            action += "Please enter your organization's name.\n";
         }
         street = streetView.getText().toString().trim();
         if (street.equals("")) {
-            action = "Please enter the street address of your organization.";
+            action += "Please enter the street address of your organization.\n";
         }
         city = cityView.getText().toString().trim();
         if (city.equals("")) {
-            action = "Please enter the city in which your organization is located.";
+            action += "Please enter the city in which your organization is located.\n";
         }
         zip = zipView.getText().toString().trim();
 
         state = stateView.getText().toString().trim();
         if (state.equals("")) {
-            action = "Please enter the state in which your organization is located.";
+            action += "Please enter the state in which your organization is located.\n";
         }
         email = emailView.getText().toString().trim();
         //here, we will say:
@@ -218,27 +233,30 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         //  action="An account already exists with this email!"
         //}
         if (!isValid(email)) {
-            action = "The email address entered is not in a valid format.";
+            action += "The email address entered is not in a valid format.\n";
         }
         if (!zip.matches("[0-9]+") | zip.length() < 5) {
-            action = "Zip code is invalid! Be sure to enter only numbers.";
+            action += "Zip code is invalid! Be sure to enter only numbers.\n";
 
         }
-
+        username = usernameView.getText().toString().trim();
+        if (username.equals("")) {
+            action += "Please enter a username.\n";
+        }
 
         //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
         if (password.equals("") && !edit) {
-            action = "Please enter a password";
+            action += "Please enter a password\n";
         } else if (!password.equals(password2.getText().toString().trim())) {
-            action = "Passwords do not match. Please enter them again.";
+            action += "Passwords do not match. Please enter them again.\n";
             passwordView.setText("");
             password2.setText("");
         }
 
 
         if (!action.equals("")) {
-            Toast t = Toast.makeText(this, action,
+            Toast t = Toast.makeText(this, action.trim(),
                     Toast.LENGTH_SHORT);
             t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
             t.show();
@@ -249,24 +267,81 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 if(uploadedPhoto) {
                     r.setPhoto(bitmap);
                 }
-                r.setName(name);
+                r.setOrganization(name);
                 r.setState(state);
                 r.setStreet(street);
-                r.setZip(Integer.parseInt(zip));
+                r.setZip(zip);
                 r.setEmail(email);
                 r.setCity(city);
-                if(!password.equals("")) {
-                    r.setPassword(password);
-                }
+
+//                if(!password.equals("")) {
+//                    r.setPassword(password);
+//                }
             }else {
+                String path = addPhotoToFirebase();
+              //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
+
+                Map<String, Object> newRescue = new HashMap<>();
+                newRescue.put("city", city);
+                newRescue.put("email", email);
+                newRescue.put("organization", name);
+                newRescue.put("state", state);
+                newRescue.put("street", street);
+                newRescue.put("username", username);
+                newRescue.put("zip", zip);
+                newRescue.put("image",path);
+
+                MainActivity.firestore.collection("rescue").document()
+                        .set(newRescue);
+
+
+                Map<String, Object> newAccount = new HashMap<>();
+                newAccount.put("username", username);
+                newAccount.put("password", Account.getMD5(password));
+                newAccount.put("isAdopter", false);
+
+
+                MainActivity.firestore.collection("account").document()
+                        .set(newAccount);
+
+
                 Rescue.currentRescue =
-                        new Rescue(bitmap, name, street, city, state, Integer.parseInt(zip), email, password);
+                        new Rescue(bitmap, name, street, city, state, zip, email,path);
             }
             Intent dashboard = new Intent(this, RescueDashboard.class);
             startActivity(dashboard);
             finish();
 
         }
+
+
+    }
+
+    public String addPhotoToFirebase(){
+
+        if(selectedImage != null)
+        {
+
+            String path = "img/rescues/"+ UUID.randomUUID().toString();
+            StorageReference reference = MainActivity.storageReference.child(path);
+            reference.putFile(selectedImage)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+            Log.d("test",reference.toString());
+
+                    return path;
+        }
+        return null;
 
 
     }
@@ -286,11 +361,12 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
         //Detects request codes
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
+            selectedImage = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 
                 Glide
+
                         .with(this)
                         .load(bitmap)
                         .into(picView);

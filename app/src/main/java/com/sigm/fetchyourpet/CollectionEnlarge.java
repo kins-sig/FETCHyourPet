@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+
 import java.util.ArrayList;
 
 public class CollectionEnlarge extends AppCompatActivity {
@@ -29,7 +32,6 @@ public class CollectionEnlarge extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        traits = findViewById(R.id.topTraits);
         location = findViewById(R.id.location);
         breed = findViewById(R.id.breed);
         vaccinationStatus = findViewById(R.id.vaccination);
@@ -46,23 +48,25 @@ public class CollectionEnlarge extends AppCompatActivity {
         //here is where we would grab the Dog in the database that has the same ID has EXTRA_DOG_ID.
         //but, for the time being, we will simply retrieve the list of dogs and search through
         //until we find the dog with the correct id.
-        long dogID = getIntent().getLongExtra(EXTRA_DOG_ID, -1);
+        String dogID = getIntent().getStringExtra(EXTRA_DOG_ID);
         Dog dog;
 
         for (Dog d : Dog.dogList) {
-            if (d.getId() == dogID) {
+            if (d.getId().equals(dogID)) {
                 dog = d;
                 Dog.currentDog = d;
-                pic.setImageBitmap(dog.getImage());
-                traits.setText(dog.getTraits());
-                String locationText = Integer.toString(dog.getLocation());
-                if(locationText.equals("0")){
-                    location.setText(dog.r.getZip());
 
-                }
-                else {
-                    location.setText(Integer.toString(dog.getLocation()));
-                }
+                Glide.with(this)
+                        //.using(new FirebaseImageLoader())
+                        .load(d.imageStorageReference)
+                        .into(pic);
+
+
+
+                pic.setImageBitmap(dog.getImage());
+
+                String locationText = Integer.toString(dog.getLocation());
+
                 breed.setText(dog.getBreed());
                 vaccinationStatus.setText(dog.getVaccStatus());
                 healthConcers.setText(dog.getHealthConcerns());

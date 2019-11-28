@@ -1,45 +1,26 @@
 package com.sigm.fetchyourpet;
-// INT Animal ID
-// String Name
-// Double weight
-// Image(s)
-// String Vaccination status
-// String health conditions/concerns
-// Double approx_age
-// String breed (if known)
-// Double [] [traits vector]
-// INT num_times_clicked
-
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
+import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dog {
-    static int counter = 0; //in the future, we can just have the database autoassign an id
     public static List<Dog> dogList = new ArrayList<>();
-    String additionalInfo,name, vaccinationStatus,healthConcerns, breed,size = "Unknown",age,rescueID,sex;
-    int id;
-    Double weight;
-    int[] images;
-    int image;
-    Bitmap bitmapImage;
+
+    String additionalInfo,name, vaccinationStatus,healthConcerns, breed,size = "Unknown",age,rescueID,sex,image,traits, imageURL, id;
+    StorageReference imageStorageReference;
     int zip;
+    Bitmap bitmapImage;
     public Rescue r;
 
-    Double[] traits;
-    ArrayList<String> traitsText;
 
-    int numTimesClicked = 0;
+    ArrayList<String> traitsText;
     public static Dog currentDog;
 
     public static Context c;
 
 
-    //we will have have an integer array of dog traits and also a string array of dog traits.
 
     public Dog() {
     }
@@ -64,9 +45,6 @@ public class Dog {
         this.breed = breed;
     }
 
-    public void setSize(String size) {
-        this.size = size;
-    }
 
     public void setAge(String age) {
         this.age = age;
@@ -81,8 +59,6 @@ public class Dog {
     }
 
     public Dog(String name, Bitmap image, String breed, String vaccinationStatus, String healthConcerns, String sex, String age, String additionalInfo) {
-        this.id = counter;
-        counter++;
         this.name = name;
         this.bitmapImage = image;
         this.breed = breed;
@@ -98,8 +74,6 @@ public class Dog {
     }
 
     public Dog(String name, Bitmap image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns) {
-        this.id = counter;
-        counter++;
         this.name = name;
         this.age = Integer.toString(age);
         this.size = size;
@@ -120,7 +94,7 @@ public class Dog {
         return this.bitmapImage;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -128,24 +102,6 @@ public class Dog {
         return this.name;
     }
 
-    public List<Dog> getDogList() {
-        return dogList;
-    }
-
-    public String getTraits() {
-        String s = "";
-        if(traitsText != null) {
-            for (String t : traitsText) {
-                if (s != "") {
-                    s = s + ", " + t;
-                } else {
-                    s += t;
-                }
-            }
-            return s;
-        }
-        return "";
-    }
 
     public int getLocation() {
         return this.zip;
