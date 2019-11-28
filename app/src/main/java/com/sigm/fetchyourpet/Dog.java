@@ -32,11 +32,14 @@ public class Dog {
 
     Double[] traits;
     ArrayList<String> traitsText;
+
     int numTimesClicked = 0;
     public static Dog currentDog;
 
     public static Context c;
 
+
+    //we will have have an integer array of dog traits and also a string array of dog traits.
 
     public Dog() {
     }
