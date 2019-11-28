@@ -31,6 +31,7 @@ public class Dog {
     }
 
     public void setAdditionalInfo(String additionalInfo) {
+
         this.additionalInfo = additionalInfo;
     }
 

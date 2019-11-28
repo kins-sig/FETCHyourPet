@@ -3,6 +3,7 @@ package com.sigm.fetchyourpet;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -124,7 +125,7 @@ public class CollectionEnlarge extends AppCompatActivity {
                                 Rescue r = document.toObject(Rescue.class);
 
                                 zip = r.getZip();
-                                setUI();
+                                loadImage();
 
 
 
@@ -145,8 +146,9 @@ public class CollectionEnlarge extends AppCompatActivity {
 
     }
 
-    public void setUI(){
+    public void loadImage(){
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+        setUI();
 
 
         GlideApp.with(this)
@@ -162,6 +164,7 @@ public class CollectionEnlarge extends AppCompatActivity {
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         progressBar.setVisibility(View.GONE);
+                        setUI();
                         return false;
                     }
                 })
@@ -174,14 +177,20 @@ public class CollectionEnlarge extends AppCompatActivity {
 
 
 
-        pic.setImageBitmap(dog.getImage());
+       // pic.setImageBitmap(dog.getImage());
 
 
+
+    }
+    public void setUI(){
         breed.setText(dog.getBreed());
         vaccinationStatus.setText(dog.getVaccStatus());
         healthConcers.setText(dog.getHealthConcerns());
         name.setText(dog.getName());
         age.setText("Age: " + dog.getAge());
+        if(TextUtils.isEmpty(dog.getAdditionalInfo())){
+            dog.setAdditionalInfo("None");
+        }
         additionalInfo.setText(dog.getAdditionalInfo());
         location.setText(zip);
         size = sizeView.getText().toString();
