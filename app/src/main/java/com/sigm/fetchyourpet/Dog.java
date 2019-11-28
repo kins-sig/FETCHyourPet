@@ -3,22 +3,27 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Dog {
     public static List<Dog> dogList = new ArrayList<>();
 
-    String additionalInfo,name, vaccinationStatus,healthConcerns, breed,size = "Unknown",age,rescueID,sex,image,traits, imageURL, id;
+    String additionalInfo,name, vaccinationStatus,healthConcerns, breed,size,age,rescueID,sex,image,traits, imageURL, id;
     StorageReference imageStorageReference;
     int zip;
     Bitmap bitmapImage;
     public Rescue r;
 
 
-    ArrayList<String> traitsText;
     public static Dog currentDog;
 
     public static Context c;
+
+    private List<Integer> traitsInteger;
+    static List<String> traitsTextValue = Arrays.asList(null, null, null,"Size: Large","Size: Medium","Size: Small",null, null, null,"Very well trained","Knows basic commands","Needs training"
+            ,null, null, null, "Not the best with kids", "Can tolerate kids", "Loves kids!",null, null, null,"Can be left alone", "Is okay being left alone", "Should probably avoid being left alone"
+            ,null, null, null,null, null, null );
 
 
 
@@ -35,6 +40,12 @@ public class Dog {
 
     public void setVaccinationStatus(String vaccinationStatus) {
         this.vaccinationStatus = vaccinationStatus;
+    }
+    public String getTraits(){
+        return this.traits;
+    }
+    public void setTraits(String s){
+        this.traits = s;
     }
 
     public void setHealthConcerns(String healthConcerns) {
@@ -69,23 +80,6 @@ public class Dog {
         this.age = age;
         this.additionalInfo = additionalInfo;
 
-
-
-    }
-
-    public Dog(String name, Bitmap image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns) {
-        this.name = name;
-        this.age = Integer.toString(age);
-        this.size = size;
-        this.bitmapImage = image;
-        this.traitsText = traits;
-        this.zip = zip;
-        this.breed = breed;
-        this.vaccinationStatus = vaccinationStatus;
-        this.healthConcerns = healthConcerns;
-
-
-        //dogList.add(this);
 
 
     }
@@ -132,5 +126,12 @@ public class Dog {
     }
     public String getSex() {
         return this.sex;
+    }
+
+    public String getRescueID(){
+        return this.rescueID;
+    }
+    public void setRescueID(String s){
+        this.rescueID = s;
     }
 }

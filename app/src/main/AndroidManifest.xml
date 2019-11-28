@@ -13,18 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddDog"></activity>
-        <activity android:name=".RescueDashboard" />
-        <activity android:name=".AdopterDashboard" />
-        <activity android:name=".QuizActivity" />
-        <activity android:name=".SignUpActivityAdopter" />
-        <activity android:name=".SignUpAccountType" />
+        <activity android:name=".AddDog"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".RescueDashboard"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".AdopterDashboard"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".QuizActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignUpActivityAdopter"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignUpAccountType"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CollectionEnlarge"
-            android:parentActivityName=".Collection" />
+            android:parentActivityName=".Collection"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,13 +41,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Dashboard"
-            android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Collection" />
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivityRescue" />
+
+        <activity android:name=".Collection"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignInActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SignUpActivityRescue"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -32,21 +32,34 @@
 
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center"
+                >
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                
+                android:visibility="visible" />
+
 
             <ImageView
                 android:id="@+id/dogPic"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:layout_gravity="center"
                 android:adjustViewBounds="true"
 
                 android:scaleType="fitCenter"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
 
 
 
-                android:src="@drawable/josiefetch" />
+
+                />
+            </RelativeLayout>
 
 
             <TextView
@@ -201,6 +214,67 @@
                 android:paddingBottom="8dp"
 
                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Training Status"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/trainedView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Very trained!"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="8dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Kids"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/kidView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Great with kids!"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="8dp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Can be left alone?"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/aloneView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="Loves to go on long walks!"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="8dp"
+
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,6 +292,8 @@
                 android:text="Loves to go on long walks!"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:paddingBottom="8dp"
+
                 />
 
         </LinearLayout>

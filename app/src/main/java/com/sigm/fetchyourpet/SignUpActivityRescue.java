@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -281,6 +282,11 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 String path = addPhotoToFirebase();
               //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
 
+
+
+
+                DocumentReference newDoc = MainActivity.firestore.collection("rescue").document();
+
                 Map<String, Object> newRescue = new HashMap<>();
                 newRescue.put("city", city);
                 newRescue.put("email", email);
@@ -290,9 +296,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 newRescue.put("username", username);
                 newRescue.put("zip", zip);
                 newRescue.put("image",path);
+                newRescue.put("rescueID",newDoc.getId());
 
-                MainActivity.firestore.collection("rescue").document()
-                        .set(newRescue);
+                newDoc.set(newRescue);
+
 
 
                 Map<String, Object> newAccount = new HashMap<>();
