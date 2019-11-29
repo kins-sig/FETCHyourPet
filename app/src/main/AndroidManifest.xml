@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SortDialog"></activity>
+        <activity android:name=".SortActivity"></activity>
+        <activity android:name=".SortDialog" />
         <activity
             android:name=".AddDog"
             android:screenOrientation="portrait" />
