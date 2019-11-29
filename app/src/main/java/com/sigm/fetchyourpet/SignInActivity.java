@@ -191,7 +191,7 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
             //startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class));
+            startActivity(new Intent(this, Collection.class).putExtra("user", "none"));
 
 
         } else if (id == R.id.home) {
