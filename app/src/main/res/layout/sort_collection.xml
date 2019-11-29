@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical|center_horizontal"
-        android:padding="10dp" >
+        android:paddingTop="30dp" >
 
 
         <TextView
@@ -81,15 +81,6 @@
                 android:text="None"/>
         </RadioGroup>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-
-        </LinearLayout>
 
 
     </LinearLayout>
