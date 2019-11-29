@@ -1,6 +1,8 @@
 package com.sigm.fetchyourpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +19,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,11 +58,16 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
             PotentialAdopter p = PotentialAdopter.currentAdopter;
             Bitmap b = p.getPhoto();
-            if (b != null) {
-                image.setImageBitmap(p.getPhoto());
-
+            if (b == null) {
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(FirebaseStorage.getInstance().getReference().child(p.getImage()))
+                        .into(image);
             } else {
-                image.setImageResource(R.drawable.josiefetch);
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(b)
+                        .into(image);
             }
             name.setText(p.getFirstName());
         } else if (type.equals("rescue")) {
@@ -69,11 +78,16 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
             Rescue r = Rescue.currentRescue;
             Bitmap b = r.getPhoto();
-            if (b != null) {
-                image.setImageBitmap(r.getPhoto());
-
+            if (b == null) {
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
+                        .into(image);
             } else {
-                image.setImageResource(R.drawable.josiefetch);
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(b)
+                        .into(image);
             }
             name.setText(r.getOrganization());
         }
@@ -190,6 +204,8 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, c));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
         }
 
 

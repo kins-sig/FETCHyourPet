@@ -1,15 +1,15 @@
 package com.sigm.fetchyourpet;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,32 +18,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Registry;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 // ...
 // When the user selects an option to see the licenses:
-
 
 
 public class MainActivity extends AppCompatActivity
@@ -53,19 +40,33 @@ public class MainActivity extends AppCompatActivity
     static boolean firstRun = true;
     static FirebaseFirestore firestore;
     static StorageReference storageReference;
+    final Thread t = null;
+    String username;
+    ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("FETCH! YOUR PET");
-        setSupportActionBar(toolbar);
-        final ImageView testImage = findViewById(R.id.image);
-
+        SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
         firestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        if(firstRun) {
+        username = prefs.getString("username", "-1");
+
+        if (!username.equals("-1")) {
+
+            login();
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("Signing In");
+            dialog.setCancelable(false);
+            dialog.setInverseBackgroundForced(false);
+            dialog.show();
+
+
+        }
+
+
+        if (firstRun) {
             //addDogs();
             firstRun = false;
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity
                             if (task.isSuccessful()) {
                                 Dog d;
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                   // Log.d("test",document.getData().get("name")+document.getData().get("traits").toString());
+                                    // Log.d("test",document.getData().get("name")+document.getData().get("traits").toString());
                                     d = document.toObject(Dog.class);
                                     Dog.dogList.add(d);
                                     d.imageStorageReference = storageReference.child(d.image);
@@ -90,7 +91,11 @@ public class MainActivity extends AppCompatActivity
                     });
         }
 
+        setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("FETCH! YOUR PET");
+        setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -101,7 +106,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Dog.c = this;
-
 
 
     }
@@ -148,13 +152,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class).putExtra("user","none"));
+            startActivity(new Intent(this, Collection.class).putExtra("user", "none"));
 
 
         } else if (id == R.id.home) {
             // startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.take_quiz) {
-            startActivity(new Intent(this, QuizActivity.class).putExtra("user","none"));
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
         }
 
 
@@ -180,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-//    public void addDogs(){
+    //    public void addDogs(){
 //        Dog.dogList.add(new Dog("Josie", getBitmap(R.drawable.josiefetch), 3, "Medium", getList("Chill", "loving", "loves treats"), 28403, "Mutt", "All shots are up to date!", "Josie is an overall extremely healthy girl! We currently have no known health conerns."));
 //        Dog.dogList.add(new Dog("Rex", getBitmap(R.drawable.dog1), 1, "Small", getList("Sleeps a lot", "playful", "unconditional love"), 28465, "Bulldog", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
 //        Dog.dogList.add(new Dog("Sailor", getBitmap(R.drawable.dog2), 4, "Small", getList("Awesome", "Super Playful", "unconditional love"), 28465, "German Shepard", "All shots are up to date!", "This breed is known to have breathing problems in the future."));
@@ -225,9 +229,75 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public Bitmap getBitmap(int image){
+    public Bitmap getBitmap(int image) {
         return BitmapFactory.decodeResource(getResources(),
                 image);
+    }
+
+    public void login() {
+
+        MainActivity.firestore.collection("account")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        boolean stop = false;
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                            }
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (!stop) {
+                                    Account a = document.toObject(Account.class);
+                                    Account.currentAccount = a;
+                                    stop = true;
+                                    String collectionpath = "rescue";
+                                    if (a.getIsAdopter()) {
+                                        collectionpath = "adopter";
+                                    }
+
+                                    MainActivity.firestore.collection(collectionpath)
+                                            .whereEqualTo("username", username)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        if (task.getResult().isEmpty()) {
+                                                        }
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if (Account.currentAccount.getIsAdopter()) {
+                                                                PotentialAdopter.currentAdopter = document.toObject(PotentialAdopter.class);
+                                                                startActivity(new Intent(getApplicationContext(), AdopterDashboard.class));
+                                                                dialog.dismiss();
+                                                                //finish();
+
+
+                                                            } else {
+                                                                Rescue.currentRescue = document.toObject(Rescue.class);
+                                                                startActivity(new Intent(getApplicationContext(), RescueDashboard.class));
+                                                                dialog.dismiss();
+                                                                //finish();
+
+
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+
+
+                                            });
+
+
+                                }
+
+                            }
+                        }
+                    }
+
+
+                });
     }
 
 }

@@ -1,6 +1,8 @@
 package com.sigm.fetchyourpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,7 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,11 +40,19 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         TextView name = hView.findViewById(R.id.headerTextView);
         PotentialAdopter p = PotentialAdopter.currentAdopter;
         Bitmap b = p.getPhoto();
-        if (b != null) {
-            image.setImageBitmap(p.getPhoto());
+        if (b == null) {
+
+
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(FirebaseStorage.getInstance().getReference().child(p.getImage()))
+                    .into(image);
 
         } else {
-            image.setImageResource(R.drawable.josiefetch);
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(b)
+                    .into(image);
         }
         name.setText(p.getFirstName());
 
@@ -60,7 +72,7 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
@@ -99,6 +111,8 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
             //  startActivity(new Intent(this, AdopterDashboard.class));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
         }
 
 

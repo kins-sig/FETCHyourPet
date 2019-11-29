@@ -1,20 +1,15 @@
 package com.sigm.fetchyourpet;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.bumptech.glide.Glide;
-import com.google.android.material.navigation.NavigationView;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,21 +22,42 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-public class AddDog extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AddDog extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static int GET_FROM_GALLERY = 1;
 
     ImageView picView;
     Button picButton, createAccount;
     Bitmap bitmap = null;
     EditText nameView, additionalView, healthConcernsView, breedView, vaccinationView;
-    Spinner sexView,ageView;
+    Spinner sexView, ageView;
     Boolean edit;
     Boolean uploadedPhoto = false;
-    String name, healthConcerns, additionalInfo, vaccinationStatus, breed,sex,age;
+    String name, healthConcerns, additionalInfo, vaccinationStatus, breed, sex, age;
     Dog d;
+    Uri selectedImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +72,6 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         View hView = navigationView.getHeaderView(0);
         ImageView headerImage = hView.findViewById(R.id.headerImageView);
         TextView headerName = hView.findViewById(R.id.headerTextView);
-        if (b != null) {
-            headerImage.setImageBitmap(r.getPhoto());
-
-        } else {
-            headerImage.setImageResource(R.drawable.josiefetch);
-        }
-        headerName.setText(r.getOrganization());
 
 
         createAccount = findViewById(R.id.createAccount);
@@ -85,24 +94,32 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         edit = getIntent().getBooleanExtra("edit", false);
 
 
-        if(edit){
+        if (edit) {
             d = Dog.currentDog;
             nameView.setText(d.getName());
-            picView.setImageBitmap(d.getImage());
+            picView.setImageBitmap(d.getBitmapImage());
             additionalView.setText(d.additionalInfo);
             healthConcernsView.setText(d.healthConcerns);
             breedView.setText(d.breed);
             vaccinationView.setText(d.getVaccStatus());
 
             Adapter adapter = sexView.getAdapter();
-            for(int i = 0; i < adapter.getCount(); i++){
-                if(d.getSex().equals(adapter.getItem(i).toString())){
+            String tempSex, tempAge;
+            tempSex = d.getSex();
+            tempAge = d.getAge();
+            if (tempSex.equals("M")) {
+                tempSex = "Male";
+            } else {
+                tempSex = "Female";
+            }
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (tempSex.equals(adapter.getItem(i).toString())) {
                     sexView.setSelection(i);
                 }
             }
             adapter = ageView.getAdapter();
-            for(int i = 0; i < adapter.getCount(); i++){
-                if(d.getAge().equals(adapter.getItem(i).toString())){
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (d.getAge().trim().equals(adapter.getItem(i).toString())) {
                     ageView.setSelection(i);
                 }
             }
@@ -110,12 +127,33 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             toolbar.setTitle("EDIT DOG PROFILE");
 
 
-
-        }
-        else{
+        } else {
             toolbar.setTitle("ADD DOG PROFILE");
 
         }
+
+        if (b == null) {
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
+                    .into(headerImage);
+            if (edit) {
+
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(MainActivity.storageReference.child(d.getImage()))
+                        .into(picView);
+            }
+
+        } else {
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(b)
+                    .into(headerImage);
+
+        }
+        headerName.setText(r.getOrganization());
+
         setSupportActionBar(toolbar);
 
 
@@ -138,7 +176,6 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             super.onBackPressed();
         }
     }
-
 
 
     @Override
@@ -172,9 +209,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             startActivity(new Intent(this, RescueDashboard.class));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
-        }
-        else if (id == R.id.view_dogs) {
-            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
+
+        } else if (id == R.id.view_dogs) {
+            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -182,7 +221,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         return true;
     }
 
-    public void addDog(View v){
+    public void addDog(View v) {
 
         String action = "";
 
@@ -193,16 +232,14 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         }
         sex = sexView.getSelectedItem().toString();
         age = ageView.getSelectedItem().toString();
-        if(sex.equals("Select Sex")){
+        if (sex.equals("Select Sex")) {
             action += "Please select the dog's sex.\n";
 
         }
-        if(age.equals("Select Age")){
+        if (age.equals("Select Age")) {
             action += "Please select the dog's age.\n";
 
         }
-
-
 
 
         breed = breedView.getText().toString().trim();
@@ -221,9 +258,6 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         }
 
 
-
-
-
         if (!action.equals("")) {
             Toast t = Toast.makeText(this, action,
                     Toast.LENGTH_SHORT);
@@ -232,8 +266,8 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         } else {
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
             if (edit) {
-                Dog d  = Dog.currentDog;
-                if(uploadedPhoto) {
+                Dog d = Dog.currentDog;
+                if (uploadedPhoto) {
                     d.setBitmapImage(bitmap);
                 }
                 d.setName(name);
@@ -244,13 +278,66 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 d.setSex(sex);
                 d.setAge(age);
 
+
+                Map<String, Object> updates = new HashMap<>();
+
+                String path = addPhotoToFirebase();
+                String newPath = d.getImage();
+                if (path != null) {
+                    newPath = path;
+                }
+
+
+                updates.put("name", name);
+                updates.put("breed", breed);
+                updates.put("image", newPath);
+                updates.put("healthConcerns", healthConcerns);
+                updates.put("vaccinationStatus", vaccinationStatus);
+                updates.put("additionalInfo", additionalInfo);
+                updates.put("sex", sex);
+                updates.put("age", age);
+
+                MainActivity.firestore
+                        .collection("dog")
+                        .document(d.id)
+                        .update(updates);
+
+
             } else {
+                String temporaryTraits = "100010001100001010010001010100";
+
                 Rescue r = Rescue.currentRescue;
+
+
+                DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
+
+
+                String path = addPhotoToFirebase();
+                //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
                 Dog d =
-                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age,additionalInfo);
-                Dog.currentDog = d;
-                Dog.currentDog.r = r;
-                r.dogs.add(d);
+                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age, additionalInfo, path);
+                d.setTraits(temporaryTraits);
+                d.setRescueID(r.getRescueID());
+                d.setTraits(temporaryTraits);
+                Dog.dogList.add(d);
+                d.setId(newDoc.getId());
+
+
+                Map<String, Object> newDog = new HashMap<>();
+                newDog.put("name", name);
+                newDog.put("breed", breed);
+                newDog.put("image", path);
+                newDog.put("healthConcerns", healthConcerns);
+                newDog.put("vaccinationStatus", vaccinationStatus);
+                newDog.put("additionalInfo", additionalInfo);
+                newDog.put("sex", sex);
+                newDog.put("age", age);
+                newDog.put("rescueID", r.getRescueID());
+                newDog.put("traits", temporaryTraits);
+
+                newDoc.set(newDog);
+
+
             }
             //Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");
             Intent dashboard = new Intent(this, RescueDashboard.class);
@@ -279,7 +366,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
         //Detects request codes
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
+            selectedImage = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 
@@ -296,6 +383,35 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 e.printStackTrace();
             }
         }
+    }
+
+
+    public String addPhotoToFirebase() {
+
+        if (selectedImage != null) {
+
+            String path = "img/dogs/" + UUID.randomUUID().toString();
+            StorageReference reference = MainActivity.storageReference.child(path);
+            reference.putFile(selectedImage)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+            Log.d("test", reference.toString());
+
+            return path;
+        }
+        return null;
+
+
     }
 
 }

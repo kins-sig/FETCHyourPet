@@ -10,12 +10,12 @@
             android:title="Take the quiz" />
         <item
             android:id="@+id/view_your_matchesa"
-            android:icon="@drawable/ic_collection"
+            android:icon="@drawable/view_matches"
             android:title="View your matches" />
 
         <item
             android:id="@+id/browse_all_animals"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/ic_collection"
             android:title="Browse all animals" />
         <item
             android:id="@+id/home"
@@ -23,7 +23,7 @@
             android:title="Home" />
         <item
             android:id="@+id/logout"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/log_out"
             android:title="Logout" />
 
     </group>

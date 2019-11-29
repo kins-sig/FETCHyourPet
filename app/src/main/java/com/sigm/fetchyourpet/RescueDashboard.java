@@ -1,9 +1,10 @@
 package com.sigm.fetchyourpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
 public class RescueDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,7 +41,7 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         Rescue r = Rescue.currentRescue;
 
         Bitmap b = r.getPhoto();
-        if(b == null) {
+        if (b == null) {
 
 
             Glide.with(this)
@@ -49,8 +49,7 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
                     .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
                     .into(image);
 
-        }
-        else{
+        } else {
             Glide.with(this)
                     // .using(new FirebaseImageLoader())
                     .load(b)
@@ -74,7 +73,7 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
@@ -113,9 +112,10 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
             //  startActivity(new Intent(this, AdopterDashboard.class));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
-        }
-        else if (id == R.id.view_dogs) {
-            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
+        } else if (id == R.id.view_dogs) {
+            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
         }
 
 
@@ -132,12 +132,12 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
     }
 
     public void registerDog(View v) {
-       startActivity(new Intent(this, AddDog.class));
+        startActivity(new Intent(this, AddDog.class));
 
     }
 
     public void viewYourDogs(View v) {
-        startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+        startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
 
 
     }

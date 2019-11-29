@@ -3,18 +3,21 @@ package com.sigm.fetchyourpet;
 
 public class Account {
 
+    static Account currentAccount;
     private String username;
-
     private String password;
     private Boolean isAdopter;
-    static Account currentAccount;
 
-    public Account(String username, String password, boolean isAdopter){
+    public Account(String username, String password, boolean isAdopter) {
         this.username = username;
         this.password = password;
         this.isAdopter = isAdopter;
     }
 
+
+    public Account() {
+
+    }
 
     public static String getMD5(String md5) {
         try {
@@ -22,19 +25,16 @@ public class Account {
             byte[] array = md.digest(md5.getBytes());
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
     }
+
     public String getUsername() {
         return username;
-    }
-
-    public Account(){
-
     }
 
     public void setUsername(String username) {
@@ -52,7 +52,8 @@ public class Account {
     public Boolean getIsAdopter() {
         return isAdopter;
     }
+
     public void setIsAdopter(Boolean b) {
-        this.isAdopter=b;
+        this.isAdopter = b;
     }
 }

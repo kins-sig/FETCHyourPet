@@ -1,7 +1,9 @@
 package com.sigm.fetchyourpet;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,14 +26,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,8 +46,8 @@ import java.util.regex.Pattern;
 public class SignUpActivityRescue extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static int GET_FROM_GALLERY = 1;
-    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2,usernameView;
-    String name, street, city, zip, state, email, password, confirmPassword,username;
+    EditText nameView, streetView, cityView, zipView, stateView, emailView, passwordView, password2, usernameView;
+    String name, street, city, zip, state, email, password, confirmPassword, username;
     TextView passwordLabel;
     ImageView picView;
     Button picButton, createAccount;
@@ -100,22 +104,24 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
         boolean test = true;
 
-        if(test){
+        if (test) {
             nameView.setText("Paws Place");
             emailView.setText("woofwoofbarkbark@dogsville.com");
             zipView.setText("28403");
             streetView.setText("Bark Street");
             stateView.setText("North Caroline");
             cityView.setText("Barksville");
-            passwordView.setText("Hi");
-            password2.setText("Hi");
+            //passwordView.setText("Hi");
+            //password2.setText("Hi");
         }
-        if(edit){
+        if (edit) {
             c = RescueDashboard.class;
+            Rescue r = Rescue.currentRescue;
+
             toolbar.setTitle("EDIT PROFILE");
             createAccount.setText("UPDATE PROFILE");
+            usernameView.setText(r.getUsername());
             usernameView.setEnabled(false);
-            Rescue r = Rescue.currentRescue;
             nameView.setText(r.getOrganization());
             emailView.setText(r.getEmail());
             passwordLabel.setText("NEW PASSWORD");
@@ -123,32 +129,37 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             streetView.setText(r.getStreet());
             stateView.setText(r.getState());
             cityView.setText(r.getCity());
+
             Bitmap b = r.getPhoto();
-            if (b != null) {
-                picView.setImageBitmap(b);
-                image.setImageBitmap(b);
+            if (b == null) {
 
-            }
 
-            else {
-                image.setImageResource(R.drawable.josiefetch);
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(MainActivity.storageReference.child(r.getImage()))
+                        .into(image);
+                if (edit) {
+                    Glide.with(this)
+                            // .using(new FirebaseImageLoader())
+                            .load(MainActivity.storageReference.child(r.getImage()))
+                            .into(picView);
+                }
+
+            } else {
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(b)
+                        .into(image);
             }
             name.setText(r.getOrganization());
 
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.rescue_drawer);
 
-        }
-        else{
+        } else {
             toolbar.setTitle("SIGN UP!");
 
         }
-
-
-
-
-
-
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -181,16 +192,17 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class).putExtra("user","rescue"));
+            startActivity(new Intent(this, Collection.class).putExtra("user", "rescue"));
 
 
         } else if (id == R.id.home) {
             startActivity(new Intent(this, c));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
-        }
-        else if (id == R.id.view_dogs) {
-            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user","rescue"));
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
+        } else if (id == R.id.view_dogs) {
+            startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
         }
 
 
@@ -203,8 +215,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
     public void createAccount(View view) {
         String action = "";
+        Intent dashboard = new Intent(this, RescueDashboard.class);
 
-        if(bitmap == null){
+        if (bitmap == null && !edit) {
             action = "Please select a photo.\n";
         }
 
@@ -247,9 +260,11 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
         //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
+        confirmPassword = password2.getText().toString().trim();
+
         if (password.equals("") && !edit) {
             action += "Please enter a password\n";
-        } else if (!password.equals(password2.getText().toString().trim())) {
+        } else if (!password.equals(confirmPassword)) {
             action += "Passwords do not match. Please enter them again.\n";
             passwordView.setText("");
             password2.setText("");
@@ -263,10 +278,11 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             t.show();
         } else {
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
-            if(edit){
+            if (edit) {
                 Rescue r = Rescue.currentRescue;
-                if(uploadedPhoto) {
+                if (uploadedPhoto) {
                     r.setPhoto(bitmap);
+                    //picView.setImageBitmap(bitmap);
                 }
                 r.setOrganization(name);
                 r.setState(state);
@@ -275,61 +291,132 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 r.setEmail(email);
                 r.setCity(city);
 
+                //DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("rescue").child(r.getRescueID());
+
+                Map<String, Object> updates = new HashMap<>();
+
+                String path = addPhotoToFirebase();
+                String newPath = r.getImage();
+                if (path != null) {
+                    newPath = path;
+                }
+
+
+                updates.put("city", city);
+                updates.put("email", email);
+                updates.put("image", newPath);
+                updates.put("organization", name);
+                updates.put("state", state);
+                updates.put("street", street);
+                updates.put("zip", zip);//etc
+
+                MainActivity.firestore
+                        .collection("rescue")
+                        .document(r.getRescueID())
+                        .update(updates);
+                if (!Account.getMD5(password).equals(Account.currentAccount.getPassword()) && !password.equals("") && password.equals(confirmPassword)) {
+                    MainActivity.firestore
+                            .collection("account")
+                            .document(r.getUsername())
+                            .update("password", Account.getMD5(password));
+                }
+                startActivity(dashboard);
+                finish();
+
+
+                // ref.updateChildren(updates);
 //                if(!password.equals("")) {
 //                    r.setPassword(password);
 //                }
-            }else {
-                String path = addPhotoToFirebase();
-              //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
+            } else {
+
+                MainActivity.firestore.collection("account").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                addAccount();
+                                Intent dashboard = new Intent(getApplicationContext(), RescueDashboard.class);
+                                startActivity(dashboard);
+                                finish();
 
 
+                            } else {
+                                showToast(true);
+
+                            }
+
+                        } else {
+                            showToast(false);
+                        }
+                    }
 
 
-                DocumentReference newDoc = MainActivity.firestore.collection("rescue").document();
-
-                Map<String, Object> newRescue = new HashMap<>();
-                newRescue.put("city", city);
-                newRescue.put("email", email);
-                newRescue.put("organization", name);
-                newRescue.put("state", state);
-                newRescue.put("street", street);
-                newRescue.put("username", username);
-                newRescue.put("zip", zip);
-                newRescue.put("image",path);
-                newRescue.put("rescueID",newDoc.getId());
-
-                newDoc.set(newRescue);
+                });
 
 
-
-                Map<String, Object> newAccount = new HashMap<>();
-                newAccount.put("username", username);
-                newAccount.put("password", Account.getMD5(password));
-                newAccount.put("isAdopter", false);
-
-
-                MainActivity.firestore.collection("account").document()
-                        .set(newAccount);
-
-
-                Rescue.currentRescue =
-                        new Rescue(bitmap, name, street, city, state, zip, email,path);
             }
-            Intent dashboard = new Intent(this, RescueDashboard.class);
-            startActivity(dashboard);
-            finish();
+
 
         }
 
 
     }
 
-    public String addPhotoToFirebase(){
+    public void showToast(Boolean usernameTaken) {
+        String action = "";
+        if (usernameTaken) {
+            action = "Username is already taken";
+        } else {
+            action = "An error has occurred. Please try again.";
+        }
+        Toast t = Toast.makeText(this, action,
+                Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+        t.show();
+    }
 
-        if(selectedImage != null)
-        {
+    public void addAccount() {
 
-            String path = "img/rescues/"+ UUID.randomUUID().toString();
+        String path = addPhotoToFirebase();
+        //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
+
+
+        DocumentReference newDoc = MainActivity.firestore.collection("rescue").document();
+
+        Map<String, Object> newRescue = new HashMap<>();
+        newRescue.put("city", city);
+        newRescue.put("email", email);
+        newRescue.put("organization", name);
+        newRescue.put("state", state);
+        newRescue.put("street", street);
+        newRescue.put("username", username);
+        newRescue.put("zip", zip);
+        newRescue.put("image", path);
+        newRescue.put("rescueID", newDoc.getId());
+
+        newDoc.set(newRescue);
+
+
+        Map<String, Object> newAccount = new HashMap<>();
+        newAccount.put("username", username);
+        newAccount.put("password", Account.getMD5(password));
+        newAccount.put("isAdopter", false);
+
+
+        MainActivity.firestore.collection("account").document(username)
+                .set(newAccount);
+
+
+        Rescue.currentRescue =
+                new Rescue(bitmap, name, street, city, state, zip, email, path);
+    }
+
+    public String addPhotoToFirebase() {
+
+        if (selectedImage != null) {
+
+            String path = "img/rescues/" + UUID.randomUUID().toString();
             StorageReference reference = MainActivity.storageReference.child(path);
             reference.putFile(selectedImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -344,9 +431,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
                         }
                     });
-            Log.d("test",reference.toString());
+            Log.d("test", reference.toString());
 
-                    return path;
+            return path;
         }
         return null;
 

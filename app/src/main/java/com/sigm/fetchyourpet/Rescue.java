@@ -10,6 +10,7 @@ import java.util.List;
 public class Rescue {
 
 
+    public static Rescue currentRescue;
     // INT Org ID
     // String Org Name
     // INT Zip
@@ -17,17 +18,13 @@ public class Rescue {
     // String Email
     private static int counter = 0;
     private static ArrayList<Rescue> rescues = new ArrayList<>();
-    private int rescueID;
-    private String organization, street, city, state, email, username,image,zip;
-    private Bitmap photo = null;
-    public static Rescue currentRescue;
     public List<Dog> dogs = new ArrayList<>();
+    private String organization, street, city, state, email, username, image, zip, rescueID;
+    private Bitmap photo = null;
     private StorageReference imageStorageReference;
 
 
-
     public Rescue(Bitmap b, String name, String street, String city, String state, String zip, String email, String path) {
-        rescueID = counter;
         counter++;
         this.photo = b;
         this.organization = name;
@@ -36,54 +33,37 @@ public class Rescue {
         this.state = state;
         this.zip = zip;
         this.email = email;
-        this.image=path;
+        this.image = path;
 
         rescues.add(this);
     }
-    public Rescue(){
+
+    public Rescue() {
 
     }
-    public String getImage(){
+
+    public String getImage() {
         return this.image;
     }
-    public void setImage(String s){
-        this.image=s;
+
+    public void setImage(String s) {
+        this.image = s;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public Bitmap getPhoto() {
+        return photo;
     }
-
-    public void setOrganization(String name) {
-        this.organization = name;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
     }
 
-    public Bitmap getPhoto(){
-        return photo;
-    }
-    public String getOrganization(){
+    public String getOrganization() {
         return this.organization;
+    }
+
+    public void setOrganization(String name) {
+        this.organization = name;
     }
 
     //            emailView.setText(r.getEmail());
@@ -92,21 +72,44 @@ public class Rescue {
     //            streetView.setText(r.getStreet());
     //            stateView.setText(r.getState());
     //            cityView.setText(r.getCity());
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
-    public String getStreet(){
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStreet() {
         return this.street;
     }
-    public String getCity(){
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
         return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getState() {
         return state;
     }
-    public String getZip(){
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
         return (this.zip);
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public StorageReference getImageStorageReference() {
@@ -123,5 +126,13 @@ public class Rescue {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRescueID() {
+        return rescueID;
+    }
+
+    public void setRescueID(String rescueID) {
+        this.rescueID = rescueID;
     }
 }

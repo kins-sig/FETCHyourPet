@@ -77,9 +77,8 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
         } else if (id == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.take_quiz) {
-            startActivity(new Intent(this, QuizActivity.class).putExtra("user","none"));
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
         }
-
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

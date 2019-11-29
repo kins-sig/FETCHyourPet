@@ -1,9 +1,10 @@
 package com.sigm.fetchyourpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,18 +19,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
 public class Collection extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
     static String user;
+    static boolean viewDogs = false;
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
     Class c;
-    static boolean viewDogs = false;
+    Rescue r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +60,19 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             navigationView.inflateMenu(R.menu.adopter_drawer);
             PotentialAdopter p = PotentialAdopter.currentAdopter;
             Bitmap b = p.getPhoto();
-            if (b != null) {
-                image.setImageBitmap(p.getPhoto());
+            if (b == null) {
+
+
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(FirebaseStorage.getInstance().getReference().child(p.getImage()))
+                        .into(image);
 
             } else {
-                image.setImageResource(R.drawable.josiefetch);
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(b)
+                        .into(image);
             }
             name.setText(p.getFirstName());
 
@@ -72,13 +84,21 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             navigationView.inflateMenu(R.menu.rescue_drawer);
 
 
-            Rescue r = Rescue.currentRescue;
+            r = Rescue.currentRescue;
             Bitmap b = r.getPhoto();
-            if (b != null) {
-                image.setImageBitmap(r.getPhoto());
+            if (b == null) {
+
+
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(FirebaseStorage.getInstance().getReference().child(r.getImage()))
+                        .into(image);
 
             } else {
-                image.setImageResource(R.drawable.josiefetch);
+                Glide.with(this)
+                        // .using(new FirebaseImageLoader())
+                        .load(b)
+                        .into(image);
             }
             name.setText(r.getOrganization());
 
@@ -94,13 +114,25 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
         adapter = new CaptionedImagesAdapter();
         cardRecycler = findViewById(R.id.pet_recycler);
-        if(getIntent().getBooleanExtra("viewDogs",false)){
+        if (getIntent().getBooleanExtra("viewDogs", false)) {
+            if (r.dogs != null) {
+                r.dogs.clear();
+
+            }
+            for (Dog d : Dog.dogList) {
+                if (d.getRescueID().equals(r.getRescueID())) {
+                    r.dogs.add(d);
+                }
+            }
+
+
             adapter.setDogs(Rescue.currentRescue.dogs);
             adapter.setViewDogs(true);
-            viewDogs= true;
+            viewDogs = true;
             toolbar.setTitle("YOUR DOGS");
-        }
-        else {
+
+
+        } else {
             adapter.setDogs(Dog.dogList);
         }
 
@@ -110,7 +142,6 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         adapter.setUser(user);
 
         adapter.notifyDataSetChanged();
-
 
 
         //public Dog(String name, int image, int age, String size, ArrayList<String> traits, int zip, String breed, String vaccinationStatus, String healthConcerns ){
@@ -147,7 +178,6 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 //        dogs.add(new Dog("Richie", R.drawable.pug1, 1, "Very smol", getList("Will always put a smile on your face", "you may cry just from looking at him", "will get you a lot of social media clout"), 27502, "Pug", "Snug as a bug", "He will get fat. You will not be able to resist the puppy dog eyes staring at you while eating. He's not fat now, but he will be."));
 //        dogs.add(new Dog("Georgie", R.drawable.pug2, 1, "Very smol", getList("Is a pug", "looks derpy sometimes", "goofball"), 27502, "Pug", "Snug as a bug", "Healthy little guy"));
 //
-
 
 
     }
@@ -195,7 +225,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        user=null;
+        user = null;
 
         int id = item.getItemId();
         if (id == R.id.take_quiz) {
@@ -205,8 +235,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             startActivity(new Intent(this, SignInActivity.class));
 
         } else if (id == R.id.browse_all_animals) {
-            if(viewDogs){
-                startActivity(new Intent(this, Collection.class).putExtra("user","rescue").putExtra("viewDogs",false));
+            if (viewDogs) {
+                startActivity(new Intent(this, Collection.class).putExtra("user", "rescue").putExtra("viewDogs", false));
             }
             //startActivity(new Intent(this, Collection.class));
 
@@ -216,11 +246,12 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             //them to the right location.
 
             startActivity(new Intent(this, c));
-        }
-        else if (id == R.id.logout) {
+        } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
-        }  else if (id == R.id.view_dogs) {
-            if(!viewDogs) {
+            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            prefs.edit().remove("username").apply();
+        } else if (id == R.id.view_dogs) {
+            if (!viewDogs) {
                 startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
             }
         }
@@ -228,11 +259,12 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        if(id!= R.id.view_dogs) {
+        if (id != R.id.view_dogs) {
             viewDogs = false;
         }
         return true;
     }
+
     public ArrayList<String> getList(String a, String b, String c) {
         ArrayList<String> traits = new ArrayList<String>();
 

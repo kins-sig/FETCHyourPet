@@ -18,7 +18,7 @@
             android:title="Home" />
         <item
             android:id="@+id/logout"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/log_out"
             android:title="Logout" />
 
     </group>

@@ -73,7 +73,7 @@
                     android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 
@@ -81,27 +81,7 @@
 
 
 
-                <TextView
-                    android:layout_marginTop="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="LAST NAME"
-                    android:enabled="true"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:layout_gravity="left"
 
-
-                    />
-                <EditText
-                    android:id="@+id/lastName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:fontFamily="@font/montserrat_semibold"
-
-                    />
                 <TextView
                     android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
@@ -117,7 +97,7 @@
                     android:id="@+id/zip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
@@ -137,12 +117,32 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 
                     />
 
+                <TextView
+                    android:layout_marginTop="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USERNAME"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:layout_gravity="left"
+
+                    />
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:fontFamily="@font/montserrat_semibold"
+
+                    />
 
                 <TextView
                     android:layout_marginTop="16dp"
@@ -160,7 +160,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     android:inputType="textPassword"

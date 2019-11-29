@@ -7,31 +7,25 @@ import java.util.ArrayList;
 public class PotentialAdopter {
 
 
+    public static PotentialAdopter currentAdopter;
     private static int counter = 0;
     private static ArrayList<PotentialAdopter> adopters = new ArrayList<>();
-    public static PotentialAdopter currentAdopter;
     int[] favorite_dog_ids;
-    private int adopterID, zip, phone, numDogsRatedSinceLastRefresh;
+    private int phone, numDogsRatedSinceLastRefresh;
     private Bitmap photo;
-    private String firstName, lastname, email, password;
+    private String firstName, email, password, image, zip, username, adopterID;
 
-    public PotentialAdopter(Bitmap b, String fname, String lname, int zip, String email, String password) {
-        adopterID = counter;
-        counter++;
+    public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
         this.photo = b;
         this.firstName = fname;
-        this.lastname = lname;
         this.email = email;
-        this.password = password;
-        this.email = email;
-        this.password = password;
         this.zip = zip;
+        this.image = path;
 
         adopters.add(this);
     }
 
     public PotentialAdopter() {
-
     }
 
     public PotentialAdopter getCurrentAdopter() {
@@ -66,13 +60,6 @@ public class PotentialAdopter {
         this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 
     public String getEmail() {
         return email;
@@ -91,16 +78,35 @@ public class PotentialAdopter {
     }
 
     public String getZip() {
-        return Integer.toString(zip);
+        return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public void setBitmap(Bitmap b) {
-        this.photo = b;
+
+    public String getUsername() {
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getAdopterID() {
+        return adopterID;
+    }
+
+    public void setAdopterID(String adopterID) {
+        this.adopterID = adopterID;
+    }
 }
