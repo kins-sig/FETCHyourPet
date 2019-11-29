@@ -144,4 +144,37 @@ public class Dog {
     public void setRescueID(String s) {
         this.rescueID = s;
     }
+
+
+
+    public int getIntAge(){
+        int ageNum;
+        if(this.age.contains("<")){
+            ageNum = 0;
+        }else{
+            ageNum = Integer.parseInt(age);
+        }
+        return ageNum;
+
+
+    }
+
+    public int getIntSize(){
+        int intSize;
+        if(Character.toString(traits.charAt(3)).equals("1")){
+            intSize = 3;
+
+        }
+        else if(Character.toString(traits.charAt(4)).equals("1")){
+            intSize = 2;
+
+        }
+        else{
+            intSize = 1;
+
+        }
+
+
+        return intSize;
+    }
 }

@@ -1,16 +1,31 @@
 package com.sigm.fetchyourpet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Dimension;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -26,22 +41,29 @@ import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Collection extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
     static String user;
     static boolean viewDogs = false;
+    private String sortBy = "";
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
     Class c;
     Rescue r;
+    public List<Dog> dogs = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
 
 
         toolbar.setTitle("AVAILABLE PETS");
@@ -124,9 +146,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             for (Dog d : Dog.dogList) {
                 if (d.getRescueID().equals(r.getRescueID())) {
                     r.dogs.add(d);
+                    this.dogs.add(d);
                 }
             }
-
 
             adapter.setDogs(Rescue.currentRescue.dogs);
             adapter.setViewDogs(true);
@@ -135,6 +157,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 
         } else {
+            dogs = Dog.dogList;
+
+
             adapter.setDogs(Dog.dogList);
         }
 
@@ -185,18 +210,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     }
 
 
-//    @Override
-//    protected void onResume() {
-//        if(viewDogs){
-//            adapter.setDogs(Rescue.currentRescue.dogs);
-//
-//            adapter.notifyDataSetChanged();
-//
-//        }
-//
-//
-//        super.onResume();
-//    }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -219,9 +235,154 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.sort){
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+
+            LayoutInflater li = LayoutInflater.from(this);
+            final View promptsView = li.inflate(R.layout.sort_collection, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(promptsView);
+
+//            final EditText userInput = (EditText) promptsView
+//                    .findViewById(R.id.editTextDialogUserInput);
+            final RadioButton r1 =  promptsView.findViewById(R.id.age);
+            final RadioButton r2 =  promptsView.findViewById(R.id.name);
+            final RadioButton r3 =  promptsView.findViewById(R.id.sex);
+            final RadioButton r4 =  promptsView.findViewById(R.id.size);
+            final RadioButton r5 =  promptsView.findViewById(R.id.none);
+            final RadioButton ascending =  promptsView.findViewById(R.id.ascending);
+
+            // set dialog message
+            alertDialogBuilder
+                    .setCancelable(true)
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    // get user input and set it to result
+                                    // edit text
+
+                                    if(r1.isChecked()){
+                                        sortBy = "age";
+                                    }
+                                    else if(r2.isChecked()){
+                                        sortBy = "name";
+                                    }
+                                    else if(r3.isChecked()){
+                                        sortBy = "sex";
+
+                                    }
+                                    else if(r4.isChecked()){
+                                        sortBy = "size";
+                                    }
+                                    else if(r5.isChecked()){
+                                        sortBy = "";
+                                    }
+                                    sort(ascending.isChecked());
+
+
+                                    Log.d("test", Boolean.toString(r1.isChecked()));
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+
+
+            // show it
+            alertDialog.show();
+            alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, width);
+
+
+            // alertDialog.getWindow().setLayout((int)(width/1.5), (int)height/2); //Controlling width and height.
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sort(final Boolean isAscending){
+        List<Dog> dogsCopy = new ArrayList<>(dogs);
+
+        if(sortBy.equals("name")){
+            Collections.sort(dogsCopy,new Comparator<Dog>() {
+                @Override
+                public int compare(Dog o1, Dog o2) {
+                    if(!isAscending){
+                        return (o2.getName().compareTo(o1.getName()));
+
+                    }
+
+                    return (o1.getName().compareTo(o2.getName()));
+                }
+            });
+
+        }
+        else if(sortBy.equals("age")){
+
+            Collections.sort(dogsCopy,new Comparator<Dog>() {
+                @Override
+                public int compare(Dog o1, Dog o2) {
+                    if(!isAscending){
+                        return (o2.getIntAge() - (o1.getIntAge()));
+
+                    }
+
+
+                    return (o1.getIntAge() - (o2.getIntAge()));
+                }
+            });
+        }
+        else if(sortBy.equals("sex")){
+            Collections.sort(dogsCopy,new Comparator<Dog>() {
+                @Override
+                public int compare(Dog o1, Dog o2) {
+                    if(!isAscending){
+                        return (o2.getSex().compareTo(o1.getSex()));
+
+                    }
+                    return (o1.getSex().compareTo(o2.getSex()));
+                }
+            });
+        }
+        else if(sortBy.equals("size")){
+            Collections.sort(dogsCopy,new Comparator<Dog>() {
+                @Override
+                public int compare(Dog o1, Dog o2) {
+                    if(!isAscending){
+                        return (o2.getIntSize() - (o1.getIntSize()));
+
+                    }
+                    return (o1.getIntSize() - (o2.getIntSize()));
+                }
+            });
+        }
+
+        if(!sortBy.equals("")) {
+            adapter.setDogs(dogsCopy);
+        }
+        else{
+            adapter.setDogs(dogs);
+        }
+        adapter.notifyDataSetChanged();
+
+
     }
 
     @Override
@@ -291,4 +452,16 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sort_menu_option, menu);
+
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
 }
+
+
+
