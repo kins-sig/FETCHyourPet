@@ -131,6 +131,10 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
 
                     .start(this);
         }
+        else if(id == R.id.quiz){
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
+//            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

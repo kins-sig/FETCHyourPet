@@ -24,6 +24,10 @@
             android:id="@+id/license"
             android:icon="@drawable/license_icon"
             android:title="Licenses" />
+        <item
+            android:id="@+id/quiz"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Quiz" />
 
     </group>
 

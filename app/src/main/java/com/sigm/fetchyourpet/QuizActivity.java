@@ -34,6 +34,9 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
     int[] values = new int[50];
     int currentQuestion = 0;
     ArrayList<Question> userQuestions = new ArrayList<>();
+    ArrayList<Question> dogQuestions = new ArrayList<>();
+    ArrayList<Question> currentQuestions = getCurrentQuestions();
+
     Class c = MainActivity.class;
     String type;
 
@@ -100,10 +103,21 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        userQuestions.add(new Question(0, "How active do you want your dog to be?", "Very active", "kinda active", "not active at all"));
-        userQuestions.add(new Question(1, "How sleepy do you want your dog to be?", "Very sleepy", "kinda sleepy", "not sleepy at all"));
-        userQuestions.add(new Question(3, "How happy do you want your dog to be?", "Very happy", "kinda happy", "not happy at all"));
-        userQuestions.add(new Question(4, "How badly do you want to go to bed right now?", "I am sleep", "Plz lemme sleep", "I simply cannot go on any longer"));
+        userQuestions.add(new Question(0, "How active do you want your dog to be?", "Very active", "Moderately active", "Not active at all"));
+        userQuestions.add(new Question(1, "What size do you want your dog to be?", "Large (50+ lbs)", "Medium (25-49 lbs)", "Small (0-24 lbs)"));
+        userQuestions.add(new Question(3, "How affectionate do you want your dog to be?", "I want a dog to respect my space", "I want a dog to cuddle with me on the couch", "If it happens, it happens"));
+        userQuestions.add(new Question(4, "How trained do you want your dog to be?", "Knows basic commands", "Willing to dedicate some time to training", "Willing to dedicate a lot of time to training"));
+        userQuestions.add(new Question(5, "How do you feel about shedding?", "I don't mind shedding, bring on the hair!", "A little shedding is okay", "I hate dog hair."));
+        userQuestions.add(new Question(6, "Do you want your dog to be around kids?", "Our dog will have little to no exposure to kids", "We will be around kids sometimes", "We want our dog to love kids!"));
+        userQuestions.add(new Question(7, "How often will your dog be around other animals?", "Very often", "Every now and then", "Rarely"));
+        userQuestions.add(new Question(8, "How often will your dog be alone?", "Pretty often", "Not that often", "Not often at all"));
+        userQuestions.add(new Question(9, "How do you respond to stress?", "I like to try to solve problems rationally", "I tend to hide from my problems", "I just don't care"));
+        userQuestions.add(new Question(10, "Which would you prefer to do in your free time? (Please select only one)", "Lazy day on the couch", "Outdoor adventure", "Go shopping"));
+
+
+        dogQuestions.add(new Question(0, "How active is this dog? (Please select only one)", "Very active", "Moderately active", "Not very active"));
+        dogQuestions.add(new Question(1, "What size is this dog? (Please select only one)", "Large (50+ lbs)", " Medium (25-49 lbs)", "Small (0-24 lbs)"));
+
 
 
         TextView question = findViewById(R.id.question1);
@@ -111,13 +125,13 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         CheckBox q1Answer2 = findViewById(R.id.q1Answer2);
         CheckBox q1Answer3 = findViewById(R.id.q1Answer3);
 
-        question.setText(userQuestions.get(0).questionText);
+        question.setText(currentQuestions.get(0).questionText);
 
-        q1Answer1.setText(userQuestions.get(0).answer1);
+        q1Answer1.setText(currentQuestions.get(0).answer1);
         q1Answer1.setChecked(false);
-        q1Answer2.setText(userQuestions.get(0).answer2);
+        q1Answer2.setText(currentQuestions.get(0).answer2);
         q1Answer1.setChecked(false);
-        q1Answer3.setText(userQuestions.get(0).answer3);
+        q1Answer3.setText(currentQuestions.get(0).answer3);
         q1Answer1.setChecked(false);
     }
 
@@ -142,15 +156,15 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
         currentQuestion++;
 
-        if (currentQuestion < userQuestions.size()) {
+        if (currentQuestion < currentQuestions.size()) {
 
 
-            question.setText(userQuestions.get(currentQuestion).questionText);
-            q1Answer1.setText(userQuestions.get(currentQuestion).answer1);
+            question.setText(currentQuestions.get(currentQuestion).questionText);
+            q1Answer1.setText(currentQuestions.get(currentQuestion).answer1);
             q1Answer1.setChecked(false);
-            q1Answer2.setText(userQuestions.get(currentQuestion).answer2);
+            q1Answer2.setText(currentQuestions.get(currentQuestion).answer2);
             q1Answer2.setChecked(false);
-            q1Answer3.setText(userQuestions.get(currentQuestion).answer3);
+            q1Answer3.setText(currentQuestions.get(currentQuestion).answer3);
             q1Answer3.setChecked(false);
 
         } else {
@@ -234,6 +248,16 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void viewYourMatches(View v) {
+
+    }
+    public ArrayList<Question> getCurrentQuestions() {
+        if(Account.currentAccount.getIsAdopter()){
+            currentQuestions = userQuestions;
+        }
+        if(!Account.currentAccount.getIsAdopter()){
+            currentQuestions = dogQuestions;
+        }
+        return currentQuestions;
 
     }
 
