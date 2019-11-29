@@ -12,6 +12,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 public class SignUpAccountType extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -78,6 +80,18 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
+        }else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .withActivityTitle("LICENSES")
+
+                    .start(this);
         }
 
 

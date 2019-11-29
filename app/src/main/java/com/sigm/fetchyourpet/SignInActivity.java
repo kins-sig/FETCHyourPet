@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 public class SignInActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     static Class c = AdopterDashboard.class;
@@ -194,6 +196,18 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
         } else if (id == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
+        }else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .withActivityTitle("LICENSES")
+
+                    .start(this);
         }
 
 

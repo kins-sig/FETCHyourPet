@@ -20,6 +20,10 @@
             android:id="@+id/take_quiz"
             android:icon="@drawable/ic_dogs"
             android:title="Quiz" />
+        <item
+            android:id="@+id/license"
+            android:icon="@drawable/license_icon"
+            android:title="Licenses" />
     </group>
     <!--
 

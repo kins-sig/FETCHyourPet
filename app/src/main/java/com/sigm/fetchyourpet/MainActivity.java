@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -26,6 +25,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
 
@@ -159,6 +160,18 @@ public class MainActivity extends AppCompatActivity
             // startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
+        }else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .withActivityTitle("LICENSES")
+
+                    .start(this);
         }
 
 

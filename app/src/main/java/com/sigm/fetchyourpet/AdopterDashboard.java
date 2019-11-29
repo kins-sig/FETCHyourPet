@@ -19,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.storage.FirebaseStorage;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -113,6 +115,18 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(this, MainActivity.class));
             SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
             prefs.edit().remove("username").apply();
+        }else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .withActivityTitle("LICENSES")
+
+                    .start(this);
         }
 
 

@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.storage.FirebaseStorage;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
 
@@ -254,6 +256,19 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             if (!viewDogs) {
                 startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
             }
+        }
+        else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .withActivityTitle("LICENSES")
+
+                    .start(this);
         }
 
 

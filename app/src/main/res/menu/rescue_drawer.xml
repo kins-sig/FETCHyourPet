@@ -20,6 +20,10 @@
             android:id="@+id/logout"
             android:icon="@drawable/log_out"
             android:title="Logout" />
+        <item
+            android:id="@+id/license"
+            android:icon="@drawable/license_icon"
+            android:title="Licenses" />
 
     </group>
 

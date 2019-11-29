@@ -36,6 +36,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -188,6 +190,18 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
 
 
+        }else if(id == R.id.license){
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withAboutDescription(getString(R.string.appInfo))
+                    .withLicenseDialog(true)
+                    .withActivityTitle("LICENSES")
+
+                    .withLicenseShown(true)
+                    .start(this);
         }
 
 
