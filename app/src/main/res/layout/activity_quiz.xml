@@ -13,6 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <FrameLayout
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View android:id="@+id/rectangle_at_the_top"
+            android:layout_width="match_parent"
+            android:layout_marginTop="?android:attr/actionBarSize"
+
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimaryDark"
+            android:visibility="visible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +40,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
-        <!--android:text="1. How active do you want your dog to be?"-->
 
         <CheckBox
             android:id="@+id/Q1Answer1"
@@ -83,7 +95,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
+    </FrameLayout>
 
 
     <com.google.android.material.navigation.NavigationView
