@@ -5,9 +5,15 @@
     <item
         android:id="@+id/edit"
         android:orderInCategory="1"
-        android:title="Edit\t"
+        android:title="Edit"
 
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/remove"
+        android:orderInCategory="2"
+        android:title="Remove"
+
+        app:showAsAction="never" />
 
 
 </menu>

@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity
                                     Dog.dogList.add(d);
                                     d.imageStorageReference = storageReference.child(d.image);
                                     d.id = document.getId();
+
+
                                 }
                             } else {
                                 Log.d("test", "Error getting documents.", task.getException());
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
         }
+
 
         setContentView(R.layout.activity_main);
 

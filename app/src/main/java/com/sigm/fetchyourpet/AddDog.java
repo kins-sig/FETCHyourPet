@@ -334,8 +334,12 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 d.setTraits(temporaryTraits);
                 d.setRescueID(r.getRescueID());
                 d.setTraits(temporaryTraits);
+                Log.d("test",Integer.toString(Dog.dogList.size()));
                 Dog.dogList.add(d);
+                Log.d("test",Integer.toString(Dog.dogList.size()));
+
                 d.setId(newDoc.getId());
+                d.imageStorageReference = MainActivity.storageReference.child(d.image);
 
 
                 Map<String, Object> newDog = new HashMap<>();
@@ -352,6 +356,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
                 newDoc.set(newDog);
 
+                Log.d("test",Integer.toString(Dog.dogList.size()));
 
             }
             //Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");

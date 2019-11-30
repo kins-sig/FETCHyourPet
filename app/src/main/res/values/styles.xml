@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/statusbarBgColor</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
-        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
 
     </style>
 
@@ -30,9 +29,6 @@
     </style>
 
 
-    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
-    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/sort_icon</item>
-    </style>
+
 
 </resources>

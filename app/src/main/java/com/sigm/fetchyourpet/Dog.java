@@ -19,7 +19,7 @@ public class Dog {
     String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
     StorageReference imageStorageReference;
     int zip;
-    Bitmap bitmapImage;
+    Bitmap bitmapImage = null;
     private Rescue r;
     private List<Integer> traitsInteger;
 
@@ -33,7 +33,6 @@ public class Dog {
         this.breed = breed;
         this.vaccinationStatus = vaccinationStatus;
         this.healthConcerns = healthConcerns;
-        dogList.add(this);
         this.sex = sex;
         this.age = age;
         this.additionalInfo = additionalInfo;

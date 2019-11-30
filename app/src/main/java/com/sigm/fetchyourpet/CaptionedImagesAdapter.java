@@ -69,11 +69,21 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
 
         tv.setText(d.getName());
+        if(d.bitmapImage != null){
+            Glide.with(holder.cardView.getContext())
+                    // .using(new FirebaseImageLoader())
+                    .load(d.bitmapImage)
+                    .into((ImageView) holder.cardView.findViewById(R.id.cardView));
 
-        Glide.with(holder.cardView.getContext())
-                // .using(new FirebaseImageLoader())
-                .load(d.imageStorageReference)
-                .into((ImageView) holder.cardView.findViewById(R.id.cardView));
+        }
+        else {
+
+
+            Glide.with(holder.cardView.getContext())
+                    // .using(new FirebaseImageLoader())
+                    .load(d.imageStorageReference)
+                    .into((ImageView) holder.cardView.findViewById(R.id.cardView));
+        }
 
         final CardView cardView = holder.cardView;
 
