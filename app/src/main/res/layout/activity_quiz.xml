@@ -17,11 +17,12 @@
         android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <View android:id="@+id/rectangle_at_the_top"
             android:layout_width="match_parent"
             android:layout_marginTop="?android:attr/actionBarSize"
-
             android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/colorPrimaryDark"
@@ -65,7 +66,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/q1Answer3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
+            <ImageButton
+                android:visibility="invisible"
+                android:src="@drawable/ic_arrow_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:padding="10dp"
+                android:onClick="onClickPrev"
+                app:layout_constraintTop_toBottomOf="@id/q1Answer3"
+                app:layout_constraintBottom_toTopOf="@id/submitQuiz"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/prevQuestion"
+                android:background="@color/drawerBgColor"/>
+    <ImageButton
+        android:src="@drawable/ic_arrow_forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -74,11 +98,14 @@
         app:layout_constraintBottom_toTopOf="@id/submitQuiz"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Next"
         android:id="@+id/nextQuestion"
         android:background="@color/drawerBgColor"/>
 
+
+        </LinearLayout>
+
         <Button
+            android:visibility="invisible"
             android:id="@+id/submitQuiz"
             android:layout_margin="10dp"
             android:padding="10dp"
@@ -88,7 +115,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Submit quiz!"
+            android:text="FETCH! my Matches"
             android:background="@color/drawerBgColor"/>
 
 

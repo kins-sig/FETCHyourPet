@@ -151,4 +151,8 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
     }
 
+    double getTopMargin(Double size){
+        return size + 10;
+    }
+
 }

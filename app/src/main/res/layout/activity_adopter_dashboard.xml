@@ -6,81 +6,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+
+    tools:openDrawer="end">
 
     <include
-        android:id="@+id/mainappbar"
+        android:id="@+id/appbar"
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_marginTop="?android:attr/actionBarSize"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
 
         <Button
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
-
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Take the Quiz"
-            android:textColor="#FFFF"
             android:id="@+id/quiz"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/colorAccent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:onClick="takeQuiz"
-
+            android:layout_marginTop="?android:attr/actionBarSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".70"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-
+            android:background="@color/colorAccent"
+            android:text="TAKE THE QUIZ"
+            android:textColor="#FFF"
+            android:onClick="takeQuiz"
             />
         <Button
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
             android:id="@+id/matches"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="View Your Matches"
-            android:textColor="#FFFF"
-
-            android:gravity="center"
-            android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:onClick="viewYourMatches"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".70"
+            app:layout_constraintTop_toBottomOf="@id/quiz"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quiz"
+            android:background="@color/colorAccent"
+            android:text="VIEW YOUR MATCHES"
+            android:textColor="#FFF"
 
-
+            android:onClick="viewYourMatches"
 
             />
         <Button
             android:id="@+id/edit"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
-
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Edit Your Profile"
-            android:textColor="#FFFF"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:background="@color/colorAccent"
-            android:onClick="editProfile"
+            android:layout_marginTop="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".70"
+            app:layout_constraintTop_toBottomOf="@id/matches"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/matches"
-
+            android:background="@color/orange"
+            android:text="EDIT YOUR PROFILE"
+            android:onClick="editProfile"
+            android:textColor="#FFFF"
 
             />
 
@@ -89,18 +73,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/josiefetch"
-            android:layout_marginBottom="0dp"
+            app:layout_constraintTop_toBottomOf="@id/edit"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     <com.google.android.material.navigation.NavigationView
@@ -108,16 +95,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:background="@color/drawerBgColor"
-        app:itemTextColor="@color/menuItemTextColor"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@color/iconTint"
-        app:menu="@menu/adopter_drawer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
+        app:itemTextColor="@color/menuItemTextColor"
+        app:menu="@menu/activity_main_drawer" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
