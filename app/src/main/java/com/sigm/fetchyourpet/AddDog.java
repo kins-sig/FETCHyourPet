@@ -56,7 +56,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     Spinner sexView, ageView;
     Boolean edit;
     Boolean uploadedPhoto = false;
-    String name, healthConcerns, additionalInfo, vaccinationStatus, breed, sex, age;
+    String name, healthConcerns, additionalInfo, vaccinationStatus, breed, sex, age, traits;
     Dog d;
     Uri selectedImage;
 
@@ -256,7 +256,6 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
         }
 
-
         breed = breedView.getText().toString().trim();
         if (breed.equals("")) {
             action += "Please enter the dog's breed! If unknown, just enter  'Mixed'.";
@@ -355,12 +354,12 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 newDog.put("traits", temporaryTraits);
 
                 newDoc.set(newDog);
-
+                Dog.currentDog = d;
                 Log.d("test",Integer.toString(Dog.dogList.size()));
 
             }
-            //Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");
-            Intent dashboard = new Intent(this, RescueDashboard.class);
+            Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");
+//            Intent dashboard = new Intent(this, RescueDashboard.class);
 
             startActivity(dashboard);
             finish();
@@ -377,6 +376,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         startActivityForResult(i, GET_FROM_GALLERY);
 
     }
+
+//    public void onClickTakeQuiz(View view){
+//        Intent quiz = new Intent(this, QuizActivity.class).putExtra("user","rescue");
+//        startActivity(quiz);
+//    }
 
 
     @Override

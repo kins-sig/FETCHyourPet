@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,16 +117,16 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         userQuestions.add(new Question(9, "Which would you prefer to do in your free time? (Please select only one)", "Lazy day on the couch", "Outdoor adventure", "Go shopping"));
 
 
-        dogQuestions.add(new Question(10, "How active is this dog? (Please select only one)", "Very active", "Moderately active", "Not very active"));
-        dogQuestions.add(new Question(11, "What size is this dog? (Please select only one)", "Large (50+ lbs)", "Medium (25-49 lbs)", "Small (0-24 lbs)"));
-        dogQuestions.add(new Question(12, "How affectionate is this dog? (Please select only one)", "Respects personal space", "Loves to cuddle/show affection", "If it happens, it happens"));
-        dogQuestions.add(new Question(13, "How trained is this dog? (Please select only one)", "Knows basic commands", "Needs some work with basic commands", "Knows or willing to learn advanced commands"));
-        dogQuestions.add(new Question(14, "How much does this dog shed? (Please select only one)", "Heavy shedder", "Moderate shedder", "Doesn’t shed much"));
-        dogQuestions.add(new Question(15, "How good is this dog with kids? (Please select only one)", "Not the best with kids", "Can tolerate kids", "Good with kids!"));
-        dogQuestions.add(new Question(16, "How good is this dog with other animals? (Please select only one)", "Good with other animals", "Moderate with other animals", "Not good with other animals"));
-        dogQuestions.add(new Question(17, "How good is this dog at being left alone? (Please select only one)", "Fairly good at being left alone", "Somewhat good at being left alone", "Not good at being left alone"));
-        dogQuestions.add(new Question(18, "How does this dog respond to stress? (Please select only one)", "Very alert and visibly tries to work through problems", "Scared and hides", "Indifferent, seems relaxed"));
-        dogQuestions.add(new Question(19, "What have you noticed this dog doing in its free time/when left alone? (Please select only one)", "Waiting patiently for some attention", "Demanding attention via barking or jumping", "Chilling/indifferent"));
+        dogQuestions.add(new Question(10, "How active is this dog?\n(Please select only one)", "Very active", "Moderately active", "Not very active"));
+        dogQuestions.add(new Question(11, "What size is this dog?\n(Please select only one)", "Large (50+ lbs)", "Medium (25-49 lbs)", "Small (0-24 lbs)"));
+        dogQuestions.add(new Question(12, "How affectionate is this dog?\n(Please select only one)", "Respects personal space", "Loves to cuddle/show affection", "If it happens, it happens"));
+        dogQuestions.add(new Question(13, "How trained is this dog?\n(Please select only one)", "Knows basic commands", "Needs some work with basic commands", "Knows or willing to learn advanced commands"));
+        dogQuestions.add(new Question(14, "How much does this dog shed?\n(Please select only one)", "Heavy shedder", "Moderate shedder", "Doesn’t shed much"));
+        dogQuestions.add(new Question(15, "How good is this dog with kids?\n(Please select only one)", "Not the best with kids", "Can tolerate kids", "Good with kids!"));
+        dogQuestions.add(new Question(16, "How good is this dog with other animals?\n(Please select only one)", "Good with other animals", "Moderate with other animals", "Not good with other animals"));
+        dogQuestions.add(new Question(17, "How good is this dog at being left alone?\n(Please select only one)", "Fairly good at being left alone", "Somewhat good at being left alone", "Not good at being left alone"));
+        dogQuestions.add(new Question(18, "How does this dog respond to stress?\n(Please select only one)", "Very alert and visibly tries to work through problems", "Scared and hides", "Indifferent, seems relaxed"));
+        dogQuestions.add(new Question(19, "What have you noticed this dog doing in its free time/when left alone?\n(Please select only one)", "Waiting patiently for some attention", "Demanding attention via barking or jumping", "Chilling/indifferent"));
 
         TextView question = findViewById(R.id.question1);
         CheckBox q1Answer1 = findViewById(R.id.Q1Answer1);
@@ -152,38 +153,42 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         currentQuestions.get(currentQuestion).setAnswer1check(q1Answer1.isChecked());
         currentQuestions.get(currentQuestion).setAnswer3check(q1Answer3.isChecked());
 
+if(q1Answer1.isChecked() || q1Answer2.isChecked() || q1Answer3.isChecked()) {
+    if (q1Answer1.isChecked()) {
+        values[currentQuestion * 3] = 1;
+    } else values[currentQuestion * 3] = 0;
+    if (q1Answer2.isChecked()) {
+        values[currentQuestion * 3 + 1] = 1;
+    } else values[currentQuestion * 3 + 1] = 0;
+    if (q1Answer3.isChecked()) {
+        values[currentQuestion * 3 + 2] = 1;
+    } else values[currentQuestion * 3 + 2] = 0;
 
-        if (q1Answer1.isChecked()) {
-            values[currentQuestion * 3] = 1;
-        } else values[currentQuestion * 3] = 0;
+    currentQuestion++;
 
-        if (q1Answer2.isChecked()) {
-            values[currentQuestion * 3 + 1] = 1;
-        } else values[currentQuestion * 3 + 1] = 0;
-        if (q1Answer3.isChecked()) {
-            values[currentQuestion * 3 + 2] = 1;
-        } else values[currentQuestion * 3 + 2] = 0;
+    if (currentQuestion < currentQuestions.size()) {
 
-        currentQuestion++;
+        ImageButton prev = findViewById(R.id.prevQuestion);
+        prev.setVisibility(View.VISIBLE);
+        question.setText(currentQuestions.get(currentQuestion).questionText);
+        q1Answer1.setText(currentQuestions.get(currentQuestion).answer1);
+        q1Answer1.setChecked(currentQuestions.get(currentQuestion).answer1check);
+        q1Answer2.setText(currentQuestions.get(currentQuestion).answer2);
+        q1Answer2.setChecked(currentQuestions.get(currentQuestion).answer2check);
+        q1Answer3.setText(currentQuestions.get(currentQuestion).answer3);
+        q1Answer3.setChecked(currentQuestions.get(currentQuestion).answer3check);
 
-        if (currentQuestion < currentQuestions.size()) {
+    } else {
+        ImageButton next = findViewById(R.id.nextQuestion);
+        next.setVisibility(View.INVISIBLE);
+        Button submit = findViewById(R.id.submitQuiz);
+        submit.setVisibility(View.VISIBLE);
+    }
+}
 
-            ImageButton prev = findViewById(R.id.prevQuestion);
-            prev.setVisibility(View.VISIBLE);
-            question.setText(currentQuestions.get(currentQuestion).questionText);
-            q1Answer1.setText(currentQuestions.get(currentQuestion).answer1);
-            q1Answer1.setChecked(currentQuestions.get(currentQuestion).answer1check);
-            q1Answer2.setText(currentQuestions.get(currentQuestion).answer2);
-            q1Answer2.setChecked(currentQuestions.get(currentQuestion).answer2check);
-            q1Answer3.setText(currentQuestions.get(currentQuestion).answer3);
-            q1Answer3.setChecked(currentQuestions.get(currentQuestion).answer3check);
-
-        } else {
-            ImageButton next = findViewById(R.id.nextQuestion);
-            next.setVisibility(View.INVISIBLE);
-            Button submit = findViewById(R.id.submitQuiz);
-            submit.setVisibility(View.VISIBLE);
-        }
+else{
+    Toast.makeText(this,"Please choose a response",Toast.LENGTH_SHORT ).show();
+}
     }
 
     public void onClickPrev(View view) {
@@ -232,12 +237,25 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
     public void onClickSubmitQuiz(View view) {
         if(Account.currentAccount.getIsAdopter()) {
+//            PotentialAdopter.currentAdopter.setTraits(Arrays.toString(values));
             Log.d("PET", PotentialAdopter.currentAdopter.getUsername());
         }
         if(!Account.currentAccount.getIsAdopter()) {
-            Log.d("PET", Rescue.currentRescue.getOrganization());
+//            Dog.currentDog.setTraits(Arrays.toString(values));
+            Log.d("PET", Dog.currentDog.name);
         }
         Log.d("PET", Arrays.toString(values));
+
+    }
+
+    public void onClickClose(View view) {
+        if(Account.currentAccount.getIsAdopter()) {
+            startActivity(new Intent(this, c));
+        }
+        else{
+            startActivity(new Intent(this, AddDog.class).putExtra("edit", true));
+
+        }
 
     }
 

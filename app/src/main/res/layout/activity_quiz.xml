@@ -13,116 +13,138 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:layout_marginTop="?android:attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View android:id="@+id/rectangle_at_the_top"
-            android:layout_width="match_parent"
-            android:layout_marginTop="?android:attr/actionBarSize"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark"
-            android:visibility="visible"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".QuizActivity">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/question1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <CheckBox
-            android:id="@+id/Q1Answer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/question1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <CheckBox
-            android:id="@+id/q1Answer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/Q1Answer1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <CheckBox
-            android:id="@+id/q1Answer3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/q1Answer2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/q1Answer3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal">
-            <ImageButton
-                android:visibility="invisible"
-                android:src="@drawable/ic_arrow_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:padding="10dp"
-                android:onClick="onClickPrev"
-                app:layout_constraintTop_toBottomOf="@id/q1Answer3"
-                app:layout_constraintBottom_toTopOf="@id/submitQuiz"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/prevQuestion"
-                android:background="@color/drawerBgColor"/>
-    <ImageButton
-        android:src="@drawable/ic_arrow_forward"
+        android:id="@+id/constraint1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:onClick="onClickNext"
-        app:layout_constraintTop_toBottomOf="@id/q1Answer3"
-        app:layout_constraintBottom_toTopOf="@id/submitQuiz"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/nextQuestion"
-        android:background="@color/drawerBgColor"/>
+        android:layout_marginTop="?android:attr/actionBarSize">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:padding="10sp"
+            android:background="@android:color/transparent"
+            android:textSize="10sp"
+            android:text="CLOSE"
+            android:onClick="onClickClose"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/colorrect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimaryDark"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/constraint1"
+            app:layout_constraintStart_toStartOf="@id/constraint1"
+            app:layout_constraintTop_toTopOf="@id/constraint1" />
+
+
+        <TextView
+            android:id="@+id/question1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="#FFF"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/buttons"
+            app:layout_constraintEnd_toEndOf="@id/constraint1"
+            app:layout_constraintStart_toStartOf="@id/constraint1"
+            app:layout_constraintTop_toTopOf="@id/constraint1" />
+
+        <LinearLayout
+            android:id="@+id/answers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            app:layout_constraintStart_toStartOf="@id/question1"
+            app:layout_constraintTop_toBottomOf="@id/question1">
+
+            <CheckBox
+                android:id="@+id/Q1Answer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+
+            <CheckBox
+                android:id="@+id/q1Answer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+
+            <CheckBox
+                android:id="@+id/q1Answer3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/submitQuiz"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <ImageButton
+                android:id="@+id/prevQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/drawerBgColor"
+                android:onClick="onClickPrev"
+                android:src="@drawable/ic_arrow_back"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/submitQuiz"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:id="@+id/nextQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/drawerBgColor"
+                android:onClick="onClickNext"
+                android:src="@drawable/ic_arrow_forward"
+                app:layout_constraintBottom_toTopOf="@id/submitQuiz"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                 />
 
 
         </LinearLayout>
 
         <Button
-            android:visibility="invisible"
             android:id="@+id/submitQuiz"
-            android:layout_margin="10dp"
-            android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/drawerBgColor"
             android:onClick="onClickSubmitQuiz"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="10dp"
             android:text="FETCH! my Matches"
-            android:background="@color/drawerBgColor"/>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+             />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </FrameLayout>
 
 
     <com.google.android.material.navigation.NavigationView

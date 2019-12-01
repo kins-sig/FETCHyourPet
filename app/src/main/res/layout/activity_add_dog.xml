@@ -236,7 +236,16 @@
 
                 />
 
+<!--                <Button-->
+<!--                    android:id="@+id/quiz"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:fontFamily="@font/montserrat_semibold"-->
+<!--                    android:onClick="onClickTakeQuiz"-->
+<!--                    android:text="TAKE DOG QUIZ"-->
 
+<!--                    />-->
                 <Button
                     android:id="@+id/createAccount"
                     android:layout_width="match_parent"
