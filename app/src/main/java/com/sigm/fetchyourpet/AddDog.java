@@ -58,7 +58,8 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     Boolean uploadedPhoto = false;
     String name, healthConcerns, additionalInfo, vaccinationStatus, breed, sex, age, traits;
     Dog d;
-    Uri selectedImage;
+    static Uri selectedImage;
+    Boolean alreadySubmitted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,6 +279,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
             t.show();
         } else {
+            Intent dashboard;
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
             if (edit) {
                 Dog d = Dog.currentDog;
@@ -316,50 +318,49 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                         .document(d.id)
                         .update(updates);
 
+                dashboard = new Intent(this, RescueDashboard.class);
+
+
 
             } else {
-                String temporaryTraits = "100010001100001010010001010100";
-
-                Rescue r = Rescue.currentRescue;
+                //String temporaryTraits = "100010001100001010010001010100";
 
 
-                DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
+
+                //DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
 
 
                 String path = addPhotoToFirebase();
                 //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
                 Dog d =
-                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age, additionalInfo, path);
-                d.setTraits(temporaryTraits);
-                d.setRescueID(r.getRescueID());
-                d.setTraits(temporaryTraits);
-                Log.d("test",Integer.toString(Dog.dogList.size()));
-                Dog.dogList.add(d);
-                Log.d("test",Integer.toString(Dog.dogList.size()));
-
-                d.setId(newDoc.getId());
-                d.imageStorageReference = MainActivity.storageReference.child(d.image);
-
-
-                Map<String, Object> newDog = new HashMap<>();
-                newDog.put("name", name);
-                newDog.put("breed", breed);
-                newDog.put("image", path);
-                newDog.put("healthConcerns", healthConcerns);
-                newDog.put("vaccinationStatus", vaccinationStatus);
-                newDog.put("additionalInfo", additionalInfo);
-                newDog.put("sex", sex);
-                newDog.put("age", age);
-                newDog.put("rescueID", r.getRescueID());
-                newDog.put("traits", temporaryTraits);
-
-                newDoc.set(newDog);
+                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age, additionalInfo,path);
+               // d.setTraits(temporaryTraits);
+                d.setRescueID(Rescue.currentRescue.getRescueID());
                 Dog.currentDog = d;
-                Log.d("test",Integer.toString(Dog.dogList.size()));
+
+                //d.setTraits(temporaryTraits);
+                //Dog.dogList.add(d);
+
+                //d.setId(newDoc.getId());
+                //d.imageStorageReference = MainActivity.storageReference.child(d.image);
+
+
+//                Map<String, Object> newDog = new HashMap<>();
+//                newDog.put("name", d.getName());
+//                newDog.put("breed", d.getBreed());
+//                newDog.put("image", d.getImage());
+//                newDog.put("healthConcerns", d.getHealthConcerns());
+//                newDog.put("vaccinationStatus", d.getVaccStatus());
+//                newDog.put("additionalInfo", d.getAdditionalInfo());
+//                newDog.put("sex", d.getSex());
+//                newDog.put("age", d.getAge());
+//                newDog.put("rescueID", r.getRescueID());
+//                newDog.put("traits", values);
+
+                //newDoc.set(newDog);
+                dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue").putExtra("edit",false);
 
             }
-            Intent dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue");
-//            Intent dashboard = new Intent(this, RescueDashboard.class);
 
             startActivity(dashboard);
             finish();

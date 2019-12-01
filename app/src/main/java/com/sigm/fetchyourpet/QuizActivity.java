@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,13 +25,21 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class QuizActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +49,8 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<Question> userQuestions = new ArrayList<>();
     ArrayList<Question> dogQuestions = new ArrayList<>();
     ArrayList<Question> currentQuestions = getCurrentQuestions();
+    Uri selectedImage;
+    Boolean alreadySubmitted = false;
 
     Class c = MainActivity.class;
     String type;
@@ -236,6 +249,11 @@ else{
     }
 
     public void onClickSubmitQuiz(View view) {
+        StringBuilder stringBuilder= new StringBuilder();
+
+        for(int answer : values){
+            stringBuilder.append(answer);
+        }
         if(Account.currentAccount.getIsAdopter()) {
 //            PotentialAdopter.currentAdopter.setTraits(Arrays.toString(values));
             Log.d("PET", PotentialAdopter.currentAdopter.getUsername());
@@ -243,8 +261,81 @@ else{
         if(!Account.currentAccount.getIsAdopter()) {
 //            Dog.currentDog.setTraits(Arrays.toString(values));
             Log.d("PET", Dog.currentDog.name);
+            Dog d = Dog.currentDog;
+            boolean edit = getIntent().getBooleanExtra("edit",false);
+
+            if(!edit && !alreadySubmitted) {
+                alreadySubmitted = true;
+
+                DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
+
+
+                //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
+
+                // d.setTraits(temporaryTraits);
+
+                //d.setTraits(temporaryTraits);
+                Dog.dogList.add(d);
+
+                d.setId(newDoc.getId());
+                d.imageStorageReference = MainActivity.storageReference.child(d.image);
+
+
+                Map<String, Object> newDog = new HashMap<>();
+                newDog.put("name", d.getName());
+                newDog.put("breed", d.getBreed());
+                newDog.put("image", d.getImage());
+                newDog.put("healthConcerns", d.getHealthConcerns());
+                newDog.put("vaccinationStatus", d.getVaccStatus());
+                newDog.put("additionalInfo", d.getAdditionalInfo());
+                newDog.put("sex", d.getSex());
+                newDog.put("age", d.getAge());
+                newDog.put("rescueID", Rescue.currentRescue.getRescueID());
+                newDog.put("traits", stringBuilder.toString());
+
+                newDoc.set(newDog);
+                Toast t = Toast.makeText(this, "Dog profile created!",
+                        Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
+                Intent i = new Intent(this, RescueDashboard.class);
+                startActivity(i);
+
+
+            }else{
+
+                Map<String, Object> update = new HashMap<>();
+                update.put("traits", stringBuilder.toString());
+
+                MainActivity.firestore
+                        .collection("dog")
+                        .document(d.id)
+                        .update(update);
+
+                Intent i = new Intent(this, RescueDashboard.class);
+                startActivity(i);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
         Log.d("PET", Arrays.toString(values));
+
+
+
+
+
 
     }
 
@@ -343,7 +434,14 @@ else{
     }
 
 
+
+
+
 }
+
+
+
+
 
 
 

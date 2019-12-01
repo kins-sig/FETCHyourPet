@@ -40,6 +40,18 @@ public class Dog {
 
 
     }
+    public Dog(String name, Bitmap photo, String breed, String vaccinationStatus, String healthConcerns, String sex, String age, String additionalInfo) {
+        this.name = name;
+        this.bitmapImage = photo;
+        this.breed = breed;
+        this.vaccinationStatus = vaccinationStatus;
+        this.healthConcerns = healthConcerns;
+        this.sex = sex;
+        this.age = age;
+        this.additionalInfo = additionalInfo;
+
+
+    }
 
     public void setVaccinationStatus(String vaccinationStatus) {
         this.vaccinationStatus = vaccinationStatus;
@@ -71,6 +83,10 @@ public class Dog {
 
     public void setId(String s) {
         this.id = s;
+
+    }
+    public void setImage(String s){
+        this.image = s;
 
     }
 

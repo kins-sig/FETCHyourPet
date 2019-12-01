@@ -19,11 +19,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -140,26 +138,26 @@ public class CollectionEnlarge extends AppCompatActivity {
         setUI();
 
 
-            GlideApp.with(this)
-                    //.using(new FirebaseImageLoader())
-                    .load(dog.imageStorageReference)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE);
-                            return false;
-                        }
+        GlideApp.with(this)
+                //.using(new FirebaseImageLoader())
+                .load(dog.imageStorageReference)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE);
-                            setUI();
-                            return false;
-                        }
-                    })
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .into(pic);
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        setUI();
+                        return false;
+                    }
+                })
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .into(pic);
 
 
         // pic.setImageBitmap(dog.getImage());
@@ -179,7 +177,7 @@ public class CollectionEnlarge extends AppCompatActivity {
         name.setText(dog.getName());
         String ageText = dog.getAge();
 
-        ageText = "Age: "+ageText;
+        ageText = "Age: " + ageText;
 
         age.setText(ageText);
         if (TextUtils.isEmpty(dog.getAdditionalInfo())) {
@@ -208,8 +206,7 @@ public class CollectionEnlarge extends AppCompatActivity {
 
         if (id == R.id.edit) {
             startActivity(new Intent(this, AddDog.class).putExtra("edit", true));
-        }
-        else if(id == R.id.remove){
+        } else if (id == R.id.remove) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Remove dog");
@@ -224,8 +221,7 @@ public class CollectionEnlarge extends AppCompatActivity {
                             MainActivity.firestore.collection("dog").document(Dog.currentDog.getId()).delete();
 
 
-
-                            Intent i = new Intent(getApplicationContext(), Collection.class).putExtra("user","rescue").putExtra("viewDogs",true);
+                            Intent i = new Intent(getApplicationContext(), Collection.class).putExtra("user", "rescue").putExtra("viewDogs", true);
 
                             startActivity(i);
                             finish();
