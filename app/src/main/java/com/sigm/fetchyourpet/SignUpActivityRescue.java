@@ -104,7 +104,8 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         TextView name = hView.findViewById(R.id.headerTextView);
 
 
-        boolean test = true;
+        //boolean test = true;
+        boolean test = false;
 
         if (test) {
             nameView.setText("Paws Place");

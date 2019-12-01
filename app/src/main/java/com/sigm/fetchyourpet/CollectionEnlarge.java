@@ -219,6 +219,8 @@ public class CollectionEnlarge extends AppCompatActivity {
                             Dog.dogList.remove(Dog.currentDog);
 
                             MainActivity.firestore.collection("dog").document(Dog.currentDog.getId()).delete();
+                            MainActivity.storageReference.child(Dog.currentDog.getImage()).delete();
+
 
 
                             Intent i = new Intent(getApplicationContext(), Collection.class).putExtra("user", "rescue").putExtra("viewDogs", true);
