@@ -35,7 +35,7 @@ public class Matrix {
 	
 	/**
 	 * Constructor accepting dimensions and an identity boolean trigger
-	 * @param data: a double [][]
+	 * @param dimensions: a double [][]
 	 */
 	public Matrix(int dimensions) {
 		this.rowNum = dimensions;
@@ -125,25 +125,25 @@ public class Matrix {
 	  * @param colNums number of columns of the matrix in the file
 	  * @return a double[][] containing the data
 	  */
-	public Matrix(String filename, int rowNums, int colNums){
-		BufferedReader bufRead;
-		String myLine;
-		this.rowNum = rowNums;
-		this.colNum = colNums;
-		this.matrix = new double[rowNums][colNums];
-		try {
-			bufRead = Files.newBufferedReader(Paths.get(filename));
-			int rowNum = 0;
-			while ((myLine = bufRead.readLine()) != null) {
-				String[] data = myLine.split("	");
-				for(int i = 0; i < data.length; i++) {
-					this.matrix[rowNum][i] = Double.parseDouble(data[i].trim());
-				}
-				rowNum++;
-			}
-			bufRead.close();
-		}catch(IOException e) {}
-	}
+//	public Matrix(String filename, int rowNums, int colNums){
+//		BufferedReader bufRead;
+//		String myLine;
+//		this.rowNum = rowNums;
+//		this.colNum = colNums;
+//		this.matrix = new double[rowNums][colNums];
+//		try {
+//			bufRead = Files.newBufferedReader(Paths.get(filename));
+//			int rowNum = 0;
+//			while ((myLine = bufRead.readLine()) != null) {
+//				String[] data = myLine.split("	");
+//				for(int i = 0; i < data.length; i++) {
+//					this.matrix[rowNum][i] = Double.parseDouble(data[i].trim());
+//				}
+//				rowNum++;
+//			}
+//			bufRead.close();
+//		}catch(IOException e) {}
+//	}
 	
 	/**
 	 * get the dimensions of the matrix 
@@ -299,7 +299,7 @@ public class Matrix {
 	
 	/**
 	 * Scalar multiplication of a matrix across another matrix
-	 * @param scalar 	the scalar multiplier
+	 * @param otherMatrix 	the scalar multiplier
 	 * @return the final product of scalar multiplication across matrices
 	 */
 	public Matrix scalarMultAcrossMatrices(Matrix otherMatrix) {
@@ -336,7 +336,6 @@ public class Matrix {
 	
 	/**
 	 * scale the vector to have magnitude of 1 by normalizing
-	 * @param v		any vector
 	 * @return		the normalized vector (magnitude = 1)
 	 */
 	public Matrix normalize() {
@@ -363,8 +362,7 @@ public class Matrix {
 	
 	/**
 	 * Returns the magnitude of a given vector 
-	 * @param v		any vector 
-	 * @return		the magnitude of that vector 
+	 * @return		the magnitude of that vector
 	 */
 	public double getMagnitude() {
 		Matrix copy = this.copy();		
