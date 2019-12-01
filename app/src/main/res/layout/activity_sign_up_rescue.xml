@@ -75,7 +75,7 @@
                     android:id="@+id/organization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 
@@ -98,7 +98,7 @@
                     android:id="@+id/street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 
@@ -117,7 +117,7 @@
                     android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
                     />
@@ -136,7 +136,7 @@
                     android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 
@@ -155,7 +155,7 @@
                     android:id="@+id/zip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:inputType="number"
                     android:fontFamily="@font/montserrat_semibold"
@@ -175,7 +175,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:singleLine="true"
                     android:fontFamily="@font/montserrat_semibold"
 

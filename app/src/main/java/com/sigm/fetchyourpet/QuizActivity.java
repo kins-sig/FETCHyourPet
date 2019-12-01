@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,6 +93,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
             name.setText(p.getFirstName());
         } else if (!Account.currentAccount.getIsAdopter()) {
             c = RescueDashboard.class;
+            setCheckListeners();
 
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.rescue_drawer);
@@ -313,10 +315,11 @@ else{
                 newDoc.set(newDog);
                 Toast t = Toast.makeText(this, "Dog profile created!",
                         Toast.LENGTH_SHORT);
-                Dog.currentDog.setTraits(stringBuilder.toString());
 
                 t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
                 t.show();
+                Dog.currentDog.setTraits(stringBuilder.toString());
+
                 Intent i = new Intent(this, RescueDashboard.class);
                 startActivity(i);
 
@@ -450,6 +453,45 @@ else{
             currentQuestions = dogQuestions;
         }
         return currentQuestions;
+
+    }
+
+    public void setCheckListeners(){
+        final CheckBox CB_1 = findViewById(R.id.Q1Answer1);
+        final CheckBox CB_2 = findViewById(R.id.q1Answer2);
+        final CheckBox CB_3 = findViewById(R.id.q1Answer3);
+
+
+
+
+        CB_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    CB_2.setChecked(false);
+                    CB_3.setChecked(false);
+                }
+            }
+        });
+        CB_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    CB_1.setChecked(false);
+                    CB_3.setChecked(false);
+                }
+            }
+        });
+        CB_3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    CB_2.setChecked(false);
+                    CB_1.setChecked(false);
+                }
+            }
+        });
+
 
     }
 

@@ -335,6 +335,11 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                             .document(r.getUsername())
                             .update("password", Account.getMD5(password));
                 }
+                Toast t = Toast.makeText(this, "Rescue profile updated!",
+                        Toast.LENGTH_SHORT);
+
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
                 startActivity(dashboard);
                 finish();
 
@@ -425,6 +430,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
         Rescue.currentRescue =
                 new Rescue(bitmap, name, street, city, state, zip, email, path);
+        Rescue.currentRescue.setRescueID(newDoc.getId());
     }
 
     public String addPhotoToFirebase() {

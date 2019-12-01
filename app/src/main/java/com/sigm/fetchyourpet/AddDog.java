@@ -317,6 +317,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                         .collection("dog")
                         .document(d.id)
                         .update(updates);
+                Toast t = Toast.makeText(this, "Dog profile updated!",
+                        Toast.LENGTH_SHORT);
+
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
 
                 dashboard = new Intent(this, RescueDashboard.class);
 

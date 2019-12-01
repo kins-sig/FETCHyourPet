@@ -308,6 +308,11 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
                             .document(a.getUsername())
                             .update("password", Account.getMD5(password));
                 }
+                Toast t = Toast.makeText(this, "Profile updated!",
+                        Toast.LENGTH_SHORT);
+
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
                 startActivity(dashboard);
                 finish();
 
@@ -394,6 +399,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
                 .set(newAccount);
 
         PotentialAdopter.currentAdopter = new PotentialAdopter(bitmap, firstName, zip, email, path);
+        PotentialAdopter.currentAdopter.setAdopterID(newDoc.getId());
 
 
     }
