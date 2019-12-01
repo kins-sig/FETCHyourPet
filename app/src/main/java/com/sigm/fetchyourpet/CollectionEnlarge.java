@@ -166,9 +166,13 @@ public class CollectionEnlarge extends AppCompatActivity {
     }
 
     public void setUI() {
-        String sex = "Female";
-        if (dog.sex.equals("M")) {
+        String sex;
+        sex = dog.getSex();
+        if (sex.toUpperCase().equals("M")) {
             sex = "Male";
+        }
+        else if(sex.toUpperCase().equals("F")){
+            sex = "Female";
         }
         sexView.setText(sex);
         breed.setText(dog.getBreed());
@@ -186,11 +190,11 @@ public class CollectionEnlarge extends AppCompatActivity {
         additionalInfo.setText(dog.getAdditionalInfo());
         location.setText(zip);
         size = sizeView.getText().toString();
-        if (size.equals("Size: Large")) {
+        if (size.equals(Dog.traitsTextValue.get(3))) {
             weight = "50+ lbs";
-        } else if (size.equals("Size: Medium")) {
+        } else if (size.equals(Dog.traitsTextValue.get(4))) {
             weight = "25-49 lbs";
-        } else if (size.equals("Size: Small")) {
+        } else if (size.equals(Dog.traitsTextValue.get(5))) {
             weight = "< 24 lbs";
         }
         weightView.setText(weight);

@@ -145,10 +145,18 @@ public class Dog {
     }
 
     public String getSex() {
+
+        if(this.sex.toUpperCase().equals("M")){
+            return "Male";
+        }else if(this.sex.toUpperCase().equals("F")){
+            return "Female";
+        }
         return this.sex;
     }
 
     public void setSex(String sex) {
+
+
         this.sex = sex;
     }
 

@@ -18,23 +18,49 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/constraint"
         >
 
 
+        <TextView
+            android:id="@+id/welcome1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?android:attr/actionBarSize"
+            android:paddingTop="16dp"
+            android:text="WELCOME"
+            android:textColor="@color/menuItemTextColor"
+            android:textSize="22sp"
+            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="visible"
 
+
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/welcome2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="to FETCH! your Pet"
+            android:textSize="22sp"
+            android:visibility="visible"
+
+            android:textColor="@color/menuItemTextColor"
+            app:layout_constraintLeft_toLeftOf="@id/quiz"
+            app:layout_constraintRight_toRightOf="@id/quiz"
+            app:layout_constraintTop_toBottomOf="@id/welcome1" />
         <Button
             android:id="@+id/quiz"
-            android:layout_marginTop="?android:attr/actionBarSize"
+            android:layout_marginTop="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintWidth_percent=".70"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/welcome2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/colorAccent"
+            android:background="@color/drawerBgColor"
             android:text="TAKE THE QUIZ"
-            android:textColor="#FFF"
+            android:textColor="@color/menuItemTextColor"
             android:onClick="takeQuiz"
             />
         <Button
@@ -46,9 +72,9 @@
             app:layout_constraintTop_toBottomOf="@id/quiz"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/colorAccent"
+            android:background="@color/drawerBgColor"
             android:text="VIEW YOUR MATCHES"
-            android:textColor="#FFF"
+            android:textColor="@color/menuItemTextColor"
 
             android:onClick="viewYourMatches"
 
@@ -74,12 +100,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/josiefetch"
-            app:layout_constraintBottom_toBottomOf="@id/constraint"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/edit"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit"
-            app:layout_constraintVertical_bias="0.195" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,3 +131,8 @@
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+

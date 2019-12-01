@@ -144,6 +144,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
             }
             for (Dog d : Dog.dogList) {
+                Log.d("test",d.getName());
                 if (d.getRescueID().equals(r.getRescueID())| Rescue.currentRescue.getUsername().equals("admin")) {
                     r.dogs.add(d);
                     this.dogs.add(d);
