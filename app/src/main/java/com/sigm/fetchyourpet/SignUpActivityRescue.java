@@ -432,6 +432,8 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 new Rescue(bitmap, name, street, city, state, zip, email, path);
         Rescue.currentRescue.setRescueID(newDoc.getId());
         Rescue.currentRescue.setUsername(username);
+        Account.currentAccount = new Account(username,password,false);
+
     }
 
     public String addPhotoToFirebase() {

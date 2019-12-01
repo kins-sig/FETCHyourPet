@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +25,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+
+import java.util.Collections;
 
 public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -155,6 +160,39 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
     }
 
     public void viewYourMatches(View v) {
+        Algo A = new Algo();
+        A.all_dogs = Dog.dogList;
+        A.current_user = PotentialAdopter.currentAdopter;
+        String[] sorted_dog_list = A.run_recommender_system();
+
+        //dog_list contains the list of BEST fitting dogs from BEST to WORST
+        Dog[] dog_list = new Dog[sorted_dog_list.length];
+
+        int i = dog_list.length-1;
+        for(String s:sorted_dog_list) {
+            for(Dog d: A.all_dogs){
+                if(d.getId().equals(s)){
+                    dog_list[i] = d;
+                    i--;
+                }
+            }
+        }
+        String s = "According to the quiz results, the best dogs for you are:\n";
+        StringBuilder s2 = new StringBuilder(s);
+        i = 0;
+        while(i<10){
+            i++;
+
+            s2.append(dog_list[i].getName());
+            if(i!=10){
+                s2.append(", ");
+            }
+        }
+        Toast t = Toast.makeText(this, s2,
+                Toast.LENGTH_LONG);
+        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+        t.show();
+
 
     }
 

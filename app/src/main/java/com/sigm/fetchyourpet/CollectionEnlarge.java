@@ -83,7 +83,7 @@ public class CollectionEnlarge extends AppCompatActivity {
             if (d.getId().equals(dogID)) {
                 dog = d;
                 Dog.currentDog = d;
-                char[] chars = d.getTraits().toCharArray();
+                char[] chars = d.getTraits().trim().toCharArray();
                 int viewCounter = 0;
                 int charCounter = 0;
                 for (char c : chars) {

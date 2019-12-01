@@ -118,4 +118,21 @@ public class PotentialAdopter {
         return this.traits;
     }
 
+
+    public Matrix get_user_traits(){
+
+        double[] data = new double[30];
+        char[] chars = traits.trim().toCharArray();
+        int i = 0;
+        for(char c : chars){
+            data[i] = Character.getNumericValue(c);
+            i++;
+
+        }
+        return  new Matrix(data);
+
+
+
+    }
+
 }

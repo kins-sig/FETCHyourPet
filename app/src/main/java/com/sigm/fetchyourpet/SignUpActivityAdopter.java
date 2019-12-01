@@ -400,6 +400,8 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
 
         PotentialAdopter.currentAdopter = new PotentialAdopter(bitmap, firstName, zip, email, path);
         PotentialAdopter.currentAdopter.setAdopterID(newDoc.getId());
+        PotentialAdopter.currentAdopter.setUsername(username);
+        Account.currentAccount = new Account(username,password,true);
 
 
     }

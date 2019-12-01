@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Dog {
-    public static List<Dog> dogList = new ArrayList<>();
+    public static ArrayList<Dog> dogList = new ArrayList<>();
     public static Dog currentDog;
     public static Context c;
     static List<String> traitsTextValue = Arrays.asList(null, null, null, "Size: Large", "Size: Medium", "Size: Small", null, null, null, "Very well trained", "Knows basic commands", "Needs training"
@@ -199,5 +199,22 @@ public class Dog {
 
 
         return intSize;
+    }
+
+    public Matrix get_dog_traits(){
+
+        double[] data = new double[30];
+        char[] chars = traits.trim().toCharArray();
+        int i = 0;
+        String name = this.name;
+        for(char c : chars){
+            data[i] = Character.getNumericValue(c);
+            i++;
+
+        }
+        return  new Matrix(data);
+
+
+
     }
 }
