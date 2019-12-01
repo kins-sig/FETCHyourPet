@@ -66,11 +66,11 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        type = getIntent().getStringExtra("user");
+       // type = getIntent().getStringExtra("user");
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
-        if (type.equals("adopter")) {
+        if (Account.currentAccount.getIsAdopter()) {
             c = AdopterDashboard.class;
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.adopter_drawer);
@@ -90,7 +90,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
                         .into(image);
             }
             name.setText(p.getFirstName());
-        } else if (type.equals("rescue")) {
+        } else if (!Account.currentAccount.getIsAdopter()) {
             c = RescueDashboard.class;
 
             navigationView.getMenu().clear();
@@ -257,6 +257,23 @@ else{
         if(Account.currentAccount.getIsAdopter()) {
 //            PotentialAdopter.currentAdopter.setTraits(Arrays.toString(values));
             Log.d("PET", PotentialAdopter.currentAdopter.getUsername());
+
+
+            Map<String, Object> update = new HashMap<>();
+            update.put("traits", stringBuilder.toString());
+
+            MainActivity.firestore
+                    .collection("adopter")
+                    .document(PotentialAdopter.currentAdopter.getAdopterID())
+                    .update(update);
+
+
+            PotentialAdopter.currentAdopter.setTraits(stringBuilder.toString());
+            Intent i = new Intent(this, AdopterDashboard.class);
+            startActivity(i);
+
+
+
         }
         if(!Account.currentAccount.getIsAdopter()) {
 //            Dog.currentDog.setTraits(Arrays.toString(values));
@@ -296,6 +313,8 @@ else{
                 newDoc.set(newDog);
                 Toast t = Toast.makeText(this, "Dog profile created!",
                         Toast.LENGTH_SHORT);
+                Dog.currentDog.setTraits(stringBuilder.toString());
+
                 t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
                 t.show();
                 Intent i = new Intent(this, RescueDashboard.class);
@@ -311,6 +330,7 @@ else{
                         .collection("dog")
                         .document(d.id)
                         .update(update);
+                Dog.currentDog.setTraits(stringBuilder.toString());
 
                 Intent i = new Intent(this, RescueDashboard.class);
                 startActivity(i);

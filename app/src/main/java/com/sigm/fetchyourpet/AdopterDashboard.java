@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,12 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
         PotentialAdopter p = PotentialAdopter.currentAdopter;
+        if(p.getTraits() != null){
+            Button b = findViewById(R.id.quiz);
+            b.setText("RETAKE QUIZ");
+
+
+        }
         Bitmap b = p.getPhoto();
         if (b == null) {
 

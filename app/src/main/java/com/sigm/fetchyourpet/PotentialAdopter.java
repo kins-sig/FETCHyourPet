@@ -13,7 +13,7 @@ public class PotentialAdopter {
     int[] favorite_dog_ids;
     private int phone, numDogsRatedSinceLastRefresh;
     private Bitmap photo;
-    private String firstName, email, password, image, zip, username, adopterID;
+    private String firstName, email, password, image, zip, username, adopterID,traits;
 
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
         this.photo = b;
@@ -109,4 +109,13 @@ public class PotentialAdopter {
     public void setAdopterID(String adopterID) {
         this.adopterID = adopterID;
     }
+
+    public void setTraits(String s){
+        this.traits = s;
+    }
+
+    public String getTraits(){
+        return this.traits;
+    }
+
 }

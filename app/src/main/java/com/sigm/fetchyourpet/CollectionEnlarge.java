@@ -236,6 +236,9 @@ public class CollectionEnlarge extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
 
+        }else if(id == R.id.retakeQuiz){
+            startActivity(new Intent(this, QuizActivity.class).putExtra("edit", true));
+
         }
 
         //noinspection SimplifiableIfStatement

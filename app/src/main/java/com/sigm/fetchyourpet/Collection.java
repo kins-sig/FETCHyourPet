@@ -391,7 +391,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         user = null;
 
         int id = item.getItemId();
-        if (id == R.id.take_quiz) {
+        if (id == R.id.quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", user));
 
         } else if (id == R.id.sign_in) {
