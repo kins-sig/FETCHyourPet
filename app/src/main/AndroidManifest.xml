@@ -13,8 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SortActivity"></activity>
-        <activity android:name=".SortDialog" />
+        <activity android:name=".ViewMatches"
+
+            >
+
+
+
+        </activity>
+
         <activity
             android:name=".AddDog"
             android:screenOrientation="portrait" />
@@ -27,6 +33,7 @@
         <activity
             android:name=".QuizActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".SignUpActivityAdopter"
             android:screenOrientation="portrait" />

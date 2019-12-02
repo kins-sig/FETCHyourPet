@@ -13,7 +13,7 @@ public class Dog {
     public static ArrayList<Dog> dogList = new ArrayList<>();
     public static Dog currentDog;
     public static Context c;
-    static List<String> traitsTextValue = Arrays.asList(null, null, null, "Size: Large", "Size: Medium", "Size: Small", null, null, null, "Very well trained", "Knows basic commands", "Needs training"
+    static List<String> traitsTextValue = Arrays.asList(null, null, null, "Size: Large", "Size: Medium", "Size: Small", null, null, null, "Knows basic commands", "Needs training", "Very well trained"
             , null, null, null, "Not the best with kids", "Can tolerate kids", "Loves kids!", null, null, null, "Can be left alone", "Is okay being left alone", "Should probably avoid being left alone"
             , null, null, null, null, null, null);
     String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
@@ -132,6 +132,20 @@ public class Dog {
     }
 
     public String getSize() {
+        String s = "1";
+        if(traits.charAt(3) == s.charAt(0)){
+            return "Size: Large";
+
+        }
+        else if(traits.charAt(4) == s.charAt(0)){
+            return "Size: Medium";
+        }
+
+        else if(traits.charAt(5) == s.charAt(0)){
+            return "Size: Large";
+        }
+
+
         return this.size;
     }
 

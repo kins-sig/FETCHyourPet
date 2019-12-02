@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -181,17 +182,20 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         StringBuilder s2 = new StringBuilder(s);
         i = 0;
         while(i<10){
-            i++;
 
             s2.append(dog_list[i].getName());
-            if(i!=10){
+            if(i!=9){
                 s2.append(", ");
             }
+            i++;
+
         }
-        Toast t = Toast.makeText(this, s2,
-                Toast.LENGTH_LONG);
-        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
-        t.show();
+//        Toast t = Toast.makeText(this, s2,
+//                Toast.LENGTH_LONG);
+//        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+//        t.show();
+        ViewMatches.dogList= dog_list;
+        startActivity(new Intent(this, ViewMatches.class));
 
 
     }

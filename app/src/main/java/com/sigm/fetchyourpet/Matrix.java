@@ -734,22 +734,22 @@ public class Matrix {
 	/**
 	 * converts the matrix to a string representation
 	 */
-	public String toString() {
-		String dimensions = "Dimensions: " + Integer.toString(rowNum) 
-		+ " x " + Integer.toString(colNum) + System.lineSeparator();
-		
-		String answer = "";
-		for(int i = 0; i < matrix.length; i++) {
-			for(int j = 0; j < matrix[i].length; j++) {
-				double value = matrix[i][j];
-				answer += (double)Math.round(value * 100000000d) / 100000000d + "	";
-//				answer += value + " ";
-
-				}
-			answer += System.lineSeparator();
-		}
-		return dimensions + answer;
-	}
+//	public String toString() {
+//		String dimensions = "Dimensions: " + Integer.toString(rowNum)
+//		+ " x " + Integer.toString(colNum) + System.lineSeparator();
+//
+//		String answer = "";
+//		for(int i = 0; i < matrix.length; i++) {
+//			for(int j = 0; j < matrix[i].length; j++) {
+//				double value = matrix[i][j];
+//				answer += (double)Math.round(value * 100000000d) / 100000000d + "	";
+////				answer += value + " ";
+//
+//				}
+//			answer += System.lineSeparator();
+//		}
+//		return dimensions + answer;
+//	}
 	
 	/**
 	 * print the given row of the matrix 
@@ -786,22 +786,22 @@ public class Matrix {
 	
 	
 	
-	public static void main(String [] args) {
-		Matrix m = new Matrix(new double[] {1, 0, 1});
-		Matrix like = new Matrix(new double[] {9, 2, 8});
-		Matrix dislike = new Matrix(new double[] {2, 6, 1});
-		
-//		for(int i = 0; i < 5000; i++) {
-			m = m;
-			double cos1 = like.cos_sim(dislike);
-			System.out.println(cos1);
-			like = like.normalize();
-			dislike = dislike.normalize();
-			double cos2 = like.cos_sim(dislike);
-			System.out.println(cos2);
-			m = m.add(dislike.scalarMult(-1).add(like));
-//		}
-
-//		System.out.println(m);
-	}
+//	public static void main(String [] args) {
+//		Matrix m = new Matrix(new double[] {1, 0, 1});
+//		Matrix like = new Matrix(new double[] {9, 2, 8});
+//		Matrix dislike = new Matrix(new double[] {2, 6, 1});
+//
+////		for(int i = 0; i < 5000; i++) {
+//			m = m;
+//			double cos1 = like.cos_sim(dislike);
+//			System.out.println(cos1);
+//			like = like.normalize();
+//			dislike = dislike.normalize();
+//			double cos2 = like.cos_sim(dislike);
+//			System.out.println(cos2);
+//			m = m.add(dislike.scalarMult(-1).add(like));
+////		}
+//
+////		System.out.println(m);
+//	}
 }
