@@ -64,7 +64,7 @@ public class PageViewAdapter extends PagerAdapter {
         ImageView image;
         image = view.findViewById(R.id.image);
 
-        TextView age, size,name;
+        TextView age, size,name,breed;
         ImageButton email, maps,search;
         CardView c;
 
@@ -72,6 +72,7 @@ public class PageViewAdapter extends PagerAdapter {
         email = view.findViewById(R.id.email);
         maps = view.findViewById(R.id.location);
         search = view.findViewById(R.id.google);
+        breed = view.findViewById(R.id.breed);
 
         c.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -144,8 +145,9 @@ public class PageViewAdapter extends PagerAdapter {
         String s = dogList[position].getName();
         String agetext = "Age: " + dogList[position].getAge();
         age.setText(agetext);
-        size.setText(dogList[position].getSize());
-        name.setText(dogList[position].getName());
+        size.setText(d.getSize());
+        name.setText(d.getName());
+        breed.setText(d.getBreed() +", " + d.getSex());
 
 //        view.setOnClickListener(new View.OnClickListener() {
 //            @Override

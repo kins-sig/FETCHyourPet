@@ -91,14 +91,14 @@
 
 
             <TextView
-                android:id="@+id/desc"
+                android:id="@+id/breed"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:maxLines="3"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
-                android:text="Description"
+                android:text="Breed: Mixed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"/>
