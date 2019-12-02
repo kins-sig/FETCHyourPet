@@ -25,6 +25,7 @@ public class Dog {
 
 
     public Dog() {
+
     }
 
     public Dog(String name, Bitmap photo, String breed, String vaccinationStatus, String healthConcerns, String sex, String age, String additionalInfo, String path) {
@@ -142,11 +143,12 @@ public class Dog {
         }
 
         else if(traits.charAt(5) == s.charAt(0)){
-            return "Size: Large";
+            return "Size: Small";
         }
 
 
         return this.size;
+
     }
 
     public String getAdditionalInfo() {
