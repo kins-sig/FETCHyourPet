@@ -7,6 +7,7 @@
     android:gravity="center_vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent=".90"
         app:layout_constraintHeight_percent=".65"
@@ -25,6 +26,9 @@
             android:layout_height="match_parent"
             android:weightSum="1"
             android:background="@color/drawerBgColor"
+
+            android:id="@+id/linearlayout"
+
             android:orientation="vertical">
 
             <ImageView

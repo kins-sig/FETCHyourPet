@@ -19,12 +19,14 @@ public class Dog {
     String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
     StorageReference imageStorageReference;
     int zip;
+
     Bitmap bitmapImage = null;
     private Rescue r;
     private List<Integer> traitsInteger;
 
 
     public Dog() {
+
 
     }
 

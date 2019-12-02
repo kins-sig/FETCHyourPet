@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +37,7 @@ public class PageViewAdapter extends PagerAdapter {
     private Context context;
     private Dog d;
 
+
     public PageViewAdapter(Dog[] dogs, Context context) {
         this.dogList = dogs;
         this.context = context;
@@ -52,18 +55,39 @@ public class PageViewAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+    public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
         layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.view_matches_item, container, false);
+
         d = dogList[position];
 
         ImageView image;
+        image = view.findViewById(R.id.image);
+
         TextView age, size,name;
         ImageButton email, maps,search;
+        CardView c;
 
+        c = view.findViewById(R.id.cardView);
         email = view.findViewById(R.id.email);
         maps = view.findViewById(R.id.location);
         search = view.findViewById(R.id.google);
+
+        c.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                //this will log the page number that was click
+                Dog.currentDog = d;
+
+                Intent i = new Intent(context, CollectionEnlarge.class);
+                String id = PageViewAdapter.this.dogList[position].getId();
+
+                i.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
+
+                context.startActivity(i);
+
+            }
+        });
+
         email.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 //this will log the page number that was click
@@ -87,7 +111,6 @@ public class PageViewAdapter extends PagerAdapter {
             }
         });
 
-        image = view.findViewById(R.id.image);
 
 
         if(d.bitmapImage != null){
@@ -137,6 +160,7 @@ public class PageViewAdapter extends PagerAdapter {
         container.addView(view, 0);
         return view;
     }
+
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
