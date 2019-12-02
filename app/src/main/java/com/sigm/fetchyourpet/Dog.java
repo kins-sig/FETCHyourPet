@@ -18,6 +18,8 @@ public class Dog {
             , null, null, null, null, null, null);
     String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
     StorageReference imageStorageReference;
+    public Boolean favorited = false;
+    public Boolean disliked = false;
     int zip;
 
     Bitmap bitmapImage = null;
@@ -234,5 +236,12 @@ public class Dog {
 
 
 
+    }
+
+    public void setFavorited(boolean b){
+        this.favorited = b;
+    }
+    public void setDisliked(boolean b){
+        this.disliked = b;
     }
 }

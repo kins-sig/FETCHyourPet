@@ -65,7 +65,7 @@ public class PageViewAdapter extends PagerAdapter {
         image = view.findViewById(R.id.image);
 
         TextView age, size,name,breed;
-        ImageButton email, maps,search;
+        final ImageButton email, maps,search,like,dislike;
         CardView c;
 
         c = view.findViewById(R.id.cardView);
@@ -73,10 +73,65 @@ public class PageViewAdapter extends PagerAdapter {
         maps = view.findViewById(R.id.location);
         search = view.findViewById(R.id.google);
         breed = view.findViewById(R.id.breed);
+        like = view.findViewById(R.id.like);
+        dislike = view.findViewById(R.id.dislike);
+
+
+        if(d.favorited){
+            like.setImageResource(R.drawable.like_heart);
+        }else {
+            like.setImageResource(R.drawable.default_heart_icon);
+        }
+
+
+        like.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                String action = "";
+
+                if(d.favorited){
+                    like.setImageResource(R.drawable.default_heart_icon);
+                     action = d.getName() + " was unfavorited.";
+                }else {
+                    like.setImageResource(R.drawable.like_heart);
+                    action = d.getName() + " was favorited";
+                }
+                d.favorited = !d.favorited;
+
+                Toast t = Toast.makeText(context, action,
+                        Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
+
+
+
+            }
+        });
+        dislike.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                String action = "";
+
+                if(d.disliked){
+                   // dislike.setImageResource(R.drawable.default_heart_icon);
+                    action = d.getName() + " will not be included in the future.";
+                }else {
+                    //dislike.setImageResource(R.drawable.like_heart);
+                    action = d.getName() + " will be included in the future";
+                }
+                d.disliked = !d.disliked;
+
+                Toast t = Toast.makeText(context, action,
+                        Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+                t.show();
+
+
+            }
+        });
+
+
 
         c.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //this will log the page number that was click
                 Dog.currentDog = d;
 
                 Intent i = new Intent(context, CollectionEnlarge.class);
@@ -91,14 +146,12 @@ public class PageViewAdapter extends PagerAdapter {
 
         email.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //this will log the page number that was click
                 intent("email");
 
             }
         });
         maps.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //this will log the page number that was click
                 intent("maps");
 
             }
@@ -106,7 +159,6 @@ public class PageViewAdapter extends PagerAdapter {
 
         search.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //this will log the page number that was click
                 intent("google");
 
             }

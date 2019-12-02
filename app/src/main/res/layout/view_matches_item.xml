@@ -111,16 +111,16 @@
 
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:maxLines="3"
                     android:drawablePadding="10dp"
                     android:ellipsize="end"
-                    android:text="Contact rescue:"
-                    android:layout_gravity="top"
                     android:gravity="top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:maxLines="3"
+                    android:text="Contact Rescue:" />
 
                 <ImageButton
                     android:id="@+id/email"
@@ -158,13 +158,14 @@
 
 
                 <ImageButton
+                    android:id="@+id/dislike"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_gravity="left"
                     android:layout_marginEnd="8dp"
                     android:background="@null"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="left"
 
+                    android:scaleType="fitXY"
                     android:src="@drawable/thumbs_down_icon" />
 
                 <ImageButton
@@ -177,10 +178,11 @@
                     android:src="@drawable/location_icon" />
 
                 <ImageButton
+                    android:id="@+id/like"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@null"
 
+                    android:background="@null"
                     android:scaleType="fitXY"
                     android:src="@drawable/default_heart_icon" />
 
