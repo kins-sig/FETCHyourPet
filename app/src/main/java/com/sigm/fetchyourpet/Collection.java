@@ -50,9 +50,11 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     static String user;
     static boolean viewDogs = false;
     private String sortBy = "";
+    boolean favorited = false;
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
     LinearLayoutManager layoutManager;
+    Menu optionsMenu;
     Class c;
     Rescue r;
     public List<Dog> dogs = new ArrayList<>();
@@ -225,6 +227,13 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
+    @Override
+    protected void onResume() {
+
+
+        super.onResume();
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -236,6 +245,27 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.favorites){
+            List<Dog> dogsCopy = new ArrayList<>();
+
+            if(!favorited){
+                for(Dog d:dogs){
+                    if(d.favorited){
+                        dogsCopy.add(d);
+                    }
+                }
+                optionsMenu.getItem(0).setIcon(R.drawable.like_heart_24dp);
+            }else{
+                dogsCopy = new ArrayList<>(dogs);
+                optionsMenu.getItem(0).setIcon(R.drawable.default_heart_icon_24dp);
+
+            }
+            favorited = !favorited;
+
+            adapter.setDogs(dogsCopy);
+
+            adapter.notifyDataSetChanged();
+
         }else if(id == R.id.sort){
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -287,6 +317,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                                     }
                                     sort(ascending.isChecked());
 
+                                    optionsMenu.getItem(0).setIcon(R.drawable.default_heart_icon_24dp);
+                                    favorited = false;
+
 
                                     Log.d("test", Boolean.toString(r1.isChecked()));
                                 }
@@ -308,7 +341,13 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
             // show it
             alertDialog.show();
+
+
             alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, width);
+
+//            optionsMenu.getItem(0).setIcon(R.drawable.default_heart_icon_24dp);
+//            favorited = false;
+
 
 
             // alertDialog.getWindow().setLayout((int)(width/1.5), (int)height/2); //Controlling width and height.
@@ -392,7 +431,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         user = null;
 
         int id = item.getItemId();
-        if (id == R.id.quiz) {
+        if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", user));
 
         } else if (id == R.id.sign_in) {
@@ -401,8 +440,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.browse_all_animals) {
             if (viewDogs) {
                 startActivity(new Intent(this, Collection.class).putExtra("user", "rescue").putExtra("viewDogs", false));
+               // finish();
             }
-            //startActivity(new Intent(this, Collection.class));
 
 
         } else if (id == R.id.home) {
@@ -432,7 +471,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
                     .start(this);
         }else if(id == R.id.view_your_matchesa){
-        AdopterDashboard.viewMatches(this);
+
+            AdopterDashboard.viewMatches(this);
     }
 
 
@@ -460,10 +500,28 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sort_menu_option, menu);
+        super.onCreateOptionsMenu(menu);
+        optionsMenu = menu;
 
 
 
-        return super.onCreateOptionsMenu(menu);
+        if(user.equals("adopter")){
+
+
+            if(PotentialAdopter.currentAdopter.favoritedDogs.trim().equals("")){
+                optionsMenu.getItem(0).setVisible(false)    ;
+            }
+            else{
+                optionsMenu.getItem(0).setVisible(true)    ;
+
+            }
+        }else{
+            optionsMenu.getItem(0).setVisible(false);
+        }
+
+
+
+        return true;
     }
 }
 

@@ -42,7 +42,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CollectionEnlarge"
-            android:parentActivityName=".Collection"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

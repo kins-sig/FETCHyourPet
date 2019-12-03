@@ -48,6 +48,8 @@ public class PageViewAdapter extends PagerAdapter {
         return dogList.size();
     }
 
+
+
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view.equals(object);
@@ -77,8 +79,8 @@ public class PageViewAdapter extends PagerAdapter {
         like = view.findViewById(R.id.like);
         dislike = view.findViewById(R.id.dislike);
 
-
-        if(d.favorited){
+        Log.d("test",dogList.get(position).getName() + " " + dogList.get(position).favorited.toString());
+        if(dogList.get(position).favorited){
             like.setImageResource(R.drawable.like_heart);
         }else {
             like.setImageResource(R.drawable.default_heart_icon);
@@ -88,16 +90,29 @@ public class PageViewAdapter extends PagerAdapter {
 
         like.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                d = dogList.get(position);
+
                 String action = "";
 
-                if(d.favorited){
-                    like.setImageResource(R.drawable.default_heart_icon);
-                     action = dogList.get(position).getName() + " was unfavorited.";
-                }else {
+                if(!d.favorited){
                     like.setImageResource(R.drawable.like_heart);
-                    action = dogList.get(position).getName() + " was favorited";
+                    action = dogList.get(position).getName() + " was added to your favorites!";
+                    if(!PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
+                        PotentialAdopter.currentAdopter.favoritedDogsArray.add(d);
+                        Log.d("test","Favorited dog added " + d.getName());
+                        d.favorited = true;
+
+                    }
+                }else {
+                    like.setImageResource(R.drawable.default_heart_icon);
+                    action = d.getName() + " was removed from your favorites.";
+                    if(PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
+                        PotentialAdopter.currentAdopter.favoritedDogsArray.remove(d);
+                        Log.d("test","Favorited dog removed " + d.getName());
+                        d.favorited = false;
+
+                    }
                 }
-                d.favorited = !d.favorited;
 
                 Toast t = Toast.makeText(context, action,
                         Toast.LENGTH_SHORT);
@@ -111,6 +126,8 @@ public class PageViewAdapter extends PagerAdapter {
         dislike.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 String action = "";
+                d = dogList.get(position);
+
 
                 if(!d.disliked){
                     dislike.setImageResource(R.drawable.dislike_red);
@@ -147,7 +164,7 @@ public class PageViewAdapter extends PagerAdapter {
 
                 Intent i = new Intent(context, CollectionEnlarge.class);
                 String id = PageViewAdapter.this.dogList.get(position).getId();
-
+                CollectionEnlarge.viewMatches=true;
                 i.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
 
                 context.startActivity(i);

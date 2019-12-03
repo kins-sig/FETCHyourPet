@@ -158,11 +158,15 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
     protected void onPause() {
         Map<String, Object> update = new HashMap<>();
         String s = "";
-
+        String s2="";
         for(Dog d : PotentialAdopter.currentAdopter.dislikedDogsArray){
             s += (d.getId().trim() + " ");
         }
+        for(Dog d : PotentialAdopter.currentAdopter.favoritedDogsArray){
+            s2 += (d.getId().trim() + " ");
+        }
         update.put("dislikedDogs", s.trim());
+        update.put("favoritedDogs", s2.trim());
 
         MainActivity.firestore
                 .collection("adopter")

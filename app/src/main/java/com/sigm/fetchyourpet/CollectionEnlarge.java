@@ -40,6 +40,7 @@ public class CollectionEnlarge extends AppCompatActivity {
     Menu menu;
     MenuItem menuItem;
     Dog dog;
+    static Boolean viewMatches = false;
 
 
     @Override
@@ -210,7 +211,7 @@ public class CollectionEnlarge extends AppCompatActivity {
 
         if (id == R.id.edit) {
             startActivity(new Intent(this, AddDog.class).putExtra("edit", true));
-        } else if (id == R.id.remove) {
+        }else if (id == R.id.remove) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Remove dog");
@@ -252,17 +253,22 @@ public class CollectionEnlarge extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
-    public void onBackPressed() {
-        // TODO Auto-generated method stub
-        Intent intent = new Intent();
-        intent.putExtra("user", user);
-        setResult(2, intent);
-
-
-        super.onBackPressed();
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        // TODO Auto-generated method stub
+//        Intent intent = new Intent();
+//        intent.putExtra("user", user);
+//        setResult(2, intent);
+//
+//
+//        super.onBackPressed();
+//    }
 
 
     @Override

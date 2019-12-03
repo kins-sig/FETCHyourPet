@@ -80,6 +80,9 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        PotentialAdopter.currentAdopter.setDislikedDogsArray();
+
+
 
     }
 
@@ -205,7 +208,6 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 //        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
 //        t.show();
         ViewMatches.dogList.clear();
-        PotentialAdopter.currentAdopter.setDislikedDogsArray();
         for(Dog d: dog_list){
             if(!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(d)) {
                 ViewMatches.dogList.add(d);

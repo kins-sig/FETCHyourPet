@@ -18,7 +18,10 @@ public class PotentialAdopter {
     private Bitmap photo;
     private String firstName, email, password, image, zip, username, adopterID,traits;
     ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
+    ArrayList<Dog> favoritedDogsArray = new ArrayList<>();
+
     String dislikedDogs = "";
+    String favoritedDogs = "";
     boolean alreadySet = false;
 
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
@@ -149,28 +152,45 @@ public class PotentialAdopter {
     public void setDislikedDogs(String s) {
         this.dislikedDogs = s;
     }
+    public void setFavoritedDogs(String s){
+        this.favoritedDogs=s;
+    }
 
-    public void setDislikedDogsArray(){
-        if(!alreadySet) {
+    public void setDislikedDogsArray() {
+        if (!alreadySet) {
             alreadySet = true;
             String s = dislikedDogs.trim();
+            String s2 = favoritedDogs.trim();
             String[] disliked = s.split(" ");
+            String[] favorited = s2.split(" ");
+
             int i = 0;
 
-            for(String id:disliked){
-                for(Dog d:Dog.dogList){
-                    if(id.trim().equals(d.getId())){
+            for (String id : disliked) {
+                for (Dog d : Dog.dogList) {
+                    if (id.trim().equals(d.getId())) {
                         dislikedDogsArray.add(d);
-                        Log.d("test",d.getName());
+                        Log.d("test", d.getName());
+
+                    }
+
+                }
+
+            }
+            for (String id : favorited) {
+                for (Dog d : Dog.dogList) {
+                    if (id.trim().equals(d.getId())) {
+                        favoritedDogsArray.add(d);
+                        d.favorited = true;
+                        Log.d("test", "favorite " + d.getName());
 
                     }
                 }
 
+
             }
 
-
         }
-
     }
 
     public void clearDislikes(){

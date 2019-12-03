@@ -184,7 +184,8 @@
 
                     android:background="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/default_heart_icon" />
+                    android:src="@drawable/default_heart_icon"
+                    />
 
             </LinearLayout>
 
