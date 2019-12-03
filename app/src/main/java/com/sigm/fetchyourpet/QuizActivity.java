@@ -408,14 +408,17 @@ else{
         int id = item.getItemId();
 
         if (id == R.id.take_quiz) {
-            //startActivity(new Intent(this, QuizActivity.class));
+            startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
+
 
         } else if (id == R.id.browse_all_animals) {
-            startActivity(new Intent(this, Collection.class).putExtra("user", type));
+            Intent i = new Intent(this, Collection.class);
+            i.putExtra("user", "adopter");
+            startActivity(i);
 
 
         } else if (id == R.id.home) {
-            startActivity(new Intent(this, c));
+            startActivity(new Intent(this, AdopterDashboard.class));
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
             SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
@@ -432,12 +435,19 @@ else{
                     .withActivityTitle("LICENSES")
 
                     .start(this);
+        }else if(id == R.id.view_your_matchesa){
+            AdopterDashboard.viewMatches(this);
+
         }
+
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+
+
     }
 
 
