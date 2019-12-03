@@ -90,10 +90,10 @@ public class PageViewAdapter extends PagerAdapter {
 
                 if(d.favorited){
                     like.setImageResource(R.drawable.default_heart_icon);
-                     action = d.getName() + " was unfavorited.";
+                     action = dogList[position].getName() + " was unfavorited.";
                 }else {
                     like.setImageResource(R.drawable.like_heart);
-                    action = d.getName() + " was favorited";
+                    action = dogList[position].getName() + " was favorited";
                 }
                 d.favorited = !d.favorited;
 
