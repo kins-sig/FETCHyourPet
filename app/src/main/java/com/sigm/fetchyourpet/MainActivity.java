@@ -286,6 +286,7 @@ public class MainActivity extends AppCompatActivity
                                                                 PotentialAdopter.currentAdopter = document.toObject(PotentialAdopter.class);
                                                                 startActivity(new Intent(getApplicationContext(), AdopterDashboard.class));
                                                                 dialog.dismiss();
+
                                                                 //finish();
 
 

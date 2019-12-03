@@ -431,10 +431,13 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                     .withActivityTitle("LICENSES")
 
                     .start(this);
-        }
+        }else if(id == R.id.view_your_matchesa){
+        AdopterDashboard.viewMatches(this);
+    }
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+    DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         if (id != R.id.view_dogs) {
             viewDogs = false;

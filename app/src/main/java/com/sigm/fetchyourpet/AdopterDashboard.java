@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,6 +55,7 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
 
         }
+
         Bitmap b = p.getPhoto();
         if (b == null) {
 
@@ -140,6 +142,9 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
                     .withActivityTitle("LICENSES")
 
                     .start(this);
+        }else if(id == R.id.view_your_matchesa){
+            AdopterDashboard.viewMatches(this);
+
         }
 
 
@@ -161,6 +166,11 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
     }
 
     public void viewYourMatches(View v) {
+        AdopterDashboard.viewMatches(this);
+
+
+    }
+    static void viewMatches(Context c){
         Algo A = new Algo();
         A.all_dogs = Dog.dogList;
         A.current_user = PotentialAdopter.currentAdopter;
@@ -194,10 +204,15 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 //                Toast.LENGTH_LONG);
 //        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
 //        t.show();
-        ViewMatches.dogList= dog_list;
-        startActivity(new Intent(this, ViewMatches.class));
+        ViewMatches.dogList.clear();
+        PotentialAdopter.currentAdopter.setDislikedDogsArray();
+        for(Dog d: dog_list){
+            if(!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(d)) {
+                ViewMatches.dogList.add(d);
+            }
+        }
 
-
+        c.startActivity(new Intent(c, ViewMatches.class));
     }
 
     double getTopMargin(Double size){

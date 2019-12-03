@@ -271,13 +271,15 @@ else{
 
 
             PotentialAdopter.currentAdopter.setTraits(stringBuilder.toString());
+            PotentialAdopter.currentAdopter.clearDislikes();
+
             Intent i = new Intent(this, AdopterDashboard.class);
             startActivity(i);
 
 
 
         }
-        if(!Account.currentAccount.getIsAdopter()) {
+        else if(!Account.currentAccount.getIsAdopter()) {
 //            Dog.currentDog.setTraits(Arrays.toString(values));
             Log.d("PET", Dog.currentDog.name);
             Dog d = Dog.currentDog;
@@ -334,6 +336,7 @@ else{
                         .document(d.id)
                         .update(update);
                 Dog.currentDog.setTraits(stringBuilder.toString());
+
 
                 Intent i = new Intent(this, RescueDashboard.class);
                 startActivity(i);

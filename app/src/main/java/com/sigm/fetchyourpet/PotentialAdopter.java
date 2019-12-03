@@ -1,8 +1,11 @@
 package com.sigm.fetchyourpet;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PotentialAdopter {
 
@@ -14,6 +17,9 @@ public class PotentialAdopter {
     private int phone, numDogsRatedSinceLastRefresh;
     private Bitmap photo;
     private String firstName, email, password, image, zip, username, adopterID,traits;
+    ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
+    String dislikedDogs;
+    boolean alreadySet = false;
 
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
         this.photo = b;
@@ -51,6 +57,7 @@ public class PotentialAdopter {
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -135,4 +142,48 @@ public class PotentialAdopter {
 
     }
 
+    public String getDislikedDogs() {
+        return dislikedDogs;
+    }
+
+    public void setDislikedDogs(String s) {
+        this.dislikedDogs = s;
+    }
+
+    public void setDislikedDogsArray(){
+        if(!alreadySet) {
+            alreadySet = true;
+            String s = dislikedDogs.trim();
+            String[] disliked = s.split(" ");
+            int i = 0;
+
+            for(String id:disliked){
+                for(Dog d:Dog.dogList){
+                    if(id.trim().equals(d.getId())){
+                        dislikedDogsArray.add(d);
+                        Log.d("test",d.getName());
+
+                    }
+                }
+
+            }
+
+
+        }
+
+    }
+
+    public void clearDislikes(){
+        dislikedDogsArray.clear();
+
+        Map<String, Object> update = new HashMap<>();
+        String s = "";
+
+        update.put("dislikedDogs", s);
+
+        MainActivity.firestore
+                .collection("adopter")
+                .document(PotentialAdopter.currentAdopter.getAdopterID())
+                .update(update);
+    }
 }

@@ -6,25 +6,25 @@ import java.util.Comparator;
 import java.lang.*;
 
 
-/**
- * This algorithm class controls an arraylist of dog objects and compares the users preferences to the given dog traits and outputs a list of dogs in 
- * order of how similar they are to the user's desired preferences.
- * 
- * current_user: current user that is searching for dogs
- * all_dogs: a list of dogs in the "database" that the user will search through
- * @author Garrett Neilson
- *
- */
+///**
+// * This algorithm class controls an arraylist of dog objects and compares the users preferences to the given dog traits and outputs a list of dogs in
+// * order of how similar they are to the user's desired preferences.
+// *
+// * current_user: current user that is searching for dogs
+// * all_dogs: a list of dogs in the "database" that the user will search through
+// * @author Garrett Neilson
+// *
+// */
 public class Algo {
 
 	public PotentialAdopter current_user;
 	public ArrayList<Dog> all_dogs = new ArrayList();
 	
-	/**
-	 * Accessed directly only to run the algorithm for the first time, all subsequent calls of this function are through the "refresh" function
-	 * which updates the list based on what the user liked / disliked
-	 * @return a list of the dog IDs in order 
-	 */
+//	/**
+//	 * Accessed directly only to run the algorithm for the first time, all subsequent calls of this function are through the "refresh" function
+//	 * which updates the list based on what the user liked / disliked
+//	 * @return a list of the dog IDs in order
+//	 */
 	public String[] run_recommender_system() {
 		double [] similarity_scores = new double[all_dogs.size()];
 		String [] dog_IDs = new String [all_dogs.size()];
@@ -96,55 +96,55 @@ public class Algo {
 		
 		return sorted_dog_IDs;
 	}
-	
-	/**
-	 * Updates the user vector based on their preferences 
-	 * @return	an array of all of the dog ID's in order based on the updated user vector
-	 */
+//
+//	/**
+//	 * Updates the user vector based on their preferences
+//	 * @return	an array of all of the dog ID's in order based on the updated user vector
+//	 */
 	public String[] refresh() {
 		//current_user.update_traits_vector();
 		return run_recommender_system();
 	}
 	
-	/**
-	 * Updates the current user information based on the dog that was liked
-	 * @param curr_dog: the dog that the user liked
-	 */
+//	/**
+//	 * Updates the current user information based on the dog that was liked
+//	 * @param curr_dog: the dog that the user liked
+//	 */
 	public void user_likes(Dog curr_dog) {		
 		//this.current_user.user_likes(curr_dog.get_dog_traits());
 		//this.current_user.num_dogs_liked++;
 	}
 	
-	/**
-	 * Updates the current user information based on the dog that was dislikes
-	 * @param curr_dog: the dog that the user disliked
-	 */
+//	/**
+//	 * Updates the current user information based on the dog that was dislikes
+//	 * @param curr_dog: the dog that the user disliked
+//	 */
 	public void user_dislikes(Dog curr_dog) {
 		//this.current_user.user_dislikes(curr_dog.get_dog_traits());
 		//this.current_user.num_dogs_disliked++;
 
 	}
 	
-	/**
-	 * Updates the current user information based on the dog that was favorited
-	 * @param curr_dog: the dog that the user favorited
-	 */
+//	/**
+//	 * Updates the current user information based on the dog that was favorited
+//	 * @param curr_dog: the dog that the user favorited
+//	 */
 	public void user_favorites(Dog curr_dog) {
 		//this.current_user.favorite_dogs.add(curr_dog);
 	}
 	
-	/**
-	 * Change the user settings to a new one
-	 * @param new_user: a given new user
-	 */
+//	/**
+//	 * Change the user settings to a new one
+//	 * @param new_user: a given new user
+//	 */
 	public void change_user(PotentialAdopter new_user) {
 		System.out.println("User " + this.current_user.getAdopterID()+ " has changed to " + new_user.getAdopterID());
 		this.current_user = new_user;
 	}
-	
-	/**
-	 * Print a list of all dog ID's in the system
-	 */
+//
+//	/**
+//	 * Print a list of all dog ID's in the system
+//	 */
 	public void print_all_dogs_in_system() {
 		System.out.print("Dog IDs in the system: ");
 		for(int i = 0; i < all_dogs.size(); i++) {

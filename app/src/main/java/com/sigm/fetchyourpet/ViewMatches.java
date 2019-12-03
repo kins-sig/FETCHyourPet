@@ -10,21 +10,30 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FirebaseStorage;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ViewMatches extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     ViewPager viewPager;
     PageViewAdapter adapter;
-    static Dog[] dogList;
+    static ArrayList<Dog> dogList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +45,35 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         viewPager.setAdapter(adapter);
         viewPager.setPadding(130, 0, 130, 0);
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("TOP MATCHES");
+        View hView = navigationView.getHeaderView(0);
+
+        ImageView image = hView.findViewById(R.id.headerImageView);
+        TextView name = hView.findViewById(R.id.headerTextView);
+        Bitmap b = PotentialAdopter.currentAdopter.getPhoto();
+        if (b == null) {
+
+
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(FirebaseStorage.getInstance().getReference().child(PotentialAdopter.currentAdopter.getImage()))
+                    .into(image);
+
+        } else {
+            Glide.with(this)
+                    // .using(new FirebaseImageLoader())
+                    .load(b)
+                    .into(image);
+        }
+        name.setText(PotentialAdopter.currentAdopter.getFirstName());
+
 
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -111,7 +141,12 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
                     .withActivityTitle("LICENSES")
 
                     .start(this);
+        }else if(id == R.id.view_your_matchesa){
+            AdopterDashboard.viewMatches(this);
+            finish();
+
         }
+
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -119,5 +154,21 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
+    @Override
+    protected void onPause() {
+        Map<String, Object> update = new HashMap<>();
+        String s = "";
 
+        for(Dog d : PotentialAdopter.currentAdopter.dislikedDogsArray){
+            s += (d.getId().trim() + " ");
+        }
+        update.put("dislikedDogs", s.trim());
+
+        MainActivity.firestore
+                .collection("adopter")
+                .document(PotentialAdopter.currentAdopter.getAdopterID())
+                .update(update);
+
+        super.onPause();
+    }
 }

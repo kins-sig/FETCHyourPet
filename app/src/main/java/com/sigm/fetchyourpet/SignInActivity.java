@@ -146,6 +146,7 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
                                         Log.d("test", p.getImage());
                                         PotentialAdopter.currentAdopter = p;
+                                        p.setDislikedDogsArray();
                                         Intent i = new Intent(getApplicationContext(), c);
                                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         getApplicationContext().startActivity(i);

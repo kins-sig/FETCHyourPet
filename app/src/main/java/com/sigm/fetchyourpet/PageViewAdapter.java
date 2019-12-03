@@ -32,20 +32,20 @@ import java.util.List;
 
 public class PageViewAdapter extends PagerAdapter {
 
-    private Dog[] dogList;
+    private ArrayList<Dog> dogList;
     private LayoutInflater layoutInflater;
     private Context context;
     private Dog d;
 
 
-    public PageViewAdapter(Dog[] dogs, Context context) {
+    public PageViewAdapter(ArrayList<Dog> dogs, Context context) {
         this.dogList = dogs;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return dogList.length;
+        return dogList.size();
     }
 
     @Override
@@ -59,7 +59,8 @@ public class PageViewAdapter extends PagerAdapter {
         layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.view_matches_item, container, false);
 
-        d = dogList[position];
+        d = dogList.get(position);
+        d.disliked =false;
 
         ImageView image;
         image = view.findViewById(R.id.image);
@@ -84,16 +85,17 @@ public class PageViewAdapter extends PagerAdapter {
         }
 
 
+
         like.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 String action = "";
 
                 if(d.favorited){
                     like.setImageResource(R.drawable.default_heart_icon);
-                     action = dogList[position].getName() + " was unfavorited.";
+                     action = dogList.get(position).getName() + " was unfavorited.";
                 }else {
                     like.setImageResource(R.drawable.like_heart);
-                    action = dogList[position].getName() + " was favorited";
+                    action = dogList.get(position).getName() + " was favorited";
                 }
                 d.favorited = !d.favorited;
 
@@ -110,12 +112,21 @@ public class PageViewAdapter extends PagerAdapter {
             public void onClick(View v){
                 String action = "";
 
-                if(d.disliked){
-                   // dislike.setImageResource(R.drawable.default_heart_icon);
-                    action = dogList[position].getName() + " will not be included in the future.";
+                if(!d.disliked){
+                    dislike.setImageResource(R.drawable.dislike_red);
+                    action = dogList.get(position).getName() + " will not be included in the future.";
+                    if(!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
+                        PotentialAdopter.currentAdopter.dislikedDogsArray.add(dogList.get(position));
+                        Log.d("test","Disliked dog added " + dogList.get(position).getName());
+                    }
                 }else {
-                    //dislike.setImageResource(R.drawable.like_heart);
-                    action = dogList[position].getName() + " will be included in the future";
+                    dislike.setImageResource(R.drawable.thumbs_down_icon);
+                    action = dogList.get(position).getName() + " will be included in the future";
+                    if(PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
+                        PotentialAdopter.currentAdopter.dislikedDogsArray.remove(dogList.get(position));
+                        Log.d("test","Disliked dog removed " + dogList.get(position).getName());
+
+                    }
                 }
                 d.disliked = !d.disliked;
 
@@ -135,7 +146,7 @@ public class PageViewAdapter extends PagerAdapter {
                 Dog.currentDog = d;
 
                 Intent i = new Intent(context, CollectionEnlarge.class);
-                String id = PageViewAdapter.this.dogList[position].getId();
+                String id = PageViewAdapter.this.dogList.get(position).getId();
 
                 i.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
 
@@ -194,8 +205,8 @@ public class PageViewAdapter extends PagerAdapter {
         size = view.findViewById(R.id.size);
 
        // imageView.setImageResource(dogs.get(position).getImage());
-        String s = dogList[position].getName();
-        String agetext = "Age: " + dogList[position].getAge();
+        String s = dogList.get(position).getName();
+        String agetext = "Age: " + dogList.get(position).getAge();
         age.setText(agetext);
         size.setText(d.getSize());
         name.setText(d.getName());
