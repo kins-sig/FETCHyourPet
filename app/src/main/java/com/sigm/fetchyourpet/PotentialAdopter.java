@@ -16,7 +16,7 @@ public class PotentialAdopter {
     int[] favorite_dog_ids;
     private int phone, numDogsRatedSinceLastRefresh;
     private Bitmap photo;
-    private String firstName, email, password, image, zip, username, adopterID,traits;
+    private String firstName, email, password, image, zip, username, adopterID,traits="";
     ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
     ArrayList<Dog> favoritedDogsArray = new ArrayList<>();
 

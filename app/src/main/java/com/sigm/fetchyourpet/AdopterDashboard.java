@@ -174,47 +174,54 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
     }
     static void viewMatches(Context c){
-        Algo A = new Algo();
-        A.all_dogs = Dog.dogList;
-        A.current_user = PotentialAdopter.currentAdopter;
-        String[] sorted_dog_list = A.run_recommender_system();
+        if(!PotentialAdopter.currentAdopter.getTraits().equals("")) {
+            Algo A = new Algo();
+            A.all_dogs = Dog.dogList;
+            A.current_user = PotentialAdopter.currentAdopter;
+            String[] sorted_dog_list = A.run_recommender_system();
 
-        //dog_list contains the list of BEST fitting dogs from BEST to WORST
-        Dog[] dog_list = new Dog[sorted_dog_list.length];
+            //dog_list contains the list of BEST fitting dogs from BEST to WORST
+            Dog[] dog_list = new Dog[sorted_dog_list.length];
 
-        int i = dog_list.length-1;
-        for(String s:sorted_dog_list) {
-            for(Dog d: A.all_dogs){
-                if(d.getId().equals(s)){
-                    dog_list[i] = d;
-                    i--;
+            int i = dog_list.length - 1;
+            for (String s : sorted_dog_list) {
+                for (Dog d : A.all_dogs) {
+                    if (d.getId().equals(s)) {
+                        dog_list[i] = d;
+                        i--;
+                    }
                 }
             }
-        }
-        String s = "According to the quiz results, the best dogs for you are:\n";
-        StringBuilder s2 = new StringBuilder(s);
-        i = 0;
-        while(i<10){
+            String s = "According to the quiz results, the best dogs for you are:\n";
+            StringBuilder s2 = new StringBuilder(s);
+            i = 0;
+            while (i < 10) {
 
-            s2.append(dog_list[i].getName());
-            if(i!=9){
-                s2.append(", ");
+                s2.append(dog_list[i].getName());
+                if (i != 9) {
+                    s2.append(", ");
+                }
+                i++;
+
             }
-            i++;
-
-        }
 //        Toast t = Toast.makeText(this, s2,
 //                Toast.LENGTH_LONG);
 //        t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
 //        t.show();
-        ViewMatches.dogList.clear();
-        for(Dog d: dog_list){
-            if(!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(d)) {
-                ViewMatches.dogList.add(d);
+            ViewMatches.dogList.clear();
+            for (Dog d : dog_list) {
+                if (!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(d)) {
+                    ViewMatches.dogList.add(d);
+                }
             }
-        }
 
-        c.startActivity(new Intent(c, ViewMatches.class));
+            c.startActivity(new Intent(c, ViewMatches.class));
+        }else{
+            Toast t = Toast.makeText(c, "Please take the quiz before viewing your matches.",
+                    Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
+            t.show();
+        }
     }
 
     double getTopMargin(Double size){
