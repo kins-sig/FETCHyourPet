@@ -273,8 +273,7 @@ else{
             PotentialAdopter.currentAdopter.setTraits(stringBuilder.toString());
             PotentialAdopter.currentAdopter.clearDislikes();
 
-            Intent i = new Intent(this, AdopterDashboard.class);
-            startActivity(i);
+            AdopterDashboard.viewMatches(this);
 
 
 
