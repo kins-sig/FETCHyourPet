@@ -85,7 +85,11 @@ public class PageViewAdapter extends PagerAdapter {
         }else {
             like.setImageResource(R.drawable.default_heart_icon);
         }
-
+        if(dogList.get(position).disliked){
+            dislike.setImageResource(R.drawable.dislike_red);
+        }else {
+            dislike.setImageResource(R.drawable.thumbs_down_icon);
+        }
 
 
         like.setOnClickListener(new View.OnClickListener(){

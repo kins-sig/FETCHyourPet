@@ -274,6 +274,7 @@ else{
             PotentialAdopter.currentAdopter.clearDislikes();
 
             AdopterDashboard.viewMatches(this);
+            finish();
 
 
 
