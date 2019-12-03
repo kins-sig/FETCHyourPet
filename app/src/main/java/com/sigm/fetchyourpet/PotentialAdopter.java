@@ -18,7 +18,7 @@ public class PotentialAdopter {
     private Bitmap photo;
     private String firstName, email, password, image, zip, username, adopterID,traits;
     ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
-    String dislikedDogs;
+    String dislikedDogs = "";
     boolean alreadySet = false;
 
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
