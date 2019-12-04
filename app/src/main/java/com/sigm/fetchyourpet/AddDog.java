@@ -213,6 +213,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
             SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            Dog.resetDogList();
             prefs.edit().remove("username").apply();
 
         } else if (id == R.id.view_dogs) {

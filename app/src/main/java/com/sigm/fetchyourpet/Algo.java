@@ -53,7 +53,7 @@ public class Algo {
 		
 		for(int i = 0; i < zip.length; i++)
 		{
-		    zip[i] = new similarity(dog_IDs[i], similarity_scores[i]);
+		    zip[i] = new similarity(dog_IDs[i], similarity_scores[i],all_dogs.get(i));
 		}
 
 		Arrays.sort(zip, new Comparator<similarity>() {

@@ -185,6 +185,8 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         } else if (id == R.id.logout) {
             startActivity(new Intent(this, MainActivity.class));
             SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
+            Dog.resetDogList();
+
             prefs.edit().remove("username").apply();
         } else if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));

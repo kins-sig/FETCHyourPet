@@ -67,7 +67,7 @@ public class PageViewAdapter extends PagerAdapter {
         ImageView image;
         image = view.findViewById(R.id.image);
 
-        TextView age, size,name,breed;
+        TextView age, size,name,breed,similarity;
         final ImageButton email, maps,search,like,dislike;
         CardView c;
 
@@ -78,6 +78,7 @@ public class PageViewAdapter extends PagerAdapter {
         breed = view.findViewById(R.id.breed);
         like = view.findViewById(R.id.like);
         dislike = view.findViewById(R.id.dislike);
+        similarity = view.findViewById(R.id.similarityScore);
 
         Log.d("test",dogList.get(position).getName() + " " + dogList.get(position).favorited.toString());
         if(dogList.get(position).favorited){
@@ -231,7 +232,11 @@ public class PageViewAdapter extends PagerAdapter {
         age.setText(agetext);
         size.setText(d.getSize());
         name.setText(d.getName());
-        breed.setText(d.getBreed() +", " + d.getSex());
+        int similarityScore = (int)(d.getSimilarityScore() *100);
+        String sim = similarityScore + "% Match!";
+        similarity.setText(sim);
+       String breedText = d.getBreed()+", " + d.getSex();
+        breed.setText(breedText);
 
 //        view.setOnClickListener(new View.OnClickListener() {
 //            @Override

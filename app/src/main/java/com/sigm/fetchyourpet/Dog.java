@@ -20,6 +20,7 @@ public class Dog {
     StorageReference imageStorageReference;
     public Boolean favorited = false;
     public Boolean disliked = false;
+    Double similarityScore;
     int zip;
 
     Bitmap bitmapImage = null;
@@ -243,5 +244,19 @@ public class Dog {
     }
     public void setDisliked(boolean b){
         this.disliked = b;
+    }
+    public void setSimilarityScore(Double s){
+        this.similarityScore = s;
+    }
+    public Double getSimilarityScore(){
+        return this.similarityScore;
+    }
+    public static void resetDogList(){
+        for(Dog d:dogList){
+            d.setFavorited(false);
+            d.setDisliked(false);
+
+        }
+
     }
 }
