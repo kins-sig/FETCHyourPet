@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity that displays the user's compatability matches.
+ */
 public class ViewMatches extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     static ArrayList<Dog> dogList = new ArrayList<>();
@@ -57,6 +60,10 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
         Bitmap b = PotentialAdopter.currentAdopter.getPhoto();
+        //If the adopter uploaded a photo in this session, b will not be null. Use that photo if
+        //it is not null. Else, use the photo stored in the database. This is done because, in some
+        //instances, the photo will not be uploaded to the database quick enough, so we must use
+        //the photo from the current session.
         if (b == null) {
 
 
@@ -169,14 +176,21 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
+    /**
+     * Everytime the user pauses the screen (pause meaning minimize app, clicking on a dog, closing app)
+     * the disliked and favorited information from the dogs is uploaded to the database.
+     */
     @Override
     protected void onPause() {
         Map<String, Object> update = new HashMap<>();
         String s = "";
         String s2 = "";
+        //We are storing the disliked dogIDs in the database in the format: "id1 id2 id3 id4"
         for (Dog d : PotentialAdopter.currentAdopter.dislikedDogsArray) {
             s += (d.getId().trim() + " ");
         }
+        //We are storing the favorited dogIDs in the database in the format: "id1 id2 id3 id4"
+
         for (Dog d : PotentialAdopter.currentAdopter.favoritedDogsArray) {
             s2 += (d.getId().trim() + " ");
         }

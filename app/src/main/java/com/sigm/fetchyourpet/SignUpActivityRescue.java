@@ -45,6 +45,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+
+/**
+ * Presents the sign up or edit profile screen for rescues
+ * @author Dylan
+ */
 public class SignUpActivityRescue extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static int GET_FROM_GALLERY = 1;
@@ -60,16 +65,22 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
     Class c = MainActivity.class;
 
 
+    /**
+     *
+     * @param email - the email address we are testing for a valid format
+     * @return true if email is in correct format, false if not
+     */
     public static boolean isValid(String email) {
+        //Regular expression for email format
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
+        Pattern pattern = Pattern.compile(emailRegex);
         if (email == null)
             return false;
-        return pat.matcher(email).matches();
+        return pattern.matcher(email).matches();
     }
 
     /**
@@ -138,6 +149,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             cityView.setText(r.getCity());
 
             Bitmap b = r.getPhoto();
+            //If the adopter uploaded a photo in this session, b will not be null. Use that photo if
+            //it is not null. Else, use the photo stored in the database. This is done because, in some
+            //instances, the photo will not be uploaded to the database quick enough, so we must use
+            //the photo from the current session.
             if (b == null) {
 
 
@@ -240,10 +255,15 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
 
     }
-
+    /**
+     * Checks to see if all data is formatted and input correctly, then either creates an account or updates their account.
+     * @param view - the button view
+     */
     public void createAccount(View view) {
         String action = "";
         Intent dashboard = new Intent(this, RescueDashboard.class);
+
+        //if the user is editing their profile, they do not have to replace their image.
 
         if (bitmap == null && !edit) {
             action = "Please select a photo.\n";
@@ -269,11 +289,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             action += "Please enter the state in which your organization is located.\n";
         }
         email = emailView.getText().toString().trim();
-        //here, we will say:
-        //if email not in database, then we will create the account
-        //if(db.getAccounts.contains(email)){
-        //  action="An account already exists with this email!"
-        //}
+
         if (!isValid(email)) {
             action += "The email address entered is not in a valid format.\n";
         }
@@ -286,7 +302,6 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             action += "Please enter a username.\n";
         }
 
-        //we probably need to sanitize the password input
         password = passwordView.getText().toString().trim();
         confirmPassword = password2.getText().toString().trim();
 
@@ -298,6 +313,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             password2.setText("");
         }
 
+        //if something was input incorrectly, display a toast with what it was
 
         if (!action.equals("")) {
             Toast t = Toast.makeText(this, action.trim(),
@@ -305,7 +321,8 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
             t.show();
         } else {
-            //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
+            //update the Adopter profile if the user is editing
+
             if (edit) {
                 Rescue r = Rescue.currentRescue;
                 if (uploadedPhoto) {
@@ -361,7 +378,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 //                if(!password.equals("")) {
 //                    r.setPassword(password);
 //                }
-            } else {
+            }
+            //create a new adopter profile
+
+            else {
 
                 MainActivity.firestore.collection("account").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -396,6 +416,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
     }
 
+    /**
+     * Displays a toast if there is an error
+     * @param usernameTaken - a boolean determining which error message to display
+     */
     public void showToast(Boolean usernameTaken) {
         String action = "";
         if (usernameTaken) {
@@ -408,7 +432,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
         t.show();
     }
-
+    /**
+     * Adds the account and adopter to the database
+     */
     public void addAccount() {
 
         String path = addPhotoToFirebase();
@@ -448,7 +474,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         Account.currentAccount = new Account(username, password, false);
 
     }
-
+    /**
+     * Adds a photo to the firebase database
+     * @return - the path of the uploaded photo
+     */
     public String addPhotoToFirebase() {
 
         if (selectedImage != null) {
@@ -476,7 +505,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
 
 
     }
-
+    /**
+     * Starts an intent and sends the user to their gallery to select a photo
+     * @param view - the button view
+     */
     public void uploadPhoto(View view) {
         Intent i = new Intent(
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
