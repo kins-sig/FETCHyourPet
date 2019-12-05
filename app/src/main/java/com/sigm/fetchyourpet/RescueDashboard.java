@@ -22,8 +22,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+
+/**
+ * The default screen for Rescues
+ * @author Dylan
+ */
 public class RescueDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +52,11 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         Rescue r = Rescue.currentRescue;
 
         Bitmap b = r.getPhoto();
+
+        //If the rescue uploaded a photo in this session, b will not be null. Use that photo if
+        //it is not null. Else, use the photo stored in the database. This is done because, in some
+        //instances, the photo will not be uploaded to the database quick enough, so we must use
+        //the photo from the current session.
         if (b == null) {
 
 
@@ -69,6 +83,9 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
 
     }
 
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -79,7 +96,11 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
         }
     }
 
-
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -94,7 +115,12 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
 
         return super.onOptionsItemSelected(item);
     }
-
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -144,17 +170,27 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
     }
 
 
+    /**
+     * Launches the rescue signup activity with appropriate intents
+     * @param v - the button view
+     */
     public void editProfile(View v) {
 
         startActivity(new Intent(this, SignUpActivityRescue.class).putExtra("editProfile", true));
 
     }
-
+    /**
+     * Launches the add dog activity
+     * @param v - the button view
+     */
     public void registerDog(View v) {
         startActivity(new Intent(this, AddDog.class));
 
     }
-
+    /**
+     * Launches the collection activity with appropriate intents
+     * @param v - the button view
+     */
     public void viewYourDogs(View v) {
         startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
 

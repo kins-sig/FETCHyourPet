@@ -34,7 +34,12 @@ import java.util.ArrayList;
 // ...
 // When the user selects an option to see the licenses:
 
-
+/**
+ * The default activity for the app. This is used when no user is signed in or when
+ * opening the app again after closing it (but it will redirect to the correct homescreen
+ * once automatically signed in).
+ * @author Dylan
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,14 +52,21 @@ public class MainActivity extends AppCompatActivity
     ProgressDialog dialog;
 
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
         firestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        //If there is no stored username inside of sharedpreferences, username will = "-1".
         username = prefs.getString("username", "-1");
 
+        //If it does not = "-1", sign them in.
         if (!username.equals("-1")) {
 
             login();
@@ -68,6 +80,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        //If you are opening the app for the first time (or after closing it), grab all dogs from database
         if (firstRun) {
             //addDogs();
             firstRun = false;
@@ -110,11 +123,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Dog.c = this;
 
 
     }
-
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -131,7 +145,11 @@ public class MainActivity extends AppCompatActivity
 //        getMenuInflater().inflate(R.menu.main, menu);
 //        return true;
 //    }
-
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -146,7 +164,12 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -184,16 +207,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Launch the collection activity
+     * @param v - the button view
+     */
+
     public void browsePets(View v) {
         startActivity(new Intent(this, Collection.class).putExtra("user", "none"));
 
     }
 
+    /**
+     * launch the sign in activity
+     * @param v - the button view
+     */
     public void signIn(View v) {
         startActivity(new Intent(this, SignInActivity.class));
 
     }
 
+    /**
+     * launch the sign up activity
+     * @param v - the button view
+     */
     public void signUp(View v) {
 
 
@@ -235,22 +271,26 @@ public class MainActivity extends AppCompatActivity
 //
 //
 //    }
-    public ArrayList<String> getList(String a, String b, String c) {
-        ArrayList<String> traits = new ArrayList<String>();
+//    public ArrayList<String> getList(String a, String b, String c) {
+//        ArrayList<String> traits = new ArrayList<String>();
+//
+//        // Initialize an ArrayList with add()
+//        traits.add(a);
+//        traits.add(b);
+//        traits.add(c);
+//        return traits;
+//
+//    }
 
-        // Initialize an ArrayList with add()
-        traits.add(a);
-        traits.add(b);
-        traits.add(c);
-        return traits;
+//    public Bitmap getBitmap(int image) {
+//        return BitmapFactory.decodeResource(getResources(),
+//                image);
+//    }
 
-    }
-
-    public Bitmap getBitmap(int image) {
-        return BitmapFactory.decodeResource(getResources(),
-                image);
-    }
-
+    /**
+     * Compares the username to the usernames stored in the database and logs into that corresponding
+     * account.
+     */
     public void login() {
 
         MainActivity.firestore.collection("account")
@@ -264,15 +304,19 @@ public class MainActivity extends AppCompatActivity
                             if (task.getResult().isEmpty()) {
                             }
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                //if we haven't found the account yet, don't stop.
                                 if (!stop) {
                                     Account a = document.toObject(Account.class);
                                     Account.currentAccount = a;
                                     stop = true;
+                                    //by default, the database table searched is the rescue.
+                                    //Change that if the account found is an adopter.
                                     String collectionpath = "rescue";
                                     if (a.getIsAdopter()) {
                                         collectionpath = "adopter";
                                     }
-
+                                    //Since we've found the account at this point, now we have to
+                                    //grab their data.
                                     MainActivity.firestore.collection(collectionpath)
                                             .whereEqualTo("username", username)
                                             .get()
@@ -283,7 +327,9 @@ public class MainActivity extends AppCompatActivity
                                                         if (task.getResult().isEmpty()) {
                                                         }
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            //depending on the account type, set the current account in the respective class
                                                             if (Account.currentAccount.getIsAdopter()) {
+
                                                                 PotentialAdopter.currentAdopter = document.toObject(PotentialAdopter.class);
                                                                 startActivity(new Intent(getApplicationContext(), AdopterDashboard.class));
                                                                 dialog.dismiss();

@@ -16,7 +16,11 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 
-//Handles each individual cardview that goes into the recyclerview
+
+
+/** Handles each individual cardview that goes into the recyclerview
+ * @author Dylan
+ */
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
 
     //The list of dogs that are going to be displayed
@@ -30,26 +34,43 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     }
 
 
-
-    void setDogs(List<Dog> images) {
-        this.dogs = images;
+    /**
+     *
+     * @param dogs - the list of dogs
+     */
+    void setDogs(List<Dog> dogs) {
+        this.dogs = dogs;
 
     }
 
 
-
+    /**
+     *
+     * @return the size of the dog list
+     */
     @Override
     public int getItemCount() {
         return dogs.size();
     }
 
-
+    /**
+     *
+     * @param position - position of adapter
+     * @return the position
+     */
     @Override
     public int getItemViewType(int position) {
         return position;
     }
 
-    //Inflate the layout
+
+
+    /**
+     * Inflate the layout
+     * @param parent - handled by android
+     * @param viewType -handled by android
+     * @return - the viewholder for the adapter
+     */
     @Override
     public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_captioned_image, parent, false);
@@ -57,7 +78,14 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     }
 
 
-    //Initialization for each cardView
+
+
+    /**
+     * Initialization for each cardView
+     * @param holder - handled by android
+     * @param position - handled by android (position of adapter)
+     *
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Dog d = dogs.get(position);
@@ -110,11 +138,17 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     }
 
+    /**
+     *
+     * @param viewDogs - boolean determining whether or not the rescue is trying to view their dogs
+     */
     public void setViewDogs(boolean viewDogs) {
         this.viewDogs = viewDogs;
     }
 
-
+    /**
+     * sets the CardView and imageview for the ViewHolder
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         private CardView cardView;

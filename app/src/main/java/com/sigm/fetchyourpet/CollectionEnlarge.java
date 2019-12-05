@@ -199,7 +199,11 @@ public class CollectionEnlarge extends AppCompatActivity {
         weightView.setText(weight);
     }
 
-
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -267,7 +271,11 @@ public class CollectionEnlarge extends AppCompatActivity {
 //        super.onBackPressed();
 //    }
 
-
+    /**
+     * If the user is an adopter AND has favorited dogs, display the favorites option.
+     * @param menu menu to be created
+     * @return - true if menu is to be displayed
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (getIntent().getBooleanExtra("viewDogs", false)) {

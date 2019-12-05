@@ -41,9 +41,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-//This activity with either:
-//1. Give the rescue an option to create a new dog profile
-//2. Allow the rescue to edit their dog profile
+
+
+/**
+ * This activity with either:
+ * 1. Give the rescue an option to create a new dog profile
+ * 2. Allow the rescue to edit their dog profile
+ * @author Dylan
+ */
 public class AddDog extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     static Uri selectedImage;
     private static int GET_FROM_GALLERY = 1;
@@ -59,7 +64,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     Boolean alreadySubmitted = false;
 
 
-    //Setting initial values and the initial layout
+
+    /**
+     * Setting initial values and the initial layout
+     * @param savedInstanceState - saved state of activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +182,10 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
 
-    //Navigation drawer action handling
+
+    /**
+     *  Navigation drawer action handling
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -186,7 +198,13 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
 
 
-    //Handles all actions in the navigation bar.
+
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -231,8 +249,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         return true;
     }
 
-    //Button click for the activity_add_dog layout. This will be called whether the rescue is
-    //adding or editing a dog
+    /**
+     * Button click for the activity_add_dog layout. This will be called whether the rescue is
+     * adding or editing a dog
+     * @param v - the view from the layout
+     */
     public void addDog(View v) {
 
         //Action will be the toast's text value
@@ -354,7 +375,10 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
 
-    //Button click for the uploadPhoto button. Launches an intent and allows the user to select a photo from their library
+    /**
+     * Button click for the uploadPhoto button. Launches an intent and allows the user to select a photo from their library
+     * @param view - view from the layout
+     */
     public void uploadPhoto(View view) {
         Intent i = new Intent(
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -364,8 +388,13 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
 
-    //After the user selects a photo, load that photo into the imageview to show the selected photo
-    //This code is automatically run when the user selects a photo.
+    /**
+     * After the user selects a photo, load that photo into the imageview to show the selected photo
+     * This code is automatically run when the user selects a photo.
+     * @param requestCode - handled by android
+     * @param resultCode - handled by android
+     * @param data - contains the selected image
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -393,8 +422,12 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         }
     }
 
-    //Upload the dog's image to the database.
-    //Returns the path of the image.
+
+    /**
+     * Upload the dog's image to the database.
+     *
+     * @return the path of the image.
+     */
     public String addPhotoToFirebase() {
 
         if (selectedImage != null) {

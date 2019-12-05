@@ -15,8 +15,17 @@ import com.google.android.material.navigation.NavigationView;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+
+/**
+ * A simple screen to display the 2 choices: signing up as a rescue org or signing up as an adopter
+ * @author Dylan
+ */
 public class SignUpAccountType extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +45,9 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
 
 
     }
-
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -47,7 +58,11 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
         }
     }
 
-
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -63,7 +78,12 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -100,11 +120,18 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
         return true;
     }
 
+    /**
+     * Launches the sign up activity for adopters
+     * @param v - the button view
+     */
     public void createAdopter(View v) {
         Intent i = new Intent(this, SignUpActivityAdopter.class);
         startActivity(i);
     }
-
+    /**
+     * Launches the sign up activity for rescues
+     * @param v - the button view
+     */
     public void createRescue(View v) {
         Intent i = new Intent(this, SignUpActivityRescue.class);
         startActivity(i);

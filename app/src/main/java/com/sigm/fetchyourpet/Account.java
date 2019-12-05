@@ -1,7 +1,14 @@
 package com.sigm.fetchyourpet;
 
-//Account consists of a username, password, and a boolean value.
-//The username acts as a foreign key, the boolean is determines what database table to query.
+
+
+/**
+ * Account consists of a username, password, and a boolean value.
+ * The username acts as a foreign key, the boolean is determines what database table to query.
+ * Need setters for every field that is stored in the database in order to convert the database
+ * document into an object.
+ * @author Dylan
+ */
 public class Account {
 
 
@@ -10,6 +17,12 @@ public class Account {
     private String password;
     private Boolean isAdopter;
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param isAdopter
+     */
     public Account(String username, String password, boolean isAdopter) {
         this.username = username;
         this.password = password;
@@ -21,7 +34,12 @@ public class Account {
 
     }
 
-    //Takes in a password string and returns a hashed password
+
+    /**
+     * Takes in a password string and returns a hashed password
+     * @param password - password to be hashed
+     * @return - returns hashed password
+     */
     public static String getMD5(String password) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");

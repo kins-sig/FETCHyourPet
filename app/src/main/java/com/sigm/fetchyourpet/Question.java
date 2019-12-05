@@ -1,5 +1,9 @@
 package com.sigm.fetchyourpet;
 
+/**
+ * Models the Question object
+ * @author Kinsley
+ */
 public class Question {
 
     int questionID;
@@ -11,7 +15,14 @@ public class Question {
     String answer3;
     boolean answer3check;
 
-
+    /**
+     *
+     * @param questionID - the id of the question
+     * @param questionText - The string
+     * @param answer1 - the first answer choice
+     * @param answer2 - the second answer choice
+     * @param answer3 - the third answer choice
+     */
     public Question(int questionID, String questionText, String answer1, String answer2, String answer3) {
         this.questionID = questionID;
         this.questionText = questionText;

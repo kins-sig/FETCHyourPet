@@ -7,25 +7,33 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Models the Rescue object
+ * @author Dylan
+ */
 public class Rescue {
 
 
     public static Rescue currentRescue;
-    // INT Org ID
-    // String Org Name
-    // INT Zip
-    // INT Phone num
-    // String Email
-    private static int counter = 0;
+
     private static ArrayList<Rescue> rescues = new ArrayList<>();
     public List<Dog> dogs = new ArrayList<>();
     private String organization, street, city, state, email, username, image, zip, rescueID;
     private Bitmap photo = null;
     private StorageReference imageStorageReference;
 
-
+    /**
+     *
+     * @param b - the bitmap photo that was uploaded
+     * @param name - the name of the rescue rescue
+     * @param street - the street address of the rescue
+     * @param city - the city of the rescue
+     * @param state - the state of the rescue
+     * @param zip - the zip of the rescue
+     * @param email - the email of the rescue
+     * @param path - the path to the image stored in the database uploaded by rescue
+     */
     public Rescue(Bitmap b, String name, String street, String city, String state, String zip, String email, String path) {
-        counter++;
         this.photo = b;
         this.organization = name;
         this.street = street;
@@ -66,12 +74,7 @@ public class Rescue {
         this.organization = name;
     }
 
-    //            emailView.setText(r.getEmail());
-    //            passwordLabel.setText("NEW PASSWORD");
-    //            zipView.setText(r.getZip());
-    //            streetView.setText(r.getStreet());
-    //            stateView.setText(r.getState());
-    //            cityView.setText(r.getCity());
+
     public String getEmail() {
         return this.email;
     }

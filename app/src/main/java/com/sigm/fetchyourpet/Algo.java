@@ -5,25 +5,25 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 
-///**
-// * This algorithm class controls an arraylist of dog objects and compares the users preferences to the given dog traits and outputs a list of dogs in
-// * order of how similar they are to the user's desired preferences.
-// *
-// * current_user: current user that is searching for dogs
-// * all_dogs: a list of dogs in the "database" that the user will search through
-// * @author Garrett Neilson
-// *
-// */
+/**
+ * This algorithm class controls an arraylist of dog objects and compares the users preferences to the given dog traits and outputs a list of dogs in
+ * order of how similar they are to the user's desired preferences.
+ *
+ * current_user: current user that is searching for dogs
+ * all_dogs: a list of dogs in the "database" that the user will search through
+ * @author Garrett Neilson
+ *
+ */
 public class Algo {
 
     public PotentialAdopter current_user;
     public ArrayList<Dog> all_dogs = new ArrayList();
 
-    //	/**
-//	 * Accessed directly only to run the algorithm for the first time, all subsequent calls of this function are through the "refresh" function
-//	 * which updates the list based on what the user liked / disliked
-//	 * @return a list of the dog IDs in order
-//	 */
+    	/**
+	 * Accessed directly only to run the algorithm for the first time, all subsequent calls of this function are through the "refresh" function
+	 * which updates the list based on what the user liked / disliked
+	 * @return a list of the dog IDs in order
+	 */
     public String[] run_recommender_system() {
         double[] similarity_scores = new double[all_dogs.size()];
         String[] dog_IDs = new String[all_dogs.size()];

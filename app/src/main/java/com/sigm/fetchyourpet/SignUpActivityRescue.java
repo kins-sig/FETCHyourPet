@@ -72,6 +72,10 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         return pat.matcher(email).matches();
     }
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +178,9 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
         navigationView.setNavigationItemSelectedListener(this);
 
     }
-
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -184,7 +190,12 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             super.onBackPressed();
         }
     }
-
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 

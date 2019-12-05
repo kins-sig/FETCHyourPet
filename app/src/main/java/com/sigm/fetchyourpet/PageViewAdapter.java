@@ -27,6 +27,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Much like the CaptionedImagesAdapter, this handles each dog's layout in ViewMatches
+ * @author Dylan
+ */
+
 public class PageViewAdapter extends PagerAdapter {
 
     private ArrayList<Dog> dogList;
@@ -35,22 +40,42 @@ public class PageViewAdapter extends PagerAdapter {
     private Dog d;
 
 
+    /**
+     *
+     * @param dogs - the list of dogs to be displayed
+     * @param context - the current context
+     */
     public PageViewAdapter(ArrayList<Dog> dogs, Context context) {
         this.dogList = dogs;
         this.context = context;
     }
 
+    /**
+     * @return the size of dogList
+     */
     @Override
     public int getCount() {
         return dogList.size();
     }
 
 
+    /**
+     *
+     * @param view - handled by PagerAdapter
+     * @param object -handled by PagerAdapter
+     * @return - handled by PagerAdapter
+     */
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view.equals(object);
     }
 
+    /**
+     * Initialization and setting the views for each Dog
+     * @param container - the container the Dog layout will reside in
+     * @param position - the position of the current Dog
+     * @return - the created view
+     */
     @NonNull
     @Override
     public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
@@ -76,7 +101,7 @@ public class PageViewAdapter extends PagerAdapter {
         dislike = view.findViewById(R.id.dislike);
         similarity = view.findViewById(R.id.similarityScore);
 
-        Log.d("test", dogList.get(position).getName() + " " + dogList.get(position).favorited.toString());
+        //Set the button images depending on the dog's boolean values
         if (dogList.get(position).favorited) {
             like.setImageResource(R.drawable.like_heart);
         } else {
@@ -88,7 +113,7 @@ public class PageViewAdapter extends PagerAdapter {
             dislike.setImageResource(R.drawable.thumbs_down_icon);
         }
 
-
+        //set the OnClickListeners for all of the buttons
         like.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d = dogList.get(position);
@@ -109,7 +134,6 @@ public class PageViewAdapter extends PagerAdapter {
                     action = d.getName() + " was removed from your favorites.";
                     if (PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
                         PotentialAdopter.currentAdopter.favoritedDogsArray.remove(d);
-                        Log.d("test", "Favorited dog removed " + d.getName());
                         d.favorited = false;
 
                     }
@@ -191,7 +215,10 @@ public class PageViewAdapter extends PagerAdapter {
             }
         });
 
-
+        //If the rescue uploaded a photo in this session, b will not be null. Use that photo if
+        //it is not null. Else, use the photo stored in the database. This is done because, in some
+        //instances, the photo will not be uploaded to the database quick enough, so we must use
+        //the photo from the current session.
         if (d.bitmapImage != null) {
             Glide.with(context)
                     // .using(new FirebaseImageLoader())
@@ -218,35 +245,38 @@ public class PageViewAdapter extends PagerAdapter {
         age.setText(agetext);
         size.setText(d.getSize());
         name.setText(d.getName());
+        //converting the similarity score to a whole number (and converting to a percentage)
         int similarityScore = (int) (d.getSimilarityScore() * 100);
         String sim = similarityScore + "% Match!";
         similarity.setText(sim);
         String breedText = d.getBreed() + ", " + d.getSex();
         breed.setText(breedText);
 
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, DetailActivity.class);
-//                intent.putExtra("param", models.get(position).getTitle());
-//                context.startActivity(intent);
-//                // finish();
-//            }
-//        });
-
         container.addView(view, 0);
         return view;
     }
 
 
+    /**
+     *
+     * @param container - handled by PagerAdapter
+     * @param position - handled by PagerAdapter
+     * @param object - handled by PagerAdapter
+     */
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
 
+    /**
+     *
+     * @param reason - contains a single word indicating which button was clicked/what action
+     *               is to be performed.
+     */
     public void intent(final String reason) {
 
-
+        //To perform these button clicks, we must first access the rescue organization's data from
+        //the corresponding dog that was clicked.
         MainActivity.firestore.collection("rescue")
                 .whereEqualTo("rescueID", d.getRescueID())
                 .get()
@@ -260,6 +290,7 @@ public class PageViewAdapter extends PagerAdapter {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Rescue r = document.toObject(Rescue.class);
 
+                                //launches an email intent with the TO address filled in
                                 if (reason.equals("email")) {
 
 
@@ -277,7 +308,8 @@ public class PageViewAdapter extends PagerAdapter {
                                         t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
                                         t.show();
                                     }
-                                } else if (reason.equals("maps")) {
+                                }//launches google maps with the location of the rescue already set
+                                else if (reason.equals("maps")) {
 
                                     String s;
                                     s = r.getStreet() + ", " + r.getCity().replaceAll(" ", "+") + ", " + r.getState();
@@ -289,7 +321,9 @@ public class PageViewAdapter extends PagerAdapter {
                                     context.startActivity(mapIntent);
 
 
-                                } else if (reason.equals("google")) {
+                                }//launches an internet engine located on the phone with the organization name in
+                                //the search bar.
+                                else if (reason.equals("google")) {
                                     Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
                                     intent.putExtra(SearchManager.QUERY, r.getOrganization()); // query contains search string
                                     context.startActivity(intent);

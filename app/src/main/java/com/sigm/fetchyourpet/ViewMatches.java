@@ -33,6 +33,10 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
     ViewPager viewPager;
     PageViewAdapter adapter;
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,9 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
-
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -90,7 +96,11 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         }
     }
 
-
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -106,6 +116,12 @@ public class ViewMatches extends AppCompatActivity implements NavigationView.OnN
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

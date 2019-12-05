@@ -7,22 +7,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Models the PotentialAdopter object
+ * @author Dylan
+ */
 public class PotentialAdopter {
 
 
     public static PotentialAdopter currentAdopter;
-    private static int counter = 0;
     private static ArrayList<PotentialAdopter> adopters = new ArrayList<>();
-    int[] favorite_dog_ids;
     ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
     ArrayList<Dog> favoritedDogsArray = new ArrayList<>();
     String dislikedDogs = "";
     String favoritedDogs = "";
     boolean alreadySet = false;
-    private int phone, numDogsRatedSinceLastRefresh;
+    private int phone;
     private Bitmap photo;
     private String firstName, email, password, image, zip, username, adopterID, traits = "";
 
+    /**
+     *
+     * @param b - the uploaded bitmap of the adopter profile
+     * @param fname - the adopters first name
+     * @param zip - the adopters zipcode
+     * @param email - the adopters email
+     * @param path - the path to the image stored in the database
+     */
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
         this.photo = b;
         this.firstName = fname;
@@ -34,22 +44,6 @@ public class PotentialAdopter {
     }
 
     public PotentialAdopter() {
-    }
-
-    public PotentialAdopter getCurrentAdopter() {
-        return currentAdopter;
-    }
-
-    public void setCurrentAdopter(PotentialAdopter p) {
-        currentAdopter = p;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
     }
 
     public Bitmap getPhoto() {
@@ -127,6 +121,10 @@ public class PotentialAdopter {
         this.traits = s;
     }
 
+    /**
+     *
+     * @return a matrix version of the traits string (required by Algo class)
+     */
     public Matrix get_user_traits() {
 
         double[] data = new double[30];
@@ -154,7 +152,14 @@ public class PotentialAdopter {
         this.favoritedDogs = s;
     }
 
+    /**
+     * Sets the array of disliked dogs for the current adopter.
+     * Initially, dislikedDogs is a string that is grabbed from the database, containing
+     * dog IDs separated by a space. We must convert this string into an array of Dog objects
+     * in order to properly portray the disliked dogs
+     */
     public void setDislikedDogsArray() {
+        //we only want to set the array once
         if (!alreadySet) {
             alreadySet = true;
             String s = dislikedDogs.trim();
@@ -162,7 +167,6 @@ public class PotentialAdopter {
             String[] disliked = s.split(" ");
             String[] favorited = s2.split(" ");
 
-            int i = 0;
 
             for (String id : disliked) {
                 for (Dog d : Dog.dogList) {
@@ -191,6 +195,9 @@ public class PotentialAdopter {
         }
     }
 
+    /**
+     * Clears the disliked dogs for the current user and updates the value in the database
+     */
     public void clearDislikes() {
         dislikedDogsArray.clear();
 

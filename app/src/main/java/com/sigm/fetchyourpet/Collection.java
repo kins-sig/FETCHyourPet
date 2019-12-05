@@ -38,7 +38,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-//Displays a list of dogs
+
+/**
+ * displays a list of dogs
+ * @author Dylan
+ */
 public class Collection extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
     //"user" is used to remember who is accessing the collection, so it can portray the correct menu and options.
@@ -54,7 +58,10 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     Rescue r;
     private String sortBy = "";
 
-    //Initialization and setting the layout
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved activity state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,7 +222,10 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-    //Handles navigation drawer open/close
+
+    /**
+     * Handles navigation drawer open/close
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -227,7 +237,11 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     }
 
 
-    //Handles all of the option's onClicks
+    /**
+     * Handles all of the option's onClicks
+     * @param item - item selected
+     * @return - true to display the item as the selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -412,8 +426,12 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-    //Handles the navigation drawer actions
-    @Override
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         user = null;
@@ -473,18 +491,22 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         return true;
     }
 
-    public ArrayList<String> getList(String a, String b, String c) {
-        ArrayList<String> traits = new ArrayList<String>();
+//    public ArrayList<String> getList(String a, String b, String c) {
+//        ArrayList<String> traits = new ArrayList<String>();
+//
+//        // Initialize an ArrayList with add()
+//        traits.add(a);
+//        traits.add(b);
+//        traits.add(c);
+//        return traits;
+//
+//    }
 
-        // Initialize an ArrayList with add()
-        traits.add(a);
-        traits.add(b);
-        traits.add(c);
-        return traits;
-
-    }
-
-    //If the user is an adopter AND has favorited dogs, display the favorites option.
+    /**
+     * If the user is an adopter AND has favorited dogs, display the favorites option.
+     * @param menu menu to be created
+     * @return - true if menu is to be displayed
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sort_menu_option, menu);

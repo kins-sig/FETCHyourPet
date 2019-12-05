@@ -26,6 +26,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+
+/**
+ * Activity to display the sign in screen
+ * @author Dylan
+ */
 public class SignInActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     static Class c = AdopterDashboard.class;
     EditText usernameView, passwordView;
@@ -34,6 +39,10 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
     Boolean success = false;
     SharedPreferences prefs;
 
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,12 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
     }
 
+    /**
+     * Searches the accounts table in the database for the inputted username and password. If a match
+     * is found, sets the current account to the found account. Then, it searches the rescue/adopter
+     * tables with the primary key (username) and sets the corresponding current rescue/adopter
+     * @param view - the button view
+     */
     public void onClickSignIn(View view) {
         Log.d("test", "test");
 
@@ -96,10 +111,11 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    public void signIn(String username) {
-
-    }
-
+    /**
+     * If the user entered invalid credentials, display a toast saying so.
+     * Else, grab the corresponding account info
+     * @param success - indicates whether or not the sign in was successful
+     */
     public void result(Boolean success) {
         if (!success) {
             Toast t = Toast.makeText(this, "Username or password is invalid",
@@ -120,6 +136,9 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
     }
 
 
+    /**
+     * Searches the database tables and populates the corresponding current adopter/rescue account
+     */
     public void setValues() {
         Account a = Account.currentAccount;
 
@@ -182,7 +201,12 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-
+    /**
+     *
+     * @param item - the item that was clicked
+     * @return true to display the item as the selected item
+     * Handles all actions in the navigation bar.
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

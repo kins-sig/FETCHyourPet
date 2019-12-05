@@ -25,11 +25,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
-//This activity is the main page for Potential Adopters.
+/**
+ * This activity is the main page for Potential Adopters.
+ * @author Dylan
+ */
 public class AdopterDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //Finds compatability matches and launches the ViewMatches activity to display corresponding matches.
-    //Takes in one variable, the current Context.
+
+    /**
+     * Finds compatability matches and launches the ViewMatches activity to display corresponding matches.
+     * @param c -the current context
+     */
     static void viewMatches(Context c) {
         //If the user has already taken the quiz,
         if (!PotentialAdopter.currentAdopter.getTraits().equals("")) {
@@ -72,7 +78,12 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         }
     }
 
-    //Initialization and setting the layout
+
+
+    /**
+     * Initialization and setting the layout
+     * @param savedInstanceState - saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +143,10 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
     }
 
-    //Handle navigation drawer opening/closing
+
+    /**
+     * Handle navigation drawer opening/closing
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -146,6 +160,12 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
 
 
     //Handle all navigation drawer actions
+
+    /**
+     * Handle all navigation drawer actions
+     * @param item - nav item clicked
+     * @return true to display the item as the selected item
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -192,19 +212,29 @@ public class AdopterDashboard extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    //Launch edit profile activity
+    /**
+     * Launch edit profile activity
+     * @param v - button view from layout
+     */
     public void editProfile(View v) {
 
         startActivity(new Intent(this, SignUpActivityAdopter.class).putExtra("editProfile", true));
 
     }
 
-    //Launch quiz activity
+
+    /**
+     * Launch quiz activity
+     * @param v - button view from layout
+     */
     public void takeQuiz(View v) {
         startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
 
     }
-    //Launch viewMatches activity
+    /**
+     * Launch viewMatches activity
+     * @param v - button view from layout
+     */
     public void viewYourMatches(View v) {
         AdopterDashboard.viewMatches(this);
 

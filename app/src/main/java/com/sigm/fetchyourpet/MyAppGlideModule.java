@@ -11,10 +11,19 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * This class allows glide to load images from a Firebase URL
+ * @author Dylan
+ */
 @GlideModule
 public class MyAppGlideModule extends AppGlideModule {
 
-
+    /**
+     *
+     * @param context - the current context
+     * @param glide - handled by glide
+     * @param registry - handled by glide
+     */
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         // Register FirebaseImageLoader to handle StorageReference
