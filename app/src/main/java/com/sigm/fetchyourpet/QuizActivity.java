@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,13 +25,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
@@ -40,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class QuizActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -67,7 +61,7 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-       // type = getIntent().getStringExtra("user");
+        // type = getIntent().getStringExtra("user");
         View hView = navigationView.getHeaderView(0);
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
@@ -168,42 +162,40 @@ public class QuizActivity extends AppCompatActivity implements NavigationView.On
         currentQuestions.get(currentQuestion).setAnswer1check(q1Answer1.isChecked());
         currentQuestions.get(currentQuestion).setAnswer3check(q1Answer3.isChecked());
 
-if(q1Answer1.isChecked() || q1Answer2.isChecked() || q1Answer3.isChecked()) {
-    if (q1Answer1.isChecked()) {
-        values[currentQuestion * 3] = 1;
-    } else values[currentQuestion * 3] = 0;
-    if (q1Answer2.isChecked()) {
-        values[currentQuestion * 3 + 1] = 1;
-    } else values[currentQuestion * 3 + 1] = 0;
-    if (q1Answer3.isChecked()) {
-        values[currentQuestion * 3 + 2] = 1;
-    } else values[currentQuestion * 3 + 2] = 0;
+        if (q1Answer1.isChecked() || q1Answer2.isChecked() || q1Answer3.isChecked()) {
+            if (q1Answer1.isChecked()) {
+                values[currentQuestion * 3] = 1;
+            } else values[currentQuestion * 3] = 0;
+            if (q1Answer2.isChecked()) {
+                values[currentQuestion * 3 + 1] = 1;
+            } else values[currentQuestion * 3 + 1] = 0;
+            if (q1Answer3.isChecked()) {
+                values[currentQuestion * 3 + 2] = 1;
+            } else values[currentQuestion * 3 + 2] = 0;
 
-    currentQuestion++;
+            currentQuestion++;
 
-    if (currentQuestion < currentQuestions.size()) {
+            if (currentQuestion < currentQuestions.size()) {
 
-        ImageButton prev = findViewById(R.id.prevQuestion);
-        prev.setVisibility(View.VISIBLE);
-        question.setText(currentQuestions.get(currentQuestion).questionText);
-        q1Answer1.setText(currentQuestions.get(currentQuestion).answer1);
-        q1Answer1.setChecked(currentQuestions.get(currentQuestion).answer1check);
-        q1Answer2.setText(currentQuestions.get(currentQuestion).answer2);
-        q1Answer2.setChecked(currentQuestions.get(currentQuestion).answer2check);
-        q1Answer3.setText(currentQuestions.get(currentQuestion).answer3);
-        q1Answer3.setChecked(currentQuestions.get(currentQuestion).answer3check);
+                ImageButton prev = findViewById(R.id.prevQuestion);
+                prev.setVisibility(View.VISIBLE);
+                question.setText(currentQuestions.get(currentQuestion).questionText);
+                q1Answer1.setText(currentQuestions.get(currentQuestion).answer1);
+                q1Answer1.setChecked(currentQuestions.get(currentQuestion).answer1check);
+                q1Answer2.setText(currentQuestions.get(currentQuestion).answer2);
+                q1Answer2.setChecked(currentQuestions.get(currentQuestion).answer2check);
+                q1Answer3.setText(currentQuestions.get(currentQuestion).answer3);
+                q1Answer3.setChecked(currentQuestions.get(currentQuestion).answer3check);
 
-    } else {
-        ImageButton next = findViewById(R.id.nextQuestion);
-        next.setVisibility(View.INVISIBLE);
-        Button submit = findViewById(R.id.submitQuiz);
-        submit.setVisibility(View.VISIBLE);
-    }
-}
-
-else{
-    Toast.makeText(this,"Please choose a response",Toast.LENGTH_SHORT ).show();
-}
+            } else {
+                ImageButton next = findViewById(R.id.nextQuestion);
+                next.setVisibility(View.INVISIBLE);
+                Button submit = findViewById(R.id.submitQuiz);
+                submit.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Toast.makeText(this, "Please choose a response", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickPrev(View view) {
@@ -240,8 +232,7 @@ else{
             prev.setVisibility(View.INVISIBLE);
 
 
-        }
-        else {
+        } else {
             ImageButton next = findViewById(R.id.nextQuestion);
             next.setVisibility(View.VISIBLE);
 
@@ -251,12 +242,12 @@ else{
     }
 
     public void onClickSubmitQuiz(View view) {
-        StringBuilder stringBuilder= new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        for(int answer : values){
+        for (int answer : values) {
             stringBuilder.append(answer);
         }
-        if(Account.currentAccount.getIsAdopter()) {
+        if (Account.currentAccount.getIsAdopter()) {
 //            PotentialAdopter.currentAdopter.setTraits(Arrays.toString(values));
             Log.d("PET", PotentialAdopter.currentAdopter.getUsername());
 
@@ -277,15 +268,13 @@ else{
             finish();
 
 
-
-        }
-        else if(!Account.currentAccount.getIsAdopter()) {
+        } else if (!Account.currentAccount.getIsAdopter()) {
 //            Dog.currentDog.setTraits(Arrays.toString(values));
             Log.d("PET", Dog.currentDog.name);
             Dog d = Dog.currentDog;
-            boolean edit = getIntent().getBooleanExtra("edit",false);
+            boolean edit = getIntent().getBooleanExtra("edit", false);
 
-            if(!edit && !alreadySubmitted) {
+            if (!edit && !alreadySubmitted) {
                 alreadySubmitted = true;
 
                 DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
@@ -326,7 +315,7 @@ else{
                 startActivity(i);
 
 
-            }else{
+            } else {
 
                 Map<String, Object> update = new HashMap<>();
                 update.put("traits", stringBuilder.toString());
@@ -343,33 +332,16 @@ else{
             }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         }
         Log.d("PET", Arrays.toString(values));
-
-
-
-
 
 
     }
 
     public void onClickClose(View view) {
-        if(Account.currentAccount.getIsAdopter()) {
+        if (Account.currentAccount.getIsAdopter()) {
             startActivity(new Intent(this, c));
-        }
-        else{
+        } else {
             startActivity(new Intent(this, AddDog.class).putExtra("edit", true));
 
         }
@@ -425,7 +397,7 @@ else{
             Dog.resetDogList();
 
             prefs.edit().remove("username").apply();
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -437,17 +409,15 @@ else{
                     .withActivityTitle("LICENSES")
 
                     .start(this);
-        }else if(id == R.id.view_your_matchesa){
+        } else if (id == R.id.view_your_matchesa) {
             AdopterDashboard.viewMatches(this);
 
         }
 
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
 
 
     }
@@ -460,23 +430,22 @@ else{
     public void viewYourMatches(View v) {
 
     }
+
     public ArrayList<Question> getCurrentQuestions() {
-        if(Account.currentAccount.getIsAdopter()){
+        if (Account.currentAccount.getIsAdopter()) {
             currentQuestions = userQuestions;
         }
-        if(!Account.currentAccount.getIsAdopter()){
+        if (!Account.currentAccount.getIsAdopter()) {
             currentQuestions = dogQuestions;
         }
         return currentQuestions;
 
     }
 
-    public void setCheckListeners(){
+    public void setCheckListeners() {
         final CheckBox CB_1 = findViewById(R.id.Q1Answer1);
         final CheckBox CB_2 = findViewById(R.id.q1Answer2);
         final CheckBox CB_3 = findViewById(R.id.q1Answer3);
-
-
 
 
         CB_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -509,9 +478,6 @@ else{
 
 
     }
-
-
-
 
 
 }

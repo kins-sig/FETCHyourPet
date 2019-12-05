@@ -208,7 +208,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
             prefs.edit().remove("username").apply();
         } else if (id == R.id.view_dogs) {
             startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -434,7 +434,7 @@ public class SignUpActivityRescue extends AppCompatActivity implements Navigatio
                 new Rescue(bitmap, name, street, city, state, zip, email, path);
         Rescue.currentRescue.setRescueID(newDoc.getId());
         Rescue.currentRescue.setUsername(username);
-        Account.currentAccount = new Account(username,password,false);
+        Account.currentAccount = new Account(username, password, false);
 
     }
 

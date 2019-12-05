@@ -14,15 +14,14 @@ public class PotentialAdopter {
     private static int counter = 0;
     private static ArrayList<PotentialAdopter> adopters = new ArrayList<>();
     int[] favorite_dog_ids;
-    private int phone, numDogsRatedSinceLastRefresh;
-    private Bitmap photo;
-    private String firstName, email, password, image, zip, username, adopterID,traits="";
     ArrayList<Dog> dislikedDogsArray = new ArrayList<>();
     ArrayList<Dog> favoritedDogsArray = new ArrayList<>();
-
     String dislikedDogs = "";
     String favoritedDogs = "";
     boolean alreadySet = false;
+    private int phone, numDogsRatedSinceLastRefresh;
+    private Bitmap photo;
+    private String firstName, email, password, image, zip, username, adopterID, traits = "";
 
     public PotentialAdopter(Bitmap b, String fname, String zip, String email, String path) {
         this.photo = b;
@@ -120,27 +119,25 @@ public class PotentialAdopter {
         this.adopterID = adopterID;
     }
 
-    public void setTraits(String s){
-        this.traits = s;
-    }
-
-    public String getTraits(){
+    public String getTraits() {
         return this.traits;
     }
 
+    public void setTraits(String s) {
+        this.traits = s;
+    }
 
-    public Matrix get_user_traits(){
+    public Matrix get_user_traits() {
 
         double[] data = new double[30];
         char[] chars = traits.trim().toCharArray();
         int i = 0;
-        for(char c : chars){
+        for (char c : chars) {
             data[i] = Character.getNumericValue(c);
             i++;
 
         }
-        return  new Matrix(data);
-
+        return new Matrix(data);
 
 
     }
@@ -152,8 +149,9 @@ public class PotentialAdopter {
     public void setDislikedDogs(String s) {
         this.dislikedDogs = s;
     }
-    public void setFavoritedDogs(String s){
-        this.favoritedDogs=s;
+
+    public void setFavoritedDogs(String s) {
+        this.favoritedDogs = s;
     }
 
     public void setDislikedDogsArray() {
@@ -193,7 +191,7 @@ public class PotentialAdopter {
         }
     }
 
-    public void clearDislikes(){
+    public void clearDislikes() {
         dislikedDogsArray.clear();
 
         Map<String, Object> update = new HashMap<>();

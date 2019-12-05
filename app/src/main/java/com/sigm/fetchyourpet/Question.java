@@ -24,10 +24,11 @@ public class Question {
         this.answer1check = answer1check;
     }
 
-    public void setAnswer2check(boolean answer2check){
+    public void setAnswer2check(boolean answer2check) {
         this.answer2check = answer2check;
     }
-    public void setAnswer3check(boolean answer3check){
+
+    public void setAnswer3check(boolean answer3check) {
         this.answer3check = answer3check;
     }
 }

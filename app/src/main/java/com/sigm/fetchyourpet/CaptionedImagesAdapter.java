@@ -16,12 +16,12 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 
+//Handles each individual cardview that goes into the recyclerview
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
-    boolean front = false;
-    float textsize = 10;
+
+    //The list of dogs that are going to be displayed
     private List<Dog> dogs;
-    private int image;
-    private String user;
+    //Determines whether or not the rescue is attempting to view their specific dogs
     private boolean viewDogs = false;
 
 
@@ -29,9 +29,6 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     }
 
-    public CaptionedImagesAdapter(List<Dog> images) {
-        this.dogs = images;
-    }
 
 
     void setDogs(List<Dog> images) {
@@ -39,9 +36,6 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     }
 
-    void setUser(String s) {
-        user = s;
-    }
 
 
     @Override
@@ -55,6 +49,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         return position;
     }
 
+    //Inflate the layout
     @Override
     public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_captioned_image, parent, false);
@@ -62,6 +57,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     }
 
 
+    //Initialization for each cardView
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Dog d = dogs.get(position);
@@ -69,14 +65,18 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
 
         tv.setText(d.getName());
-        if(d.bitmapImage != null){
+
+        //If the dog uploaded a photo in this session, b will not be null. Use that photo if
+        //it is not null. Else, use the photo stored in the database. This is done because, in some
+        //instances, the photo will not be uploaded to the database quick enough, so we must use
+        //the photo from the current session.
+        if (d.bitmapImage != null) {
             Glide.with(holder.cardView.getContext())
                     // .using(new FirebaseImageLoader())
                     .load(d.bitmapImage)
                     .into((ImageView) holder.cardView.findViewById(R.id.cardView));
 
-        }
-        else {
+        } else {
 
 
             Glide.with(holder.cardView.getContext())
@@ -87,7 +87,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
         final CardView cardView = holder.cardView;
 
-
+        //Set the onClickListener for each card. Send the ID to the CollectionEnlarge activity and start the activity.
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +113,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     public void setViewDogs(boolean viewDogs) {
         this.viewDogs = viewDogs;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;

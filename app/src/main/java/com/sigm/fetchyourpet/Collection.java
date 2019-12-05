@@ -6,24 +6,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Dimension;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,11 +38,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+//Displays a list of dogs
 public class Collection extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
+    //"user" is used to remember who is accessing the collection, so it can portray the correct menu and options.
     static String user;
     static boolean viewDogs = false;
-    private String sortBy = "";
+    public List<Dog> dogs = new ArrayList<>();
     boolean favorited = false;
     RecyclerView cardRecycler;
     CaptionedImagesAdapter adapter;
@@ -57,15 +52,14 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
     Menu optionsMenu;
     Class c;
     Rescue r;
-    public List<Dog> dogs = new ArrayList<>();
+    private String sortBy = "";
 
-
+    //Initialization and setting the layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
 
 
         toolbar.setTitle("AVAILABLE PETS");
@@ -80,6 +74,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         ImageView image = hView.findViewById(R.id.headerImageView);
         TextView name = hView.findViewById(R.id.headerTextView);
 
+        //If the user is an adopter, set the adopter menu and the header image and text
+        //OR if it is the rescue, set the adopter menu and the header image/text
+        //or if it is neither (nobody signed in), keep the default menu
         if (user.equals("adopter")) {
             c = AdopterDashboard.class;
             navigationView.getMenu().clear();
@@ -140,19 +137,24 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
         adapter = new CaptionedImagesAdapter();
         cardRecycler = findViewById(R.id.pet_recycler);
+        //If the rescue is attempting to view their dogs:
         if (getIntent().getBooleanExtra("viewDogs", false)) {
+            //the rescue dogList is calculated at runtime, and we must clear it if it has already
+            //been created, or else we will have duplicate dogs
             if (r.dogs != null) {
                 r.dogs.clear();
 
             }
+            //find all dogs that are associated with the current rescue
             for (Dog d : Dog.dogList) {
-                Log.d("test",d.getName());
-                if (d.getRescueID().equals(r.getRescueID())| Rescue.currentRescue.getUsername().equals("admin")) {
+                Log.d("test", d.getName());
+                if (d.getRescueID().equals(r.getRescueID()) | Rescue.currentRescue.getUsername().equals("admin")) {
                     r.dogs.add(d);
                     this.dogs.add(d);
                 }
             }
 
+            //set the dogs in the adapter
             adapter.setDogs(Rescue.currentRescue.dogs);
             adapter.setViewDogs(true);
             viewDogs = true;
@@ -160,16 +162,17 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 
         } else {
+            //if it is the adopter, show them all dogs.
             dogs = Dog.dogList;
 
-
+            //set the dogs in the adapter
             adapter.setDogs(Dog.dogList);
         }
 
+        //set the adapter and notify that the list has been changed
         layoutManager = new GridLayoutManager(this, 3);
         cardRecycler.setLayoutManager(layoutManager);
         cardRecycler.setAdapter(adapter);
-        adapter.setUser(user);
 
         adapter.notifyDataSetChanged();
 
@@ -212,11 +215,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-
-
-
-
-
+    //Handles navigation drawer open/close
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -227,14 +226,8 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
-    @Override
-    protected void onResume() {
 
-
-        super.onResume();
-
-    }
-
+    //Handles all of the option's onClicks
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -245,32 +238,37 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.favorites){
+        } else if (id == R.id.favorites) {
+            //find all dogs that are favorited by the rescue
             List<Dog> dogsCopy = new ArrayList<>();
 
-            if(!favorited){
-                for(Dog d:dogs){
-                    if(d.favorited){
+            //if it isnt already sorted by favorites, find all favorited dogs
+            if (!favorited) {
+                for (Dog d : dogs) {
+                    if (d.favorited) {
                         dogsCopy.add(d);
                     }
                 }
+                //set icon
                 optionsMenu.getItem(0).setIcon(R.drawable.like_heart_24dp);
-            }else{
+            } else {
                 dogsCopy = new ArrayList<>(dogs);
+                //set icon
                 optionsMenu.getItem(0).setIcon(R.drawable.default_heart_icon_24dp);
 
             }
             favorited = !favorited;
 
+            //set adapter, notify that it changed
+
             adapter.setDogs(dogsCopy);
 
             adapter.notifyDataSetChanged();
 
-        }else if(id == R.id.sort){
+        } else if (id == R.id.sort) {
+            //Display an alert dialog and sort the collection depending on their selections.
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int height = displayMetrics.heightPixels;
-            int width = displayMetrics.widthPixels;
 
             LayoutInflater li = LayoutInflater.from(this);
             final View promptsView = li.inflate(R.layout.sort_collection, null);
@@ -283,36 +281,32 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
 //            final EditText userInput = (EditText) promptsView
 //                    .findViewById(R.id.editTextDialogUserInput);
-            final RadioButton r1 =  promptsView.findViewById(R.id.age);
-            final RadioButton r2 =  promptsView.findViewById(R.id.name);
-            final RadioButton r3 =  promptsView.findViewById(R.id.sex);
-            final RadioButton r4 =  promptsView.findViewById(R.id.size);
-            final RadioButton r5 =  promptsView.findViewById(R.id.none);
-            final RadioButton ascending =  promptsView.findViewById(R.id.ascending);
+            final RadioButton r1 = promptsView.findViewById(R.id.age);
+            final RadioButton r2 = promptsView.findViewById(R.id.name);
+            final RadioButton r3 = promptsView.findViewById(R.id.sex);
+            final RadioButton r4 = promptsView.findViewById(R.id.size);
+            final RadioButton r5 = promptsView.findViewById(R.id.none);
+            final RadioButton ascending = promptsView.findViewById(R.id.ascending);
 
             // set dialog message
             alertDialogBuilder
                     .setCancelable(true)
                     .setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
+                                public void onClick(DialogInterface dialog, int id) {
                                     // get user input and set it to result
                                     // edit text
 
-                                    if(r1.isChecked()){
+                                    if (r1.isChecked()) {
                                         sortBy = "age";
-                                    }
-                                    else if(r2.isChecked()){
+                                    } else if (r2.isChecked()) {
                                         sortBy = "name";
-                                    }
-                                    else if(r3.isChecked()){
+                                    } else if (r3.isChecked()) {
                                         sortBy = "sex";
 
-                                    }
-                                    else if(r4.isChecked()){
+                                    } else if (r4.isChecked()) {
                                         sortBy = "size";
-                                    }
-                                    else if(r5.isChecked()){
+                                    } else if (r5.isChecked()) {
                                         sortBy = "";
                                     }
                                     sort(ascending.isChecked());
@@ -326,28 +320,24 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                             })
                     .setNegativeButton("Cancel",
                             new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
+                                public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                 }
                             });
-
-
 
 
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
 
 
-
             // show it
             alertDialog.show();
 
 
-            alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, width);
+            alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 //            optionsMenu.getItem(0).setIcon(R.drawable.default_heart_icon_24dp);
 //            favorited = false;
-
 
 
             // alertDialog.getWindow().setLayout((int)(width/1.5), (int)height/2); //Controlling width and height.
@@ -357,14 +347,15 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         return super.onOptionsItemSelected(item);
     }
 
-    public void sort(final Boolean isAscending){
+    //Sort collection depending on the option selected. isAscending is true if the user chose ascending order.
+    public void sort(final Boolean isAscending) {
         List<Dog> dogsCopy = new ArrayList<>(dogs);
 
-        if(sortBy.equals("name")){
-            Collections.sort(dogsCopy,new Comparator<Dog>() {
+        if (sortBy.equals("name")) {
+            Collections.sort(dogsCopy, new Comparator<Dog>() {
                 @Override
                 public int compare(Dog o1, Dog o2) {
-                    if(!isAscending){
+                    if (!isAscending) {
                         return (o2.getName().compareTo(o1.getName()));
 
                     }
@@ -373,13 +364,12 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                 }
             });
 
-        }
-        else if(sortBy.equals("age")){
+        } else if (sortBy.equals("age")) {
 
-            Collections.sort(dogsCopy,new Comparator<Dog>() {
+            Collections.sort(dogsCopy, new Comparator<Dog>() {
                 @Override
                 public int compare(Dog o1, Dog o2) {
-                    if(!isAscending){
+                    if (!isAscending) {
                         return (o2.getIntAge() - (o1.getIntAge()));
 
                     }
@@ -388,24 +378,22 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                     return (o1.getIntAge() - (o2.getIntAge()));
                 }
             });
-        }
-        else if(sortBy.equals("sex")){
-            Collections.sort(dogsCopy,new Comparator<Dog>() {
+        } else if (sortBy.equals("sex")) {
+            Collections.sort(dogsCopy, new Comparator<Dog>() {
                 @Override
                 public int compare(Dog o1, Dog o2) {
-                    if(!isAscending){
+                    if (!isAscending) {
                         return (o2.getSex().compareTo(o1.getSex()));
 
                     }
                     return (o1.getSex().compareTo(o2.getSex()));
                 }
             });
-        }
-        else if(sortBy.equals("size")){
-            Collections.sort(dogsCopy,new Comparator<Dog>() {
+        } else if (sortBy.equals("size")) {
+            Collections.sort(dogsCopy, new Comparator<Dog>() {
                 @Override
                 public int compare(Dog o1, Dog o2) {
-                    if(!isAscending){
+                    if (!isAscending) {
                         return (o2.getIntSize() - (o1.getIntSize()));
 
                     }
@@ -414,10 +402,9 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             });
         }
 
-        if(!sortBy.equals("")) {
+        if (!sortBy.equals("")) {
             adapter.setDogs(dogsCopy);
-        }
-        else{
+        } else {
             adapter.setDogs(dogs);
         }
         adapter.notifyDataSetChanged();
@@ -425,6 +412,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    //Handles the navigation drawer actions
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -440,7 +428,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         } else if (id == R.id.browse_all_animals) {
             if (viewDogs) {
                 startActivity(new Intent(this, Collection.class).putExtra("user", "rescue").putExtra("viewDogs", false));
-               // finish();
+                // finish();
             }
 
 
@@ -459,8 +447,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
             if (!viewDogs) {
                 startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
             }
-        }
-        else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -472,14 +459,13 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
                     .withActivityTitle("LICENSES")
 
                     .start(this);
-        }else if(id == R.id.view_your_matchesa){
+        } else if (id == R.id.view_your_matchesa) {
 
             AdopterDashboard.viewMatches(this);
-    }
+        }
 
 
-
-    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         if (id != R.id.view_dogs) {
             viewDogs = false;
@@ -498,7 +484,7 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-
+    //If the user is an adopter AND has favorited dogs, display the favorites option.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sort_menu_option, menu);
@@ -506,21 +492,18 @@ public class Collection extends AppCompatActivity implements NavigationView.OnNa
         optionsMenu = menu;
 
 
+        if (user.equals("adopter")) {
 
-        if(user.equals("adopter")){
 
-
-            if(PotentialAdopter.currentAdopter.favoritedDogs.trim().equals("")){
-                optionsMenu.getItem(0).setVisible(false)    ;
-            }
-            else{
-                optionsMenu.getItem(0).setVisible(true)    ;
+            if (PotentialAdopter.currentAdopter.favoritedDogs.trim().equals("")) {
+                optionsMenu.getItem(0).setVisible(false);
+            } else {
+                optionsMenu.getItem(0).setVisible(true);
 
             }
-        }else{
+        } else {
             optionsMenu.getItem(0).setVisible(false);
         }
-
 
 
         return true;

@@ -10,10 +10,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +26,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PageViewAdapter extends PagerAdapter {
 
@@ -49,7 +46,6 @@ public class PageViewAdapter extends PagerAdapter {
     }
 
 
-
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view.equals(object);
@@ -62,13 +58,13 @@ public class PageViewAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.view_matches_item, container, false);
 
         d = dogList.get(position);
-        d.disliked =false;
+        d.disliked = false;
 
         ImageView image;
         image = view.findViewById(R.id.image);
 
-        TextView age, size,name,breed,similarity;
-        final ImageButton email, maps,search,like,dislike;
+        TextView age, size, name, breed, similarity;
+        final ImageButton email, maps, search, like, dislike;
         CardView c;
 
         c = view.findViewById(R.id.cardView);
@@ -80,40 +76,40 @@ public class PageViewAdapter extends PagerAdapter {
         dislike = view.findViewById(R.id.dislike);
         similarity = view.findViewById(R.id.similarityScore);
 
-        Log.d("test",dogList.get(position).getName() + " " + dogList.get(position).favorited.toString());
-        if(dogList.get(position).favorited){
+        Log.d("test", dogList.get(position).getName() + " " + dogList.get(position).favorited.toString());
+        if (dogList.get(position).favorited) {
             like.setImageResource(R.drawable.like_heart);
-        }else {
+        } else {
             like.setImageResource(R.drawable.default_heart_icon);
         }
-        if(dogList.get(position).disliked){
+        if (dogList.get(position).disliked) {
             dislike.setImageResource(R.drawable.dislike_red);
-        }else {
+        } else {
             dislike.setImageResource(R.drawable.thumbs_down_icon);
         }
 
 
-        like.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        like.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 d = dogList.get(position);
 
                 String action = "";
 
-                if(!d.favorited){
+                if (!d.favorited) {
                     like.setImageResource(R.drawable.like_heart);
                     action = dogList.get(position).getName() + " was added to your favorites!";
-                    if(!PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
+                    if (!PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
                         PotentialAdopter.currentAdopter.favoritedDogsArray.add(d);
-                        Log.d("test","Favorited dog added " + d.getName());
+                        Log.d("test", "Favorited dog added " + d.getName());
                         d.favorited = true;
 
                     }
-                }else {
+                } else {
                     like.setImageResource(R.drawable.default_heart_icon);
                     action = d.getName() + " was removed from your favorites.";
-                    if(PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
+                    if (PotentialAdopter.currentAdopter.favoritedDogsArray.contains(d)) {
                         PotentialAdopter.currentAdopter.favoritedDogsArray.remove(d);
-                        Log.d("test","Favorited dog removed " + d.getName());
+                        Log.d("test", "Favorited dog removed " + d.getName());
                         d.favorited = false;
 
                     }
@@ -125,28 +121,27 @@ public class PageViewAdapter extends PagerAdapter {
                 t.show();
 
 
-
             }
         });
-        dislike.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        dislike.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 String action = "";
                 d = dogList.get(position);
 
 
-                if(!d.disliked){
+                if (!d.disliked) {
                     dislike.setImageResource(R.drawable.dislike_red);
                     action = dogList.get(position).getName() + " will not be included in the future.";
-                    if(!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
+                    if (!PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
                         PotentialAdopter.currentAdopter.dislikedDogsArray.add(dogList.get(position));
-                        Log.d("test","Disliked dog added " + dogList.get(position).getName());
+                        Log.d("test", "Disliked dog added " + dogList.get(position).getName());
                     }
-                }else {
+                } else {
                     dislike.setImageResource(R.drawable.thumbs_down_icon);
                     action = dogList.get(position).getName() + " will be included in the future";
-                    if(PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
+                    if (PotentialAdopter.currentAdopter.dislikedDogsArray.contains(dogList.get(position))) {
                         PotentialAdopter.currentAdopter.dislikedDogsArray.remove(dogList.get(position));
-                        Log.d("test","Disliked dog removed " + dogList.get(position).getName());
+                        Log.d("test", "Disliked dog removed " + dogList.get(position).getName());
 
                     }
                 }
@@ -162,14 +157,13 @@ public class PageViewAdapter extends PagerAdapter {
         });
 
 
-
-        c.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        c.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Dog.currentDog = d;
 
                 Intent i = new Intent(context, CollectionEnlarge.class);
                 String id = PageViewAdapter.this.dogList.get(position).getId();
-                CollectionEnlarge.viewMatches=true;
+                CollectionEnlarge.viewMatches = true;
                 i.putExtra(CollectionEnlarge.EXTRA_DOG_ID, id);
 
                 context.startActivity(i);
@@ -177,36 +171,34 @@ public class PageViewAdapter extends PagerAdapter {
             }
         });
 
-        email.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        email.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 intent("email");
 
             }
         });
-        maps.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        maps.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 intent("maps");
 
             }
         });
 
-        search.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 intent("google");
 
             }
         });
 
 
-
-        if(d.bitmapImage != null){
+        if (d.bitmapImage != null) {
             Glide.with(context)
                     // .using(new FirebaseImageLoader())
                     .load(d.bitmapImage)
                     .into(image);
 
-        }
-        else {
+        } else {
 
 
             Glide.with(context)
@@ -216,26 +208,20 @@ public class PageViewAdapter extends PagerAdapter {
         }
 
 
-
-
-
-
-
-
         name = view.findViewById(R.id.name);
         age = view.findViewById(R.id.age);
         size = view.findViewById(R.id.size);
 
-       // imageView.setImageResource(dogs.get(position).getImage());
+        // imageView.setImageResource(dogs.get(position).getImage());
         String s = dogList.get(position).getName();
         String agetext = "Age: " + dogList.get(position).getAge();
         age.setText(agetext);
         size.setText(d.getSize());
         name.setText(d.getName());
-        int similarityScore = (int)(d.getSimilarityScore() *100);
+        int similarityScore = (int) (d.getSimilarityScore() * 100);
         String sim = similarityScore + "% Match!";
         similarity.setText(sim);
-       String breedText = d.getBreed()+", " + d.getSex();
+        String breedText = d.getBreed() + ", " + d.getSex();
         breed.setText(breedText);
 
 //        view.setOnClickListener(new View.OnClickListener() {
@@ -255,10 +241,10 @@ public class PageViewAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View)object);
+        container.removeView((View) object);
     }
 
-    public void intent(final String reason){
+    public void intent(final String reason) {
 
 
         MainActivity.firestore.collection("rescue")
@@ -274,7 +260,7 @@ public class PageViewAdapter extends PagerAdapter {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Rescue r = document.toObject(Rescue.class);
 
-                                if(reason.equals("email")) {
+                                if (reason.equals("email")) {
 
 
                                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
@@ -291,10 +277,10 @@ public class PageViewAdapter extends PagerAdapter {
                                         t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
                                         t.show();
                                     }
-                                }else if(reason.equals("maps")){
+                                } else if (reason.equals("maps")) {
 
                                     String s;
-                                    s = r.getStreet() + ", " + r.getCity().replaceAll(" ","+") + ", " + r.getState();
+                                    s = r.getStreet() + ", " + r.getCity().replaceAll(" ", "+") + ", " + r.getState();
 
 
                                     Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + s);
@@ -303,15 +289,12 @@ public class PageViewAdapter extends PagerAdapter {
                                     context.startActivity(mapIntent);
 
 
-
-
-                                }else if(reason.equals("google")){
+                                } else if (reason.equals("google")) {
                                     Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
                                     intent.putExtra(SearchManager.QUERY, r.getOrganization()); // query contains search string
                                     context.startActivity(intent);
 
                                 }
-
 
 
                             }
@@ -324,7 +307,6 @@ public class PageViewAdapter extends PagerAdapter {
                 });
 
     }
-
 
 
 }

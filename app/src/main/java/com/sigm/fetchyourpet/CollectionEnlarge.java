@@ -34,14 +34,13 @@ import java.util.ArrayList;
 
 public class CollectionEnlarge extends AppCompatActivity {
     public static final String EXTRA_DOG_ID = "id";
+    static Boolean viewMatches = false;
     TextView traits, location, breed, vaccinationStatus, healthConcers, name, age, sizeView, additionalInfo, trainedView, kidView, aloneView, weightView, sexView;
     ImageView pic;
     String user, zip, trained, size, kids, alone, weight;
     Menu menu;
     MenuItem menuItem;
     Dog dog;
-    static Boolean viewMatches = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +170,7 @@ public class CollectionEnlarge extends AppCompatActivity {
         sex = dog.getSex();
         if (sex.toUpperCase().equals("M")) {
             sex = "Male";
-        }
-        else if(sex.toUpperCase().equals("F")){
+        } else if (sex.toUpperCase().equals("F")) {
             sex = "Female";
         }
         sexView.setText(sex);
@@ -211,7 +209,7 @@ public class CollectionEnlarge extends AppCompatActivity {
 
         if (id == R.id.edit) {
             startActivity(new Intent(this, AddDog.class).putExtra("edit", true));
-        }else if (id == R.id.remove) {
+        } else if (id == R.id.remove) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Remove dog");
@@ -225,7 +223,6 @@ public class CollectionEnlarge extends AppCompatActivity {
 
                             MainActivity.firestore.collection("dog").document(Dog.currentDog.getId()).delete();
                             MainActivity.storageReference.child(Dog.currentDog.getImage()).delete();
-
 
 
                             Intent i = new Intent(getApplicationContext(), Collection.class).putExtra("user", "rescue").putExtra("viewDogs", true);
@@ -243,7 +240,7 @@ public class CollectionEnlarge extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
 
-        }else if(id == R.id.retakeQuiz){
+        } else if (id == R.id.retakeQuiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("edit", true));
 
         }

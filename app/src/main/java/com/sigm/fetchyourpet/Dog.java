@@ -16,10 +16,10 @@ public class Dog {
     static List<String> traitsTextValue = Arrays.asList(null, null, null, "Size: Large", "Size: Medium", "Size: Small", null, null, null, "Knows basic commands", "Needs training", "Very well trained"
             , null, null, null, "Not the best with kids", "Can tolerate kids", "Loves kids!", null, null, null, "Can be left alone", "Is okay being left alone", "Should probably avoid being left alone"
             , null, null, null, null, null, null);
-    String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
-    StorageReference imageStorageReference;
     public Boolean favorited = false;
     public Boolean disliked = false;
+    String additionalInfo, name, vaccinationStatus, healthConcerns, breed, size, age, rescueID, sex, image, traits, imageURL, id;
+    StorageReference imageStorageReference;
     Double similarityScore;
     int zip;
 
@@ -46,6 +46,7 @@ public class Dog {
 
 
     }
+
     public Dog(String name, Bitmap photo, String breed, String vaccinationStatus, String healthConcerns, String sex, String age, String additionalInfo) {
         this.name = name;
         this.bitmapImage = photo;
@@ -56,6 +57,15 @@ public class Dog {
         this.age = age;
         this.additionalInfo = additionalInfo;
 
+
+    }
+
+    public static void resetDogList() {
+        for (Dog d : dogList) {
+            d.setFavorited(false);
+            d.setDisliked(false);
+
+        }
 
     }
 
@@ -83,16 +93,17 @@ public class Dog {
         return this.image;
     }
 
+    public void setImage(String s) {
+        this.image = s;
+
+    }
+
     public String getId() {
         return this.id;
     }
 
     public void setId(String s) {
         this.id = s;
-
-    }
-    public void setImage(String s){
-        this.image = s;
 
     }
 
@@ -139,15 +150,12 @@ public class Dog {
 
     public String getSize() {
         String s = "1";
-        if(traits.charAt(3) == s.charAt(0)){
+        if (traits.charAt(3) == s.charAt(0)) {
             return "Size: Large";
 
-        }
-        else if(traits.charAt(4) == s.charAt(0)){
+        } else if (traits.charAt(4) == s.charAt(0)) {
             return "Size: Medium";
-        }
-
-        else if(traits.charAt(5) == s.charAt(0)){
+        } else if (traits.charAt(5) == s.charAt(0)) {
             return "Size: Small";
         }
 
@@ -167,9 +175,9 @@ public class Dog {
 
     public String getSex() {
 
-        if(this.sex.toUpperCase().equals("M")){
+        if (this.sex.toUpperCase().equals("M")) {
             return "Male";
-        }else if(this.sex.toUpperCase().equals("F")){
+        } else if (this.sex.toUpperCase().equals("F")) {
             return "Female";
         }
         return this.sex;
@@ -189,13 +197,11 @@ public class Dog {
         this.rescueID = s;
     }
 
-
-
-    public int getIntAge(){
+    public int getIntAge() {
         int ageNum;
-        if(this.age.contains("<")){
+        if (this.age.contains("<")) {
             ageNum = 0;
-        }else{
+        } else {
             ageNum = Integer.parseInt(age);
         }
         return ageNum;
@@ -203,17 +209,15 @@ public class Dog {
 
     }
 
-    public int getIntSize(){
+    public int getIntSize() {
         int intSize;
-        if(Character.toString(traits.charAt(3)).equals("1")){
+        if (Character.toString(traits.charAt(3)).equals("1")) {
             intSize = 3;
 
-        }
-        else if(Character.toString(traits.charAt(4)).equals("1")){
+        } else if (Character.toString(traits.charAt(4)).equals("1")) {
             intSize = 2;
 
-        }
-        else{
+        } else {
             intSize = 1;
 
         }
@@ -222,41 +226,35 @@ public class Dog {
         return intSize;
     }
 
-    public Matrix get_dog_traits(){
+    public Matrix get_dog_traits() {
 
         double[] data = new double[30];
         char[] chars = traits.trim().toCharArray();
         int i = 0;
         String name = this.name;
-        for(char c : chars){
+        for (char c : chars) {
             data[i] = Character.getNumericValue(c);
             i++;
 
         }
-        return  new Matrix(data);
-
+        return new Matrix(data);
 
 
     }
 
-    public void setFavorited(boolean b){
+    public void setFavorited(boolean b) {
         this.favorited = b;
     }
-    public void setDisliked(boolean b){
+
+    public void setDisliked(boolean b) {
         this.disliked = b;
     }
-    public void setSimilarityScore(Double s){
-        this.similarityScore = s;
-    }
-    public Double getSimilarityScore(){
+
+    public Double getSimilarityScore() {
         return this.similarityScore;
     }
-    public static void resetDogList(){
-        for(Dog d:dogList){
-            d.setFavorited(false);
-            d.setDisliked(false);
 
-        }
-
+    public void setSimilarityScore(Double s) {
+        this.similarityScore = s;
     }
 }

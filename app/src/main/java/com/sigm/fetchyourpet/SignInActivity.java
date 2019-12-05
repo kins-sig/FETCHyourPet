@@ -197,7 +197,7 @@ public class SignInActivity extends AppCompatActivity implements NavigationView.
 
         } else if (id == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)

@@ -192,7 +192,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "adopter"));
 
 
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -403,7 +403,7 @@ public class SignUpActivityAdopter extends AppCompatActivity implements Navigati
         PotentialAdopter.currentAdopter = new PotentialAdopter(bitmap, firstName, zip, email, path);
         PotentialAdopter.currentAdopter.setAdopterID(newDoc.getId());
         PotentialAdopter.currentAdopter.setUsername(username);
-        Account.currentAccount = new Account(username,password,true);
+        Account.currentAccount = new Account(username, password, true);
 
 
     }

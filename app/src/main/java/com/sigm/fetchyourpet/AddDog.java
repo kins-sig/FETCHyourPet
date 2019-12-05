@@ -1,5 +1,4 @@
 package com.sigm.fetchyourpet;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,34 +20,33 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+//This activity with either:
+//1. Give the rescue an option to create a new dog profile
+//2. Allow the rescue to edit their dog profile
 public class AddDog extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    static Uri selectedImage;
     private static int GET_FROM_GALLERY = 1;
-
     ImageView picView;
     Button picButton, createAccount;
     Bitmap bitmap = null;
@@ -58,9 +56,10 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     Boolean uploadedPhoto = false;
     String name, healthConcerns, additionalInfo, vaccinationStatus, breed, sex, age, traits;
     Dog d;
-    static Uri selectedImage;
     Boolean alreadySubmitted = false;
 
+
+    //Setting initial values and the initial layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +67,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         Toolbar toolbar = findViewById(R.id.toolbar);
 
 
-        Rescue r = Rescue.currentRescue;
-        Bitmap b = r.getPhoto();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View hView = navigationView.getHeaderView(0);
@@ -96,7 +94,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
         edit = getIntent().getBooleanExtra("edit", false);
 
-
+        //If the rescue is editing a dog:
         if (edit) {
             d = Dog.currentDog;
             nameView.setText(d.getName());
@@ -107,20 +105,18 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             vaccinationView.setText(d.getVaccStatus());
 
             Adapter adapter = sexView.getAdapter();
-            String tempSex, tempAge;
+            String tempSex;
             tempSex = d.getSex();
-            tempAge = d.getAge();
-            if (tempSex.equals("M")) {
-                tempSex = "Male";
-            } else {
-                tempSex = "Female";
-            }
+
+            //Find the location of the selected sex in the spinner, then set the value
             for (int i = 0; i < adapter.getCount(); i++) {
                 if (tempSex.equals(adapter.getItem(i).toString())) {
                     sexView.setSelection(i);
                 }
             }
             adapter = ageView.getAdapter();
+
+            //Find the location of the selected age in the spinner, then set the value
             for (int i = 0; i < adapter.getCount(); i++) {
                 if (d.getAge().trim().equals(adapter.getItem(i).toString())) {
                     ageView.setSelection(i);
@@ -135,6 +131,13 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
         }
 
+        Rescue r = Rescue.currentRescue;
+        Bitmap b = r.getPhoto();
+
+        //If the rescue uploaded a photo in this session, b will not be null. Use that photo if
+        //it is not null. Else, use the photo stored in the database. This is done because, in some
+        //instances, the photo will not be uploaded to the database quick enough, so we must use
+        //the photo from the current session.
         if (b == null) {
             Glide.with(this)
                     // .using(new FirebaseImageLoader())
@@ -155,8 +158,8 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                     .into(headerImage);
 
         }
-        headerName.setText(r.getOrganization());
 
+        headerName.setText(r.getOrganization());
         setSupportActionBar(toolbar);
 
 
@@ -170,6 +173,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
 
+    //Navigation drawer action handling
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -181,18 +185,8 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    //Handles all actions in the navigation bar.
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -218,8 +212,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
         } else if (id == R.id.view_dogs) {
             startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
-        }
-        else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -238,8 +231,11 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         return true;
     }
 
+    //Button click for the activity_add_dog layout. This will be called whether the rescue is
+    //adding or editing a dog
     public void addDog(View v) {
 
+        //Action will be the toast's text value
         String action = "";
 
 
@@ -273,7 +269,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             additionalInfo = "None";
         }
 
-
+        //If something was not entered correctly, display the toast. Else, continue.
         if (!action.equals("")) {
             Toast t = Toast.makeText(this, action,
                     Toast.LENGTH_SHORT);
@@ -283,6 +279,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             Intent dashboard;
             //    public Rescue(String name, String street, String city, String state, int zip, String email, String password){
             if (edit) {
+                //Grab the current dog and update its values
                 Dog d = Dog.currentDog;
                 if (uploadedPhoto) {
                     d.setBitmapImage(bitmap);
@@ -296,6 +293,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                 d.setAge(age);
 
 
+                //Using a hashmap makes it extremely easy to upload/update data to the firebase database
                 Map<String, Object> updates = new HashMap<>();
 
                 String path = addPhotoToFirebase();
@@ -318,56 +316,36 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
                         .collection("dog")
                         .document(d.id)
                         .update(updates);
+
+                //Provide user feedback with a toast noting that the action was successful
                 Toast t = Toast.makeText(this, "Dog profile updated!",
                         Toast.LENGTH_SHORT);
 
                 t.setGravity(Gravity.TOP, Gravity.CENTER, 150);
                 t.show();
 
+                //Return to the rescue homepage
                 dashboard = new Intent(this, RescueDashboard.class);
 
 
-
             } else {
-                //String temporaryTraits = "100010001100001010010001010100";
 
-
-
-                //DocumentReference newDoc = MainActivity.firestore.collection("dog").document();
-
-
+                //Upload the selected image to the database and retrieve the resulting path
                 String path = addPhotoToFirebase();
-                //  Rescue.currentRescue.setImageStorageReference(addPhotoToFirebase());
+
+                //Create the new dog object and set its values
                 Dog d =
-                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age, additionalInfo,path);
-               // d.setTraits(temporaryTraits);
+                        new Dog(name, bitmap, breed, vaccinationStatus, healthConcerns, sex, age, additionalInfo, path);
                 d.setRescueID(Rescue.currentRescue.getRescueID());
                 Dog.currentDog = d;
 
-                //d.setTraits(temporaryTraits);
-                //Dog.dogList.add(d);
 
-                //d.setId(newDoc.getId());
-                //d.imageStorageReference = MainActivity.storageReference.child(d.image);
-
-
-//                Map<String, Object> newDog = new HashMap<>();
-//                newDog.put("name", d.getName());
-//                newDog.put("breed", d.getBreed());
-//                newDog.put("image", d.getImage());
-//                newDog.put("healthConcerns", d.getHealthConcerns());
-//                newDog.put("vaccinationStatus", d.getVaccStatus());
-//                newDog.put("additionalInfo", d.getAdditionalInfo());
-//                newDog.put("sex", d.getSex());
-//                newDog.put("age", d.getAge());
-//                newDog.put("rescueID", r.getRescueID());
-//                newDog.put("traits", values);
-
-                //newDoc.set(newDog);
-                dashboard = new Intent(this, QuizActivity.class).putExtra("user","rescue").putExtra("edit",false);
+                //Set the intent to the quiz activity to finish the creation of the dog (upon completing quiz)
+                dashboard = new Intent(this, QuizActivity.class).putExtra("user", "rescue").putExtra("edit", false);
 
             }
 
+            //Launch the next activity, depending on what was previously set (either to rescue dashboard or quiz activity)
             startActivity(dashboard);
             finish();
 
@@ -376,6 +354,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
 
+    //Button click for the uploadPhoto button. Launches an intent and allows the user to select a photo from their library
     public void uploadPhoto(View view) {
         Intent i = new Intent(
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -384,12 +363,9 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
 
     }
 
-//    public void onClickTakeQuiz(View view){
-//        Intent quiz = new Intent(this, QuizActivity.class).putExtra("user","rescue");
-//        startActivity(quiz);
-//    }
 
-
+    //After the user selects a photo, load that photo into the imageview to show the selected photo
+    //This code is automatically run when the user selects a photo.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -401,6 +377,7 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 
+                //Let glide handle the image loading
                 Glide
                         .with(this)
                         .load(bitmap)
@@ -416,26 +393,15 @@ public class AddDog extends AppCompatActivity implements NavigationView.OnNaviga
         }
     }
 
-
+    //Upload the dog's image to the database.
+    //Returns the path of the image.
     public String addPhotoToFirebase() {
 
         if (selectedImage != null) {
 
             String path = "img/dogs/" + UUID.randomUUID().toString();
             StorageReference reference = MainActivity.storageReference.child(path);
-            reference.putFile(selectedImage)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
+            reference.putFile(selectedImage);
             Log.d("test", reference.toString());
 
             return path;

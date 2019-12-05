@@ -120,7 +120,7 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
             prefs.edit().remove("username").apply();
         } else if (id == R.id.view_dogs) {
             startActivity(new Intent(this, Collection.class).putExtra("viewDogs", true).putExtra("user", "rescue"));
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
@@ -132,8 +132,7 @@ public class RescueDashboard extends AppCompatActivity implements NavigationView
                     .withActivityTitle("LICENSES")
 
                     .start(this);
-        }
-        else if(id == R.id.quiz){
+        } else if (id == R.id.quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
 //            SharedPreferences prefs = getSharedPreferences("Account", Context.MODE_PRIVATE);
         }

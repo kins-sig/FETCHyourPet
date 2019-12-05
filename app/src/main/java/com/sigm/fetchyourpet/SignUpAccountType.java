@@ -80,7 +80,7 @@ public class SignUpAccountType extends AppCompatActivity implements NavigationVi
             startActivity(new Intent(this, MainActivity.class));
         } else if (id == R.id.take_quiz) {
             startActivity(new Intent(this, QuizActivity.class).putExtra("user", "none"));
-        }else if(id == R.id.license){
+        } else if (id == R.id.license) {
             new LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
